@@ -1079,22 +1079,43 @@
             return new Intl.NumberFormat('id-ID').format(amt || 0);
         }
 
-        // ================== REKAP ==================
+        // ================== REKAP (DIUBAH SESUAI PERMINTAAN) ==================
         function displayRekap() {
-            const map = {};
+            // Kelompokkan data per desa
+            const grouped = {};
             allTransactions.forEach(t => {
                 if (t.ACTION === 'DISETUJUI') {
-                    const key = (t['NAMA DESA'] || 'Unknown') + '|' + (t['JENIS PENCAIRAN'] || 'Unknown');
-                    if (!map[key]) map[key] = { desa: t['NAMA DESA'] || 'Unknown', jenis: t['JENIS PENCAIRAN'] || 'Unknown', count: 0, total: 0 };
-                    map[key].count++;
-                    map[key].total += t.NILAI_NUM;
+                    const desa = t['NAMA DESA'] || 'Unknown';
+                    const jenis = t['JENIS PENCAIRAN'] || 'Unknown';
+                    if (!grouped[desa]) grouped[desa] = {};
+                    if (!grouped[desa][jenis]) grouped[desa][jenis] = { count: 0, total: 0 };
+                    grouped[desa][jenis].count++;
+                    grouped[desa][jenis].total += t.NILAI_NUM;
                 }
             });
-            const rekap = Object.values(map);
-            let html = '<table><thead><tr><th>No</th><th>Desa</th><th>Jenis</th><th>Jumlah</th><th>Total</th></tr></thead><tbody>';
-            rekap.forEach((r,i) => {
-                html += `<tr><td>${i+1}</td><td>${r.desa}</td><td>${r.jenis}</td><td>${r.count}</td><td>${formatCurrency(r.total)}</td></tr>`;
-            });
+
+            // Buat tabel dengan rowspan agar nama desa hanya sekali
+            let html = '<table><thead><tr><th>Desa</th><th>Jenis Pencairan</th><th>Jumlah Pengajuan</th><th>Total Nilai (Rp)</th></tr></thead><tbody>';
+            
+            for (const desa in grouped) {
+                const jenisList = Object.keys(grouped[desa]);
+                const rowspan = jenisList.length;
+                let desaRendered = false;
+                
+                for (const jenis of jenisList) {
+                    const data = grouped[desa][jenis];
+                    html += '<tr>';
+                    if (!desaRendered) {
+                        html += `<td rowspan="${rowspan}" style="vertical-align:middle; font-weight:600; background:#f8fafd;">${desa}</td>`;
+                        desaRendered = true;
+                    }
+                    html += `<td>${jenis}</td>`;
+                    html += `<td>${data.count}</td>`;
+                    html += `<td>${formatCurrency(data.total)}</td>`;
+                    html += '</tr>';
+                }
+            }
+            
             html += '</tbody></table>';
             document.getElementById('rekapTable').innerHTML = html || '<p>Tidak ada data disetujui</p>';
         }
