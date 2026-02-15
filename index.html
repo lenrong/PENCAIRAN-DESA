@@ -3,12 +3,12 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>SISTEM PENCAIRAN DESA - Kabupaten Mamuju</title>
+    <title>SISTEM PENCAIRAN DESA · MAMUJU</title>
+    <!-- Bootstrap Icons & Chart.js & SheetJS -->
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.0/font/bootstrap-icons.css">
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js"></script>
     <style>
-        /* === MODERN MINIMALIST GREEN THEME dengan sentuhan 3D === */
         * {
             margin: 0;
             padding: 0;
@@ -16,328 +16,298 @@
         }
 
         body {
-            font-family: 'Inter', system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
-            background: linear-gradient(145deg, #edf7ed 0%, #d4ead4 100%);
-            color: #1a3a2a;
-            line-height: 1.5;
+            background: #f4f7fb;
+            font-family: 'Plus Jakarta Sans', system-ui, -apple-system, 'Inter', sans-serif;
             min-height: 100vh;
             display: flex;
             justify-content: center;
             align-items: center;
             padding: 16px;
+            color: #1e2b3c;
         }
 
-        /* Login Container */
+        h1, h2, h3, h4, .header h1, .sidebar-brand h2 {
+            font-family: 'Playfair Display', serif;
+            font-weight: 600;
+            letter-spacing: -0.02em;
+        }
+
+        /* ========== LOGIN SCREEN ========== */
         .login-container {
             max-width: 480px;
             width: 100%;
-            background: rgba(255, 255, 255, 0.8);
-            backdrop-filter: blur(12px);
-            -webkit-backdrop-filter: blur(12px);
-            border-radius: 40px;
-            box-shadow: 0 30px 60px -20px rgba(20, 70, 30, 0.3), 0 0 0 1px rgba(50, 100, 60, 0.1);
+            background: #ffffff;
+            border-radius: 32px;
+            box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.15);
+            border: 1px solid rgba(0, 0, 0, 0.05);
             overflow: hidden;
-            border: 1px solid rgba(255, 255, 255, 0.5);
         }
 
-        .header {
-            background: linear-gradient(135deg, #1d4e2c 0%, #2c7856 100%);
+        .login-container .header {
+            background: #1e3a5f;
             color: white;
             padding: 40px 30px;
             text-align: center;
-            position: relative;
-            isolation: isolate;
-        }
-
-        .header::after {
-            content: '';
-            position: absolute;
-            inset: 0;
-            background: radial-gradient(circle at 20% 30%, rgba(255, 255, 255, 0.2), transparent 60%);
-            z-index: -1;
         }
 
         .header h1 {
             font-size: 32px;
             font-weight: 600;
-            letter-spacing: -0.5px;
-            margin-bottom: 8px;
-            text-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
-        }
-
-        .header p {
-            opacity: 0.9;
-            font-size: 16px;
-            font-weight: 300;
-        }
-
-        .content {
-            padding: 40px 30px;
-            background: transparent;
         }
 
         .system-icon {
             font-size: 70px;
             text-align: center;
             margin-bottom: 20px;
-            filter: drop-shadow(0 10px 15px rgba(30, 80, 40, 0.2));
-            animation: float 4s infinite ease-in-out;
-        }
-
-        @keyframes float {
-            0% { transform: translateY(0px); }
-            50% { transform: translateY(-8px); }
-            100% { transform: translateY(0px); }
-        }
-
-        .form-group {
-            margin-bottom: 24px;
-        }
-
-        .form-group label {
-            display: block;
-            margin-bottom: 8px;
-            font-weight: 500;
-            color: #1d4e2c;
-            font-size: 14px;
-            letter-spacing: 0.3px;
+            color: #1e3a5f;
+            filter: drop-shadow(0 10px 15px rgba(30, 58, 95, 0.2));
         }
 
         .form-control {
             width: 100%;
             padding: 16px 20px;
-            border: 2px solid rgba(30, 80, 40, 0.15);
-            border-radius: 24px;
+            border: 2px solid #e9edf4;
+            border-radius: 16px;
+            background: white;
             font-size: 15px;
-            background: rgba(255, 255, 255, 0.7);
-            backdrop-filter: blur(4px);
-            transition: all 0.3s ease;
-            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.02);
+            transition: all 0.2s;
+            font-family: 'Plus Jakarta Sans', sans-serif;
         }
 
         .form-control:focus {
-            border-color: #1d4e2c;
-            background: white;
-            box-shadow: 0 8px 20px rgba(29, 78, 44, 0.15);
+            border-color: #1e3a5f;
+            box-shadow: 0 8px 20px rgba(30, 58, 95, 0.1);
             outline: none;
-            transform: scale(1.01);
-        }
-
-        .btn {
-            width: 100%;
-            padding: 16px 24px;
-            border: none;
-            border-radius: 32px;
-            font-weight: 600;
-            font-size: 16px;
-            cursor: pointer;
-            transition: all 0.25s ease;
-            position: relative;
-            overflow: hidden;
-            box-shadow: 0 8px 20px -8px rgba(0, 0, 0, 0.2);
-        }
-
-        .btn::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: -100%;
-            width: 100%;
-            height: 100%;
-            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.3), transparent);
-            transition: left 0.5s;
-        }
-
-        .btn:hover::before {
-            left: 100%;
         }
 
         .btn-primary {
-            background: linear-gradient(145deg, #1d4e2c, #2c7856);
+            width: 100%;
+            padding: 16px;
+            background: #1e3a5f;
             color: white;
+            border: none;
+            border-radius: 16px;
+            font-weight: 600;
+            font-size: 16px;
+            cursor: pointer;
+            transition: all 0.2s;
+            font-family: 'Plus Jakarta Sans', sans-serif;
         }
 
         .btn-primary:hover {
-            transform: translateY(-4px) scale(1.01);
-            box-shadow: 0 20px 30px -10px #1d4e2c80;
+            background: #143048;
+            transform: translateY(-2px);
+            box-shadow: 0 15px 25px -8px rgba(30, 58, 95, 0.3);
         }
 
         .btn-secondary {
-            background: rgba(30, 80, 40, 0.1);
-            backdrop-filter: blur(8px);
-            color: #1d4e2c;
-            border: 2px solid rgba(30, 80, 40, 0.2);
+            width: 100%;
+            padding: 14px;
+            background: white;
+            border: 2px solid #e9edf4;
+            color: #1e3a5f;
+            border-radius: 16px;
+            font-weight: 600;
+            cursor: pointer;
             margin-top: 12px;
+            transition: all 0.2s;
         }
 
         .btn-secondary:hover {
-            background: #1d4e2c;
-            color: white;
-            border-color: #1d4e2c;
-            transform: translateY(-3px);
-        }
-
-        .btn-whatsapp {
-            background: linear-gradient(145deg, #25D366, #128C7E);
-            color: white;
-            display: inline-flex;
-            align-items: center;
-            justify-content: center;
-            gap: 10px;
-            width: auto;
-            padding: 14px 28px;
-            border-radius: 40px;
-            box-shadow: 0 10px 20px -8px #25D36680;
+            background: #f8fafd;
+            border-color: #1e3a5f;
         }
 
         .error-message {
-            color: #b02a37;
-            background: #f8d7da;
-            border-left: 4px solid #b02a37;
-            padding: 14px 18px;
-            border-radius: 20px;
+            background: #fee9e7;
+            color: #b34033;
+            padding: 14px;
+            border-radius: 16px;
             margin-bottom: 20px;
             display: none;
-            font-size: 14px;
-            backdrop-filter: blur(4px);
-        }
-
-        .login-info, .footer {
             text-align: center;
-            color: #1d4e2c;
-            font-size: 14px;
-            background: rgba(255, 255, 255, 0.3);
-            backdrop-filter: blur(4px);
-            padding: 16px;
-            border-radius: 40px;
-            margin-top: 24px;
         }
 
-        /* Dashboard Container */
+        /* ========== DASHBOARD ========== */
         .dashboard-container {
-            max-width: 1400px;
             width: 100%;
-            background: rgba(255, 255, 255, 0.6);
-            backdrop-filter: blur(16px);
-            -webkit-backdrop-filter: blur(16px);
-            border-radius: 48px;
-            box-shadow: 0 30px 70px -30px #1a3a2a80, 0 0 0 1px rgba(255, 255, 255, 0.5);
+            max-width: 1600px;
+            background: #ffffff;
+            border-radius: 40px;
+            box-shadow: 0 30px 60px -30px rgba(0, 0, 0, 0.2);
+            display: flex;
             overflow: hidden;
-            border: 1px solid rgba(255, 255, 255, 0.3);
+            min-height: 85vh;
+            border: 1px solid rgba(0, 0, 0, 0.03);
         }
 
-        .dashboard-header {
-            background: linear-gradient(145deg, #1d4e2c, #2c7856);
-            color: white;
-            padding: 24px 36px;
+        /* SIDEBAR */
+        .dashboard-sidebar {
+            width: 280px;
+            background: #fafcff;
+            border-right: 1px solid #eef2f6;
+            padding: 32px 20px;
             display: flex;
-            justify-content: space-between;
-            align-items: center;
-            flex-wrap: wrap;
-            gap: 20px;
-            position: relative;
-            z-index: 1;
+            flex-direction: column;
+            gap: 28px;
         }
 
-        .dashboard-header::before {
-            content: '';
-            position: absolute;
-            inset: 0;
-            background: radial-gradient(circle at 70% 20%, rgba(255,255,255,0.2), transparent 70%);
-            z-index: -1;
+        .sidebar-brand {
+            text-align: center;
         }
 
-        .dashboard-header h1 {
-            font-size: 28px;
+        .sidebar-brand h2 {
+            color: #1e3a5f;
+            font-weight: 700;
+            font-size: 24px;
+            margin: 8px 0 0;
+        }
+
+        .sidebar-brand p {
+            color: #64748b;
+            font-size: 14px;
+        }
+
+        .sidebar-user {
+            background: white;
+            border-radius: 24px;
+            padding: 20px 16px;
+            text-align: center;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.02);
+            border: 1px solid #eef2f6;
+        }
+
+        .sidebar-user .avatar {
+            font-size: 48px;
+            color: #1e3a5f;
+            margin-bottom: 8px;
+        }
+
+        .sidebar-user h4 {
+            color: #1e2b3c;
             font-weight: 600;
-            letter-spacing: -0.3px;
         }
 
-        .dashboard-header p {
-            font-size: 15px;
-            opacity: 0.9;
-        }
-
-        .user-info {
-            background: rgba(255, 255, 255, 0.15);
-            backdrop-filter: blur(8px);
-            padding: 14px 24px;
-            border-radius: 50px;
-            border: 1px solid rgba(255, 255, 255, 0.3);
-            text-align: right;
-        }
-
-        .user-info h3 {
-            font-size: 18px;
+        .role-badge {
+            background: #e9eff7;
+            color: #1e3a5f;
+            padding: 6px 14px;
+            border-radius: 40px;
             font-weight: 500;
+            font-size: 13px;
+            display: inline-block;
         }
 
-        .logout-btn {
-            background: rgba(255, 255, 255, 0.2);
-            border: 1px solid rgba(255, 255, 255, 0.4);
-            color: white;
-            padding: 8px 20px;
-            border-radius: 30px;
-            cursor: pointer;
-            font-weight: 500;
-            margin-top: 8px;
-            transition: 0.2s;
-        }
-
-        .logout-btn:hover {
-            background: rgba(255, 255, 255, 0.3);
-            transform: translateY(-2px);
-        }
-
-        .dashboard-nav {
-            background: rgba(240, 250, 240, 0.6);
-            backdrop-filter: blur(12px);
-            padding: 18px 30px;
+        .sidebar-nav {
             display: flex;
-            flex-wrap: wrap;
-            gap: 12px;
-            border-bottom: 1px solid rgba(0, 0, 0, 0.05);
+            flex-direction: column;
+            gap: 8px;
+            flex: 1;
         }
 
         .nav-btn {
-            padding: 12px 24px;
-            background: rgba(255, 255, 255, 0.7);
-            border: 2px solid transparent;
-            border-radius: 40px;
-            color: #1d4e2c;
-            font-weight: 600;
-            font-size: 14px;
-            display: inline-flex;
+            background: transparent;
+            border: none;
+            border-radius: 14px;
+            padding: 14px 18px;
+            color: #475569;
+            font-weight: 500;
+            font-size: 15px;
+            display: flex;
             align-items: center;
-            gap: 10px;
+            gap: 16px;
+            transition: all 0.2s ease;
             cursor: pointer;
-            transition: all 0.2s cubic-bezier(0.23, 1, 0.32, 1);
-            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.03);
-            backdrop-filter: blur(4px);
+            width: 100%;
+            text-align: left;
+        }
+
+        .nav-btn i {
+            font-size: 22px;
+            width: 32px;
+            color: #64748b;
         }
 
         .nav-btn:hover {
-            background: white;
-            border-color: #1d4e2c;
-            transform: translateY(-4px) scale(1.02);
-            box-shadow: 0 15px 25px -10px #1d4e2c60;
+            background: #eef2f6;
+            color: #1e3a5f;
         }
 
         .nav-btn.active {
-            background: #1d4e2c;
+            background: #1e3a5f;
             color: white;
-            border-color: #1d4e2c;
-            box-shadow: 0 10px 20px -8px #1d4e2c;
         }
 
-        .dashboard-content {
-            padding: 40px 36px;
+        .nav-btn.active i {
+            color: white;
+        }
+
+        .sidebar-footer {
+            margin-top: auto;
+            border-top: 1px solid #eef2f6;
+            padding-top: 20px;
+        }
+
+        .logout-btn-side {
             background: transparent;
+            border: 1px solid #eef2f6;
+            border-radius: 14px;
+            padding: 14px;
+            width: 100%;
+            color: #475569;
+            font-weight: 500;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+            transition: 0.2s;
+            cursor: pointer;
+        }
+
+        .logout-btn-side:hover {
+            background: #fee2e2;
+            color: #b34033;
+            border-color: #fecaca;
+        }
+
+        /* MAIN CONTENT */
+        .dashboard-main {
+            flex: 1;
+            padding: 30px 36px;
+            overflow-y: auto;
+            max-height: 85vh;
+            background: white;
+        }
+
+        .top-bar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 30px;
+        }
+
+        .top-bar h1 {
+            color: #1e3a5f;
+            font-size: 28px;
+            font-weight: 600;
+        }
+
+        .last-access {
+            background: #f8fafd;
+            border-radius: 40px;
+            padding: 10px 22px;
+            font-size: 14px;
+            color: #475569;
+            border: 1px solid #eef2f6;
         }
 
         .tab-content {
             display: none;
-            animation: fadeUp 0.5s ease forwards;
+            animation: fadeUp 0.5s ease;
+        }
+
+        .tab-content.active {
+            display: block;
         }
 
         @keyframes fadeUp {
@@ -345,95 +315,61 @@
             to { opacity: 1; transform: translateY(0); }
         }
 
-        .tab-content.active {
-            display: block;
-        }
-
-        /* Welcome card */
-        .welcome-message {
-            background: rgba(255, 255, 255, 0.7);
-            backdrop-filter: blur(8px);
-            border-radius: 32px;
-            padding: 30px 35px;
-            margin-bottom: 40px;
-            border: 1px solid rgba(255, 255, 255, 0.6);
-            box-shadow: 0 15px 30px -15px rgba(20, 70, 30, 0.2);
-            transform: perspective(800px) rotateX(0deg) rotateY(0deg);
-            transition: transform 0.3s;
-        }
-
-        .welcome-message:hover {
-            transform: perspective(800px) rotateX(1deg) rotateY(1deg);
-        }
-
-        .welcome-message h2 {
-            font-size: 28px;
-            color: #1d4e2c;
-            margin-bottom: 8px;
-            font-weight: 600;
-        }
-
-        /* Stats cards with 3D tilt */
         .stats-grid {
             display: grid;
             grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
             gap: 24px;
-            margin-bottom: 40px;
+            margin: 30px 0;
         }
 
         .stat-card {
-            background: rgba(255, 255, 255, 0.6);
-            backdrop-filter: blur(10px);
-            border-radius: 32px;
+            background: white;
+            border-radius: 28px;
             padding: 28px 22px;
-            border: 1px solid rgba(255, 255, 255, 0.7);
-            box-shadow: 0 20px 40px -20px rgba(0, 0, 0, 0.2);
-            transition: all 0.3s cubic-bezier(0.23, 1, 0.32, 1);
-            transform-style: preserve-3d;
-            transform: perspective(800px) rotateX(0deg) rotateY(0deg);
+            border: 1px solid #eef2f6;
+            box-shadow: 0 10px 25px -15px rgba(0,0,0,0.1);
+            transition: transform 0.2s, box-shadow 0.2s;
         }
 
         .stat-card:hover {
-            transform: perspective(800px) rotateX(2deg) rotateY(2deg) translateZ(10px);
-            box-shadow: 0 30px 50px -20px #1d4e2c;
-            background: rgba(255, 255, 255, 0.8);
+            transform: translateY(-6px);
+            box-shadow: 0 20px 30px -15px rgba(30, 58, 95, 0.15);
         }
 
         .stat-icon {
             font-size: 40px;
-            margin-bottom: 16px;
-            filter: drop-shadow(0 5px 8px rgba(0,0,0,0.1));
+            margin-bottom: 12px;
+            color: #1e3a5f;
         }
 
         .stat-title {
-            color: #1d4e2c;
+            color: #64748b;
             font-weight: 500;
-            font-size: 15px;
-            letter-spacing: 0.3px;
+            font-size: 14px;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
         }
 
         .stat-value {
             font-size: 32px;
             font-weight: 700;
-            color: #1d4e2c;
+            color: #1e2b3c;
             line-height: 1.2;
         }
 
         .stat-subvalue {
-            color: #2c7856;
             font-size: 14px;
+            color: #64748b;
             margin-top: 6px;
         }
 
-        /* Tables */
         .table-container {
-            background: rgba(255, 255, 255, 0.5);
-            backdrop-filter: blur(8px);
-            border-radius: 32px;
-            padding: 24px;
-            border: 1px solid rgba(255, 255, 255, 0.6);
+            background: white;
+            border-radius: 28px;
+            padding: 20px;
+            border: 1px solid #eef2f6;
             overflow-x: auto;
-            box-shadow: 0 10px 25px -15px rgba(0,0,0,0.1);
+            box-shadow: 0 10px 25px -15px rgba(0,0,0,0.05);
         }
 
         table {
@@ -444,317 +380,127 @@
         th {
             text-align: left;
             padding: 16px 18px;
-            background: rgba(30, 80, 40, 0.1);
-            color: #1d4e2c;
+            background: #f8fafd;
+            color: #1e3a5f;
             font-weight: 600;
             font-size: 14px;
-            border-bottom: 2px solid #1d4e2c30;
+            border-bottom: 2px solid #e2e8f0;
         }
 
         td {
             padding: 16px 18px;
-            border-bottom: 1px solid rgba(30, 80, 40, 0.1);
-            color: #1a3a2a;
-        }
-
-        tr {
-            transition: background 0.2s;
-        }
-
-        tr:hover {
-            background: rgba(30, 80, 40, 0.05);
+            border-bottom: 1px solid #eef2f6;
+            color: #334155;
         }
 
         .badge {
             padding: 6px 16px;
-            border-radius: 50px;
+            border-radius: 40px;
             font-weight: 600;
             font-size: 13px;
             display: inline-block;
-            background: rgba(255, 255, 255, 0.4);
-            backdrop-filter: blur(4px);
-            border: 1px solid transparent;
         }
 
         .badge-success {
-            background: #d4edda;
-            color: #155724;
-            border-color: #a3d0b1;
+            background: #e3f7ec;
+            color: #0b5e42;
         }
-
         .badge-warning {
-            background: #fff3cd;
-            color: #856404;
-            border-color: #ffe187;
+            background: #fff9e5;
+            color: #946800;
         }
-
         .badge-danger {
-            background: #f8d7da;
-            color: #721c24;
-            border-color: #f5b1b7;
+            background: #fee9e7;
+            color: #b34033;
         }
 
         .view-detail-btn {
-            padding: 8px 18px;
-            background: rgba(255,255,255,0.6);
-            border: 2px solid #1d4e2c40;
+            background: white;
+            border: 1.5px solid #e2e8f0;
             border-radius: 40px;
-            color: #1d4e2c;
+            padding: 8px 18px;
+            color: #1e3a5f;
             font-weight: 600;
             font-size: 13px;
             cursor: pointer;
-            transition: 0.2s;
-            backdrop-filter: blur(4px);
+            transition: all 0.2s;
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
         }
 
         .view-detail-btn:hover {
-            background: #1d4e2c;
+            background: #1e3a5f;
             color: white;
-            border-color: #1d4e2c;
-            transform: scale(1.02);
+            border-color: #1e3a5f;
+            transform: translateY(-2px);
+            box-shadow: 0 8px 15px -6px #1e3a5f80;
         }
 
-        /* Modern Modal with 3D */
-        .modal {
-            display: none;
-            position: fixed;
-            inset: 0;
-            background: rgba(0, 30, 10, 0.3);
-            backdrop-filter: blur(12px);
-            -webkit-backdrop-filter: blur(12px);
-            align-items: center;
-            justify-content: center;
-            z-index: 1000;
-            padding: 16px;
-        }
-
-        .modal-content {
-            background: rgba(255, 255, 255, 0.7);
-            backdrop-filter: blur(20px);
-            border-radius: 48px;
-            max-width: 900px;
-            width: 100%;
-            max-height: 85vh;
-            overflow-y: auto;
-            box-shadow: 0 40px 80px -30px #00000060, 0 0 0 1px rgba(255,255,255,0.7);
-            transform: perspective(1000px) rotateX(0deg) scale(1);
-            animation: modalEnter 0.4s cubic-bezier(0.23, 1, 0.32, 1);
-            border: 1px solid rgba(255,255,255,0.5);
-        }
-
-        @keyframes modalEnter {
-            from { opacity: 0; transform: perspective(1000px) rotateX(5deg) scale(0.95) translateY(20px); }
-            to { opacity: 1; transform: perspective(1000px) rotateX(0) scale(1) translateY(0); }
-        }
-
-        .modal-header {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            padding: 30px 35px 20px;
-            border-bottom: 1px solid rgba(30,80,40,0.1);
-        }
-
-        .modal-title {
-            font-size: 26px;
-            font-weight: 600;
-            color: #1d4e2c;
-            display: flex;
-            align-items: center;
-            gap: 12px;
-        }
-
-        .close-modal {
-            background: rgba(255,255,255,0.3);
-            border: none;
-            font-size: 30px;
-            width: 48px;
-            height: 48px;
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            color: #1d4e2c;
-            cursor: pointer;
-            transition: 0.2s;
-            backdrop-filter: blur(4px);
-        }
-
-        .close-modal:hover {
-            background: #1d4e2c;
-            color: white;
-            transform: rotate(90deg);
-        }
-
-        .modal-body {
-            padding: 30px 35px;
-        }
-
-        .modal-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-            gap: 24px;
-        }
-
-        .modal-section {
-            background: rgba(255,255,255,0.3);
-            backdrop-filter: blur(4px);
-            border-radius: 28px;
-            overflow: hidden;
-            border: 1px solid rgba(255,255,255,0.6);
-            transition: transform 0.2s;
-        }
-
-        .modal-section:hover {
-            transform: scale(1.01) translateY(-4px);
-            box-shadow: 0 20px 30px -15px #1d4e2c40;
-        }
-
-        .modal-section-header {
-            background: rgba(30,80,40,0.1);
-            padding: 18px 22px;
-            display: flex;
-            align-items: center;
-            gap: 12px;
-            border-bottom: 1px solid rgba(30,80,40,0.1);
-        }
-
-        .modal-section-header h4 {
-            color: #1d4e2c;
-            font-weight: 600;
-        }
-
-        .modal-section-content {
-            padding: 22px;
-        }
-
-        .detail-label {
-            font-size: 12px;
-            text-transform: uppercase;
-            letter-spacing: 0.5px;
-            color: #2c7856;
-            margin-bottom: 4px;
-        }
-
-        .detail-value {
-            padding: 14px 18px;
-            background: rgba(255,255,255,0.5);
-            backdrop-filter: blur(4px);
-            border-radius: 24px;
-            border: 1px solid rgba(255,255,255,0.7);
-            color: #1d4e2c;
-            font-weight: 500;
-            word-break: break-word;
-            margin-bottom: 16px;
-        }
-
-        .detail-value.amount {
-            background: #1d4e2c10;
-            font-size: 18px;
-            font-weight: 700;
-        }
-
-        .modal-footer {
-            padding: 20px 35px;
-            border-top: 1px solid rgba(30,80,40,0.1);
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            flex-wrap: wrap;
-            gap: 15px;
-            background: rgba(255,255,255,0.2);
-        }
-
-        .modal-btn {
-            padding: 12px 28px;
-            border-radius: 40px;
-            font-weight: 600;
-            border: 2px solid transparent;
-            cursor: pointer;
-            transition: 0.2s;
-            background: white;
-            color: #1d4e2c;
-            border-color: #1d4e2c40;
-        }
-
-        .modal-btn:hover {
-            background: #1d4e2c;
-            color: white;
-            border-color: #1d4e2c;
-            transform: translateY(-3px);
-        }
-
-        /* Request Modal */
-        .request-instruction {
-            background: rgba(30,80,40,0.05);
-            border-left: 4px solid #1d4e2c;
-            padding: 22px;
-            border-radius: 24px;
-            margin-bottom: 25px;
-        }
-
-        /* Filter & Export */
-        .filter-section, .export-buttons {
-            margin-bottom: 25px;
+        .filter-section {
+            margin: 20px 0;
         }
 
         .filter-group {
             display: flex;
             gap: 16px;
             flex-wrap: wrap;
+            align-items: center;
         }
 
-        .filter-input {
+        .filter-input, .filter-select {
             padding: 14px 22px;
-            border-radius: 40px;
-            border: 2px solid rgba(30,80,40,0.2);
-            background: rgba(255,255,255,0.5);
-            backdrop-filter: blur(4px);
+            border-radius: 16px;
+            border: 2px solid #eef2f6;
+            background: white;
             font-size: 15px;
-            flex: 1 1 200px;
+            flex: 1 1 180px;
+            transition: 0.2s;
         }
 
-        .filter-input:focus {
-            border-color: #1d4e2c;
+        .filter-input:focus, .filter-select:focus {
+            border-color: #1e3a5f;
             outline: none;
-            background: white;
         }
 
         .filter-btn, .export-btn {
             padding: 14px 28px;
-            border-radius: 40px;
+            border-radius: 16px;
             border: none;
-            background: #1d4e2c;
+            background: #1e3a5f;
             color: white;
             font-weight: 600;
             cursor: pointer;
-            transition: 0.2s;
+            transition: all 0.2s;
             display: inline-flex;
             align-items: center;
             gap: 8px;
-            box-shadow: 0 8px 16px -8px #1d4e2c;
+            font-size: 14px;
         }
 
         .filter-btn:hover, .export-btn:hover {
-            transform: translateY(-4px) scale(1.02);
-            box-shadow: 0 15px 25px -10px #1d4e2c;
+            background: #143048;
+            transform: translateY(-2px);
+            box-shadow: 0 10px 20px -8px #1e3a5f;
         }
 
         .card-btn {
-            padding: 12px 24px;
-            background: rgba(255,255,255,0.6);
-            border-radius: 40px;
-            border: 2px solid #1d4e2c40;
-            color: #1d4e2c;
+            padding: 14px 28px;
+            background: white;
+            border-radius: 16px;
+            border: 2px solid #eef2f6;
+            color: #1e3a5f;
             font-weight: 600;
             cursor: pointer;
-            transition: 0.2s;
+            transition: all 0.2s;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
         }
 
         .card-btn:hover {
-            background: #1d4e2c;
-            color: white;
-            border-color: #1d4e2c;
+            border-color: #1e3a5f;
+            background: #f8fafd;
         }
 
         .pagination {
@@ -767,1410 +513,792 @@
 
         .page-btn {
             padding: 10px 16px;
-            border-radius: 30px;
-            border: 2px solid rgba(30,80,40,0.2);
+            border-radius: 12px;
+            border: 2px solid #eef2f6;
             background: white;
-            color: #1d4e2c;
+            color: #475569;
             font-weight: 500;
             cursor: pointer;
             transition: 0.2s;
         }
 
         .page-btn.active {
-            background: #1d4e2c;
+            background: #1e3a5f;
             color: white;
-            border-color: #1d4e2c;
+            border-color: #1e3a5f;
         }
 
-        .page-btn:hover:not(.active) {
-            border-color: #1d4e2c;
-            transform: translateY(-2px);
+        .page-btn:hover {
+            border-color: #1e3a5f;
         }
 
-        /* Charts */
         .chart-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(450px, 1fr));
+            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
             gap: 30px;
+            margin-top: 30px;
         }
 
         .chart-container {
-            background: rgba(255,255,255,0.5);
-            backdrop-filter: blur(8px);
-            border-radius: 36px;
-            padding: 28px;
-            border: 1px solid rgba(255,255,255,0.6);
-            box-shadow: 0 10px 30px -15px rgba(0,0,0,0.1);
+            background: white;
+            border-radius: 28px;
+            padding: 20px;
+            border: 1px solid #eef2f6;
+            box-shadow: 0 10px 25px -15px rgba(0,0,0,0.05);
         }
 
-        /* Responsive */
-        @media (max-width: 768px) {
-            .dashboard-header {
-                flex-direction: column;
-                text-align: center;
-                padding: 24px;
-            }
-            .user-info {
-                text-align: center;
-                width: 100%;
-            }
-            .dashboard-nav {
-                justify-content: center;
-                padding: 18px;
-            }
-            .stats-grid {
-                grid-template-columns: 1fr 1fr;
-            }
-            .modal-grid {
-                grid-template-columns: 1fr;
-            }
-            .filter-group {
-                flex-direction: column;
-            }
-            .chart-grid {
-                grid-template-columns: 1fr;
-            }
-            .modal-footer {
-                flex-direction: column;
-                align-items: stretch;
-            }
+        .chart-container h3 {
+            font-size: 18px;
+            color: #1e3a5f;
+            margin-bottom: 16px;
+            font-weight: 600;
         }
 
-        @media (max-width: 480px) {
-            .stats-grid {
-                grid-template-columns: 1fr;
-            }
-            .dashboard-content {
-                padding: 24px 20px;
-            }
-        }
-
-        /* Misc */
-        .loading {
+        .footer {
             text-align: center;
-            padding: 40px;
-        }
-        .loading-spinner {
-            width: 50px;
-            height: 50px;
-            border: 4px solid #c8e0c8;
-            border-top-color: #1d4e2c;
-            border-radius: 50%;
-            animation: spin 0.8s linear infinite;
-            margin: 0 auto 20px;
-        }
-        @keyframes spin { to { transform: rotate(360deg); } }
-
-        .access-info, .warning-alert, .success-alert {
-            border-radius: 30px;
-            padding: 18px 24px;
-            backdrop-filter: blur(8px);
-            margin-bottom: 25px;
-        }
-        .access-info { background: rgba(30,80,40,0.1); }
-        .warning-alert { background: #fff3cd; color: #856404; }
-        .success-alert { background: #d4edda; color: #155724; }
-
-        .credit {
-            text-align: center;
-            padding: 15px;
+            margin-top: 30px;
+            color: #94a3b8;
             font-size: 13px;
-            color: #1d4e2c;
-            opacity: 0.8;
+            border-top: 1px solid #eef2f6;
+            padding-top: 20px;
+        }
+
+        /* MODAL */
+        .modal {
+            display: none;
+            position: fixed;
+            inset: 0;
+            background: rgba(0, 0, 0, 0.3);
+            backdrop-filter: blur(8px);
+            align-items: center;
+            justify-content: center;
+            z-index: 1000;
+        }
+
+        .modal-content {
+            background: white;
+            border-radius: 40px;
+            max-width: 700px;
+            width: 100%;
+            max-height: 85vh;
+            overflow-y: auto;
+            box-shadow: 0 40px 70px -20px rgba(0,0,0,0.25);
+        }
+
+        .modal-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 24px 30px;
+            border-bottom: 1px solid #eef2f6;
+        }
+
+        .modal-header h3 {
+            font-size: 22px;
+            color: #1e3a5f;
+        }
+
+        .close-modal {
+            background: #f1f5f9;
+            border: none;
+            font-size: 28px;
+            width: 48px;
+            height: 48px;
+            border-radius: 50%;
+            color: #475569;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: 0.2s;
+        }
+
+        .close-modal:hover {
+            background: #1e3a5f;
+            color: white;
+        }
+
+        .modal-body {
+            padding: 30px;
+        }
+
+        .detail-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 20px;
+        }
+
+        .detail-item {
+            margin-bottom: 15px;
+        }
+
+        .detail-label {
+            font-size: 12px;
+            color: #64748b;
+            text-transform: uppercase;
+            letter-spacing: 0.3px;
+            margin-bottom: 4px;
+        }
+
+        .detail-value {
+            background: #f8fafd;
+            padding: 14px 18px;
+            border-radius: 16px;
+            border: 1px solid #eef2f6;
+            margin-top: 4px;
+            font-weight: 500;
+        }
+
+        .btn-pdf {
+            background: #1e3a5f;
+            color: white;
+            border: none;
+            border-radius: 12px;
+            padding: 10px 20px;
+            font-weight: 600;
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+            cursor: pointer;
+            transition: 0.2s;
+            text-decoration: none;
+            font-size: 14px;
+        }
+
+        .btn-pdf:hover {
+            background: #143048;
+            transform: translateY(-2px);
+            box-shadow: 0 10px 15px -8px #1e3a5f;
+        }
+
+        .btn-pdf i {
+            font-size: 18px;
+        }
+
+        @media (max-width: 900px) {
+            .dashboard-container {
+                flex-direction: column;
+            }
+            .dashboard-sidebar {
+                width: 100%;
+                border-right: none;
+                border-bottom: 1px solid #eef2f6;
+            }
         }
     </style>
 </head>
 <body>
-    <!-- Login Screen (default) -->
+    <!-- LOGIN SCREEN (tidak berubah struktur) -->
     <div class="login-container" id="loginScreen">
         <div class="header">
             <h1>SISTEM PENCAIRAN DESA</h1>
             <p>Kabupaten Mamuju</p>
         </div>
-        
-        <div class="content">
-            <div class="system-icon">🏡</div>
-            
+        <div style="padding: 30px;">
+            <div class="system-icon">🏛️</div>
             <form id="loginForm">
-                <div class="form-group">
+                <div style="margin-bottom: 24px;">
                     <label for="nama">Nama Pengguna</label>
                     <input type="text" id="nama" class="form-control" placeholder="Masukkan nama Anda" required>
                 </div>
-                
-                <div class="form-group">
+                <div style="margin-bottom: 24px;">
                     <label for="kodeAkses">Kode Akses</label>
                     <input type="password" id="kodeAkses" class="form-control" placeholder="Masukkan kode akses" required>
                 </div>
-                
-                <div class="error-message" id="errorMessage">
-                    Kode akses salah. Silakan coba lagi.
-                </div>
-                
-                <button type="submit" class="btn btn-primary">Masuk ke Sistem</button>
+                <div class="error-message" id="errorMessage">Kode akses salah. Silakan coba lagi.</div>
+                <button type="submit" class="btn-primary">Masuk ke Sistem</button>
             </form>
-            
-            <div class="request-access">
-                <p>Belum punya kode akses?</p>
-                <button class="btn btn-whatsapp" onclick="showRequestForm()">
-                    <i class="bi bi-whatsapp"></i> Request Kode Akses via WhatsApp
-                </button>
-            </div>
-            
-            <button class="btn btn-secondary" onclick="window.location.href='index.html'">
-                ← Kembali ke Portal Utama
-            </button>
-            
-            <div class="login-info">
-                <p>Gunakan kode akses yang telah diberikan untuk mengakses sistem.</p>
-            </div>
-        </div>
-        
-        <div class="footer">
-            <div>© 2026 Bidang Perbendaharaan - BPKAD Kabupaten Mamuju</div>
+            <button class="btn-secondary" onclick="window.location.href='index.html'" style="margin-top: 20px;">← Kembali ke Portal</button>
+            <div style="text-align: center; margin-top: 25px; color: #64748b;">© Bidang Perbendaharaan - BPKAD Mamuju</div>
         </div>
     </div>
-    
-    <!-- Request Modal -->
-    <div class="modal request-modal" id="requestModal">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h3 class="modal-title"><i class="bi bi-key"></i> Request Kode Akses</h3>
-                <button class="close-modal" onclick="closeRequestModal()">×</button>
-            </div>
-            <div class="modal-body">
-                <div class="request-instruction">
-                    <p><strong>Proses setelah request:</strong></p>
-                    <ol>
-                        <li>Form akan membuka WhatsApp ke admin</li>
-                        <li>Anda perlu menekan <strong>SEND</strong> manual di WhatsApp</li>
-                        <li>Admin akan membalas via WhatsApp dengan kode akses</li>
-                        <li>Gunakan kode tersebut untuk login ke sistem</li>
-                    </ol>
-                </div>
-                
-                <form id="requestForm" onsubmit="sendWhatsAppRequest(event)">
-                    <div class="form-group">
-                        <label for="requestNama">Nama Lengkap *</label>
-                        <input type="text" id="requestNama" class="form-control" placeholder="Masukkan nama lengkap" required>
-                    </div>
-                    
-                    <div class="form-group">
-                        <label for="requestDesa">Desa (jika ada)</label>
-                        <input type="text" id="requestDesa" class="form-control" placeholder="Contoh: Desa Hinua">
-                    </div>
-                    
-                    <div class="form-group">
-                        <label for="requestJabatan">Jabatan *</label>
-                        <input type="text" id="requestJabatan" class="form-control" placeholder="Contoh: Kepala Desa, Staff, Operator" required>
-                    </div>
-                    
-                    <div class="form-group">
-                        <label for="requestHP">Nomor WhatsApp (Opsional)</label>
-                        <input type="tel" id="requestHP" class="form-control" placeholder="08xxx" pattern="[0-9]{10,13}">
-                        <small style="color: #666;">Untuk konfirmasi lebih cepat</small>
-                    </div>
-                    
-                    <button type="submit" class="btn btn-whatsapp">
-                        <i class="bi bi-whatsapp"></i> Buka WhatsApp untuk Kirim Request
-                    </button>
-                    <button type="button" class="btn btn-secondary" onclick="closeRequestModal()" style="margin-top: 10px;">
-                        Batal
-                    </button>
-                </form>
-            </div>
-        </div>
-    </div>
-    
-    <!-- Dashboard Screen (hidden by default) -->
+
+    <!-- DASHBOARD dengan SIDEBAR KIRI (struktur tetap) -->
     <div class="dashboard-container" id="dashboardScreen" style="display: none;">
-        <div class="dashboard-header">
-            <div>
-                <h1>SISTEM PENCAIRAN DESA</h1>
-                <p>Kabupaten Mamuju</p>
+        <aside class="dashboard-sidebar">
+            <div class="sidebar-brand">
+                <i class="bi bi-building" style="font-size: 48px; color:#1e3a5f;"></i>
+                <h2>SISTEM DESA</h2>
+                <p>Kab. Mamuju</p>
             </div>
-            <div class="user-info">
-                <h3 id="displayNama">-</h3>
-                <p id="displayRole">-</p>
-                <button class="logout-btn" onclick="logout()">Logout</button>
+            <div class="sidebar-user">
+                <div class="avatar"><i class="bi bi-person-circle"></i></div>
+                <h4 id="sidebarNama">-</h4>
+                <span class="role-badge" id="sidebarRole">-</span>
             </div>
-        </div>
-        
-        <div class="dashboard-nav">
-            <button class="nav-btn active" onclick="showTab('home')">
-                <i class="bi bi-house-door"></i> Beranda
-            </button>
-            <button class="nav-btn" onclick="showTab('data')" id="dataTabBtn">
-                <i class="bi bi-table"></i> Data Pengajuan
-            </button>
-            <button class="nav-btn" onclick="showTab('rekap')">
-                <i class="bi bi-bar-chart"></i> Rekap Pencairan
-            </button>
-            <button class="nav-btn" onclick="showTab('grafik')">
-                <i class="bi bi-graph-up"></i> Grafik
-            </button>
-            <!-- Tombol Input untuk semua role -->
-            <button class="nav-btn" id="inputBtn" onclick="window.open('https://forms.gle/3LbNrxm1akvLSeHi7', '_blank')">
-                <i class="bi bi-cloud-upload"></i> Input Data Baru
-            </button>
-            <!-- Tombol Verifikasi hanya untuk super admin dan verifikator -->
-            <button class="nav-btn" id="verifikasiBtn" style="display: none;" onclick="window.open('https://docs.google.com/spreadsheets/d/1C4xZ-tVY0F7vVETb2a7wMOuH7Dd1HwYqu_Y-5_ecu2E/edit?usp=sharing', '_blank')">
-                <i class="bi bi-check-circle"></i> Verifikasi Data
-            </button>
-            <button class="nav-btn" onclick="loadDataFromGoogleSheets(true)">
-                <i class="bi bi-arrow-clockwise"></i> Refresh Data
-            </button>
-        </div>
-        
-        <div class="dashboard-content">
-            <!-- Home Tab (hanya menampilkan yang sedang proses) -->
+            <nav class="sidebar-nav">
+                <button class="nav-btn active" onclick="showTab('home')"><i class="bi bi-house-door"></i> Beranda</button>
+                <button class="nav-btn" onclick="showTab('data')"><i class="bi bi-table"></i> Data Pengajuan</button>
+                <button class="nav-btn" onclick="showTab('rekap')"><i class="bi bi-bar-chart"></i> Rekap Pencairan</button>
+                <button class="nav-btn" onclick="showTab('grafik')"><i class="bi bi-graph-up"></i> Grafik</button>
+                <button class="nav-btn" onclick="window.open('https://forms.gle/3LbNrxm1akvLSeHi7', '_blank')"><i class="bi bi-cloud-upload"></i> Input Baru</button>
+                <button class="nav-btn" id="verifikasiBtn" style="display: none;" onclick="window.open('https://docs.google.com/spreadsheets/d/1C4xZ-tVY0F7vVETb2a7wMOuH7Dd1HwYqu_Y-5_ecu2E/edit?usp=sharing', '_blank')"><i class="bi bi-check-circle"></i> Verifikasi</button>
+                <button class="nav-btn" onclick="loadDataFromGoogleSheets(true)"><i class="bi bi-arrow-clockwise"></i> Refresh</button>
+            </nav>
+            <div class="sidebar-footer">
+                <button class="logout-btn-side" onclick="logout()"><i class="bi bi-box-arrow-right"></i> Logout</button>
+            </div>
+        </aside>
+
+        <main class="dashboard-main">
+            <div class="top-bar">
+                <h1>Dashboard Pencairan</h1>
+                <div class="last-access" id="lastAccessDisplay">-</div>
+            </div>
+            <div id="dataAlert" style="display: none;"></div>
+
+            <!-- HOME TAB -->
             <div id="homeTab" class="tab-content active">
-                <div class="welcome-message">
+                <div style="background:#f8fafd; border-radius:28px; padding:25px; margin-bottom:30px;">
                     <h2>Selamat datang, <span id="welcomeNama">-</span></h2>
-                    <p>Anda login sebagai <strong id="welcomeRole">-</strong></p>
+                    <p>Anda login sebagai <strong id="welcomeRole">-</strong> · <span id="hakAkses">-</span></p>
                 </div>
-                
-                <div class="access-info" id="accessInfo">
-                    <strong>Hak Akses:</strong> <span id="hakAkses">-</span>
-                </div>
-                
-                <div id="dataAlert" style="display: none;"></div>
-                
-                <div class="stats-grid" id="statsGrid">
-                    <!-- Stats will be loaded here -->
-                </div>
-                
-                <h3 style="margin: 30px 0 20px 0; color: #1d4e2c;">Pengajuan Sedang Diproses</h3>
-                <div class="table-container">
-                    <div id="recentTransactions">
-                        <!-- Only in-process transactions will be loaded here -->
-                    </div>
-                    <button class="card-btn" onclick="showTab('data')" style="margin-top: 20px;">
-                        <i class="bi bi-eye"></i> Lihat Semua Pengajuan
-                    </button>
-                </div>
+                <div class="stats-grid" id="statsGrid"></div>
+                <h3 style="color:#1e3a5f; margin:30px 0 20px;">⏳ Pengajuan Sedang Diproses</h3>
+                <div class="table-container" id="recentTransactions"></div>
+                <button class="card-btn" onclick="showTab('data')" style="margin-top:20px;"><i class="bi bi-eye"></i> Lihat Semua</button>
             </div>
-            
-            <!-- Data Tab (semua data) -->
+
+            <!-- DATA TAB -->
             <div id="dataTab" class="tab-content">
-                <h2 style="margin-bottom: 20px; color: #1d4e2c;">Semua Data Pengajuan Pencairan Dana Desa</h2>
-                
-                <div class="export-buttons">
-                    <button class="export-btn export-excel" onclick="exportDataToExcel()">
-                        <i class="bi bi-file-earmark-excel"></i> Export ke Excel
-                    </button>
+                <h2 style="color:#1e3a5f;">📋 Semua Data Pengajuan</h2>
+                <div style="display:flex; gap:16px; flex-wrap:wrap; margin:20px 0;">
+                    <button class="export-btn" onclick="exportDataToExcel()"><i class="bi bi-file-excel"></i> Export Excel</button>
                 </div>
-                
                 <div class="filter-section">
                     <div class="filter-group">
-                        <input type="text" id="searchInput" class="filter-input" placeholder="Cari Desa atau Jenis Pencairan...">
-                        <select id="desaFilter" class="filter-input">
-                            <option value="">Semua Desa</option>
+                        <input type="text" id="searchInput" class="filter-input" placeholder="Cari desa / jenis...">
+                        <select id="desaFilter" class="filter-select"><option value="">Semua Desa</option></select>
+                        <select id="actionFilter" class="filter-select">
+                            <option value="">Semua Status</option>
+                            <option value="DISETUJUI">Disetujui</option>
+                            <option value="DITOLAK">Ditolak</option>
+                            <option value="PROSES">Diproses</option>
                         </select>
-                        <button class="filter-btn" onclick="applyFilters()">
-                            <i class="bi bi-funnel"></i> Filter
-                        </button>
-                        <button class="card-btn" onclick="resetFilters()" style="width: auto;">
-                            <i class="bi bi-arrow-clockwise"></i> Reset
-                        </button>
+                        <button class="filter-btn" onclick="applyFilters()"><i class="bi bi-funnel"></i> Filter</button>
+                        <button class="card-btn" onclick="resetFilters()">Reset</button>
                     </div>
                 </div>
-                
-                <div class="table-container">
-                    <div id="allTransactions">
-                        <!-- All transactions will be loaded here -->
-                    </div>
-                    <div class="pagination" id="pagination">
-                        <!-- Pagination will be generated here -->
-                    </div>
-                </div>
+                <div class="table-container" id="allTransactions"></div>
+                <div class="pagination" id="pagination"></div>
             </div>
-            
-            <!-- Rekap Tab (dengan jenis pencairan) -->
+
+            <!-- REKAP TAB -->
             <div id="rekapTab" class="tab-content">
-                <h2 style="margin-bottom: 20px; color: #1d4e2c;">Rekap Pencairan per Desa dan Jenis (Disetujui)</h2>
-                
-                <div class="export-buttons">
-                    <button class="export-btn export-excel" onclick="exportRekapToExcel()">
-                        <i class="bi bi-file-earmark-excel"></i> Export Rekap ke Excel
-                    </button>
-                </div>
-                
-                <div class="table-container">
-                    <table id="rekapTable">
-                        <!-- Rekap table will be loaded here -->
-                    </table>
-                </div>
+                <h2 style="color:#1e3a5f;">📊 Rekap per Desa & Jenis (Disetujui)</h2>
+                <button class="export-btn" onclick="exportRekapToExcel()" style="margin:20px 0;"><i class="bi bi-file-excel"></i> Export Rekap</button>
+                <div class="table-container" id="rekapTable"></div>
             </div>
-            
-            <!-- Grafik Tab -->
+
+            <!-- GRAFIK TAB -->
             <div id="grafikTab" class="tab-content">
-                <h2 style="margin-bottom: 20px; color: #1d4e2c;">Visualisasi Data Pengajuan</h2>
-                
+                <h2 style="color:#1e3a5f;">📈 Visualisasi</h2>
                 <div class="chart-grid">
-                    <div class="chart-container">
-                        <h3>Total Pencairan per Desa (Top 10)</h3>
-                        <canvas id="chartTop10"></canvas>
-                    </div>
-                    
-                    <div class="chart-container">
-                        <h3>Status Pengajuan</h3>
-                        <canvas id="chartStatus"></canvas>
-                    </div>
-                    
-                    <div class="chart-container">
-                        <h3>Trend Bulanan Pencairan (Disetujui)</h3>
-                        <canvas id="chartTrend"></canvas>
-                    </div>
+                    <div class="chart-container"><h3>Top 10 Desa (Nilai)</h3><canvas id="chartTop10"></canvas></div>
+                    <div class="chart-container"><h3>Status Pengajuan</h3><canvas id="chartStatus"></canvas></div>
+                    <div class="chart-container"><h3>Tren Bulanan (Disetujui)</h3><canvas id="chartTrend"></canvas></div>
                 </div>
             </div>
-        </div>
-        
-        <div class="footer">
-            <div>Sistem Pencairan Desa - Versi 2.0 | Terakhir diakses: <span id="lastAccess">-</span></div>
-            <div class="credit">Dikembangkan oleh Bidang Perbendaharaan - BPKAD Kabupaten Mamuju</div>
-        </div>
+
+            <div class="footer">Sistem Pencairan Desa · Bidang Perbendaharaan BPKAD Mamuju</div>
+        </main>
     </div>
-    
-    <!-- MODERN DETAIL MODAL -->
+
+    <!-- MODAL DETAIL -->
     <div class="modal" id="detailModal">
         <div class="modal-content">
             <div class="modal-header">
-                <h3 class="modal-title"><i class="bi bi-file-text"></i> Detail Pengajuan</h3>
+                <h3><i class="bi bi-file-text"></i> Detail Pengajuan</h3>
                 <button class="close-modal" onclick="closeModal()">×</button>
             </div>
-            <div class="modal-body" id="modalBody">
-                <!-- Modern detail content will be loaded here -->
-            </div>
-            <div class="modal-footer">
-                <div class="transaction-id" id="transactionId"></div>
-                <div class="modal-actions">
-                    <button class="modal-btn modal-btn-print" onclick="window.print()">
-                        <i class="bi bi-printer"></i> Cetak
-                    </button>
-                    <button class="modal-btn modal-btn-close" onclick="closeModal()">
-                        <i class="bi bi-x-lg"></i> Tutup
-                    </button>
-                </div>
+            <div class="modal-body" id="modalBody"></div>
+            <div style="padding:20px; border-top:1px solid #eef2f6; display:flex; justify-content:space-between;">
+                <span id="transactionId"></span>
+                <button class="filter-btn" onclick="window.print()"><i class="bi bi-printer"></i> Cetak</button>
             </div>
         </div>
     </div>
 
     <script>
-        // Data kode akses dan role
+        // ================== DATA DAN KONFIGURASI (SAMA PERSIS) ==================
         const userData = [
             { kode: "lenrongji", role: "super admin", hakAkses: "semua" },
             { kode: "bpkad_desa2026", role: "verifikator", hakAkses: "semua" },
-            { kode: "dpmd_desa2026", role: "input", hakAkses: "semua" }
+            { kode: "dpmd_desa2026", role: "Operator", hakAkses: "semua" }
         ];
 
-        // Global variables
         let currentUser = null;
         let allTransactions = [];
         let filteredTransactions = [];
         let currentPage = 1;
         const itemsPerPage = 10;
-        
-        // URL Google Sheets
         const GOOGLE_SHEETS_URL = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vRt64hJQkgxCyemAe_sEEDcoxzfr_CSDvfo17Yaq3jX094HfXlWcT0mNPaNDh8Jqv-5ssUUZzshG56T/pub?output=csv';
+        let chartTop10, chartStatus, chartTrend;
 
-        // Check if user is already logged in
-        document.addEventListener('DOMContentLoaded', function() {
-            const savedUser = localStorage.getItem('pencairanDesaUser');
-            const savedLoginTime = localStorage.getItem('pencairanDesaLoginTime');
-            
-            if (savedUser) {
-                const user = JSON.parse(savedUser);
-                showDashboard(user);
-                if (savedLoginTime) {
-                    document.getElementById('lastAccess').textContent = savedLoginTime;
-                }
-                loadDataFromGoogleSheets();
-            }
-        });
-
-        // Login form handler
+        // ================== LOGIN ==================
         document.getElementById('loginForm').addEventListener('submit', function(e) {
             e.preventDefault();
-            
             const nama = document.getElementById('nama').value.trim();
-            const kodeAkses = document.getElementById('kodeAkses').value.trim();
-            const errorMessage = document.getElementById('errorMessage');
-            
-            const matchedUser = userData.find(item => item.kode === kodeAkses);
-            
-            if (matchedUser && nama) {
-                errorMessage.style.display = 'none';
-                
-                const user = {
-                    nama: nama,
-                    role: matchedUser.role,
-                    hakAkses: matchedUser.hakAkses
-                };
-                
+            const kode = document.getElementById('kodeAkses').value.trim();
+            const matched = userData.find(item => item.kode === kode);
+            if (matched && nama) {
+                document.getElementById('errorMessage').style.display = 'none';
+                const user = { nama: nama, role: matched.role, hakAkses: matched.hakAkses };
                 localStorage.setItem('pencairanDesaUser', JSON.stringify(user));
-                
-                const now = new Date();
-                const loginTime = now.toLocaleDateString('id-ID', { 
-                    weekday: 'long',
-                    year: 'numeric', 
-                    month: 'long', 
-                    day: 'numeric',
-                    hour: '2-digit',
-                    minute: '2-digit'
-                });
-                localStorage.setItem('pencairanDesaLoginTime', loginTime);
-                
+                const now = new Date().toLocaleDateString('id-ID', { weekday:'long', year:'numeric', month:'long', day:'numeric', hour:'2-digit', minute:'2-digit' });
+                localStorage.setItem('pencairanDesaLoginTime', now);
                 showDashboard(user);
-                document.getElementById('lastAccess').textContent = loginTime;
-                
+                document.getElementById('lastAccessDisplay').innerText = now;
                 loadDataFromGoogleSheets();
             } else {
-                errorMessage.style.display = 'block';
+                document.getElementById('errorMessage').style.display = 'block';
             }
         });
 
-        // Function to show dashboard
         function showDashboard(user) {
             currentUser = user;
             document.getElementById('loginScreen').style.display = 'none';
-            document.getElementById('dashboardScreen').style.display = 'block';
-            
-            document.getElementById('displayNama').textContent = user.nama;
-            document.getElementById('displayRole').textContent = user.role;
-            document.getElementById('welcomeNama').textContent = user.nama;
-            document.getElementById('welcomeRole').textContent = user.role;
-            document.getElementById('hakAkses').textContent = user.role;
-            
-            // Tampilkan tombol verifikasi hanya untuk super admin dan verifikator
+            document.getElementById('dashboardScreen').style.display = 'flex';
+            document.getElementById('sidebarNama').innerText = user.nama;
+            document.getElementById('sidebarRole').innerText = user.role;
+            document.getElementById('welcomeNama').innerText = user.nama;
+            document.getElementById('welcomeRole').innerText = user.role;
+            document.getElementById('hakAkses').innerText = user.role;
             if (user.role === 'super admin' || user.role === 'verifikator') {
-                document.getElementById('verifikasiBtn').style.display = 'block';
+                document.getElementById('verifikasiBtn').style.display = 'flex';
             } else {
                 document.getElementById('verifikasiBtn').style.display = 'none';
             }
         }
 
-        // Function to load data from Google Sheets
+        // ================== LOAD DATA (sama) ==================
         async function loadDataFromGoogleSheets(showAlert = false) {
-            const loadingHTML = '<div class="loading"><div class="loading-spinner"></div><p>Memuat data dari Google Sheets...</p></div>';
-            document.getElementById('recentTransactions').innerHTML = loadingHTML;
-            document.getElementById('allTransactions').innerHTML = loadingHTML;
-            document.getElementById('statsGrid').innerHTML = loadingHTML;
-            document.getElementById('rekapTable').innerHTML = loadingHTML;
-            
-            if (showAlert) {
-                document.getElementById('dataAlert').innerHTML = `
-                    <div class="warning-alert">
-                        <i class="bi bi-arrow-clockwise"></i>
-                        <div>Memperbarui data dari Google Sheets...</div>
-                    </div>
-                `;
-                document.getElementById('dataAlert').style.display = 'block';
-            }
-            
+            const loading = '<div class="loading" style="padding:40px; text-align:center;"><i class="bi bi-arrow-repeat spinning"></i> Memuat data...</div>';
+            document.getElementById('recentTransactions').innerHTML = loading;
+            document.getElementById('allTransactions').innerHTML = loading;
+            document.getElementById('statsGrid').innerHTML = loading;
             try {
-                console.log('Mengambil data dari:', GOOGLE_SHEETS_URL);
-                
-                const controller = new AbortController();
-                const timeoutId = setTimeout(() => controller.abort(), 10000);
-                
-                const response = await fetch(GOOGLE_SHEETS_URL, {
-                    method: 'GET',
-                    mode: 'cors',
-                    signal: controller.signal,
-                    headers: {
-                        'Cache-Control': 'no-cache'
-                    }
-                });
-                
-                clearTimeout(timeoutId);
-                
-                if (!response.ok) {
-                    throw new Error(`HTTP error! status: ${response.status}`);
-                }
-                
+                const response = await fetch(GOOGLE_SHEETS_URL, { method: 'GET', mode: 'cors' });
                 const csvText = await response.text();
-                console.log('Data berhasil diambil, panjang:', csvText.length, 'karakter');
-                
-                if (csvText.length < 100) {
-                    throw new Error('Data terlalu pendek atau kosong');
-                }
-                
-                const parsedData = parseSimpleCSV(csvText);
-                
-                if (parsedData.length === 0) {
-                    throw new Error('Tidak ada data yang berhasil diparsing');
-                }
-                
-                console.log('Data berhasil diparsing:', parsedData.length, 'baris');
-                
-                processTransactions(parsedData);
-                
-                if (showAlert) {
-                    document.getElementById('dataAlert').innerHTML = `
-                        <div class="success-alert">
-                            <i class="bi bi-check-circle"></i>
-                            <div>Data berhasil diperbarui! ${parsedData.length} pengajuan ditemukan.</div>
-                        </div>
-                    `;
-                    
-                    setTimeout(() => {
-                        document.getElementById('dataAlert').style.display = 'none';
-                    }, 5000);
-                }
-                
-            } catch (error) {
-                console.error('Error loading data:', error);
-                
-                document.getElementById('dataAlert').innerHTML = `
-                    <div class="warning-alert">
-                        <i class="bi bi-exclamation-triangle"></i>
-                        <div>
-                            <strong>Gagal mengambil data dari Google Sheets:</strong><br>
-                            ${error.message}<br>
-                            <small>Menggunakan data contoh untuk demonstrasi.</small>
-                        </div>
-                    </div>
-                `;
-                document.getElementById('dataAlert').style.display = 'block';
-                
+                const parsed = parseSimpleCSV(csvText);
+                if (parsed.length === 0) throw new Error('Data kosong');
+                processTransactions(parsed);
+                if (showAlert) showNotif('Data berhasil diperbarui', 'success');
+            } catch (e) {
+                console.warn('Gagal load, gunakan sample data');
                 useSampleData();
+                if (showAlert) showNotif('Menggunakan data contoh', 'warning');
             }
         }
 
-        // Fungsi parsing CSV
-        function parseSimpleCSV(csvText) {
-            const lines = csvText.split('\n').filter(line => line.trim() !== '');
+        function parseSimpleCSV(csv) {
+            const lines = csv.split('\n').filter(l => l.trim() !== '');
             if (lines.length < 2) return [];
-            
             const headers = lines[0].split(',').map(h => h.trim());
-            
             const data = [];
-            
             for (let i = 1; i < lines.length; i++) {
-                const line = lines[i];
-                if (line.trim() === '') continue;
-                
-                const values = [];
-                let currentValue = '';
-                let inQuotes = false;
-                
-                for (let j = 0; j < line.length; j++) {
-                    const char = line[j];
-                    
-                    if (char === '"' && !inQuotes) {
-                        inQuotes = true;
-                    } else if (char === '"' && inQuotes) {
-                        inQuotes = false;
-                    } else if (char === ',' && !inQuotes) {
-                        values.push(currentValue.trim());
-                        currentValue = '';
-                    } else {
-                        currentValue += char;
-                    }
+                let values = [];
+                let cur = '', inQuote = false;
+                for (let j = 0; j < lines[i].length; j++) {
+                    const ch = lines[i][j];
+                    if (ch === '"' && !inQuote) inQuote = true;
+                    else if (ch === '"' && inQuote) inQuote = false;
+                    else if (ch === ',' && !inQuote) { values.push(cur.trim()); cur = ''; }
+                    else cur += ch;
                 }
-                values.push(currentValue.trim());
-                
-                while (values.length < headers.length) {
-                    values.push('');
-                }
-                
-                const transaction = {};
-                headers.forEach((header, index) => {
-                    transaction[header] = values[index] || '';
-                });
-                
-                const nilaiStr = transaction['NILAI PENCAIRAN'] || '0';
-                transaction.NILAI_NUM = parseFloat(nilaiStr.replace(/[^0-9.-]+/g, "")) || 0;
-                
-                data.push(transaction);
+                values.push(cur.trim());
+                while (values.length < headers.length) values.push('');
+                const obj = {};
+                headers.forEach((h, idx) => obj[h] = values[idx] || '');
+                obj.NILAI_NUM = parseFloat((obj['NILAI PENCAIRAN'] || '0').replace(/[^0-9.-]+/g, '')) || 0;
+                data.push(obj);
             }
-            
             return data;
         }
 
-        // Fungsi untuk memproses data transaksi
-        function processTransactions(transactions) {
-            allTransactions = transactions;
-            
-            allTransactions.sort((a, b) => {
-                const dateA = parseSimpleDate(a.Timestamp || '');
-                const dateB = parseSimpleDate(b.Timestamp || '');
-                return dateB - dateA;
-            });
-            
+        function processTransactions(trans) {
+            allTransactions = trans.sort((a,b) => (b.Timestamp || '').localeCompare(a.Timestamp || ''));
             filteredTransactions = [...allTransactions];
-            
-            displayRecentTransactions();   // Hanya yang sedang proses
-            displayAllTransactions();      // Semua data
+            displayRecentTransactions();
+            displayAllTransactions();
             populateDesaFilter();
-            updateDashboardStats();        // Statistik umum
-            displayRekap();                // Rekap dengan jenis
+            updateDashboardStats();
+            displayRekap();
             displayCharts();
         }
 
-        // Fungsi parsing tanggal
-        function parseSimpleDate(dateString) {
-            if (!dateString || dateString.trim() === '') return new Date(0);
-            
-            const parts = dateString.split(/[\/\s:]/);
-            if (parts.length >= 3) {
-                const month = parseInt(parts[0]) - 1;
-                const day = parseInt(parts[1]);
-                const year = parseInt(parts[2]);
-                if (!isNaN(day) && !isNaN(month) && !isNaN(year)) {
-                    return new Date(year, month, day);
-                }
-            }
-            return new Date();
-        }
-
-        // Fungsi untuk menggunakan data contoh
         function useSampleData() {
-            const sampleTransactions = [
-                {
-                    Timestamp: "2/16/2026 1:02:29",
-                    "JENIS PENCAIRAN": "LS ADD",
-                    "NAMA DESA": "DESA HINUA",
-                    "TAHAP PENCAIRAN": "I",
-                    "NILAI PENCAIRAN": "",
-                    "CATATAN JIKA ADA": "",
-                    "DOKUEMEN PENDUKUNG (PDF)": "https://drive.google.com/open?id=1FycW0EtB9EWMXpjvtKp0VCb8G6TTng29",
-                    "ACTION": "DITOLAK",
-                    "KETERANGAN": "",
-                    NILAI_NUM: 0
-                },
-                {
-                    Timestamp: "2/16/2026 1:09:29",
-                    "JENIS PENCAIRAN": "LS ADD",
-                    "NAMA DESA": "DESA BONEHAU",
-                    "TAHAP PENCAIRAN": "II",
-                    "NILAI PENCAIRAN": "76000000",
-                    "CATATAN JIKA ADA": "",
-                    "DOKUEMEN PENDUKUNG (PDF)": "https://drive.google.com/open?id=1tWlHjZOj_tUUPlJFn0nDhEpp3tt95-KD",
-                    "ACTION": "DISETUJUI",
-                    "KETERANGAN": "",
-                    NILAI_NUM: 76000000
-                },
-                {
-                    Timestamp: "2/15/2026 10:30:00",
-                    "JENIS PENCAIRAN": "BLT",
-                    "NAMA DESA": "DESA TAPALANG",
-                    "TAHAP PENCAIRAN": "I",
-                    "NILAI PENCAIRAN": "50000000",
-                    "CATATAN JIKA ADA": "Proses verifikasi",
-                    "DOKUEMEN PENDUKUNG (PDF)": "",
-                    "ACTION": "",
-                    "KETERANGAN": "",
-                    NILAI_NUM: 50000000
-                },
-                {
-                    Timestamp: "2/14/2026 14:15:00",
-                    "JENIS PENCAIRAN": "DD",
-                    "NAMA DESA": "DESA SIMBORO",
-                    "TAHAP PENCAIRAN": "II",
-                    "NILAI PENCAIRAN": "120000000",
-                    "CATATAN JIKA ADA": "",
-                    "DOKUEMEN PENDUKUNG (PDF)": "https://drive.google.com/open?id=xyz",
-                    "ACTION": "DISETUJUI",
-                    "KETERANGAN": "",
-                    NILAI_NUM: 120000000
-                },
-                {
-                    Timestamp: "2/13/2026 9:45:00",
-                    "JENIS PENCAIRAN": "LS ADD",
-                    "NAMA DESA": "DESA MAMUJU",
-                    "TAHAP PENCAIRAN": "I",
-                    "NILAI PENCAIRAN": "30000000",
-                    "CATATAN JIKA ADA": "Berkas kurang",
-                    "DOKUEMEN PENDUKUNG (PDF)": "",
-                    "ACTION": "",
-                    "KETERANGAN": "",
-                    NILAI_NUM: 30000000
-                }
-            ];
-            
-            for (let i = 0; i < 10; i++) {
-                sampleTransactions.push({
-                    Timestamp: `2/${10 + i}/2026 8:00:00`,
-                    "JENIS PENCAIRAN": i % 2 === 0 ? "LS ADD" : "BLT",
-                    "NAMA DESA": `DESA ${i}`,
-                    "TAHAP PENCAIRAN": "I",
-                    "NILAI PENCAIRAN": (20000000 + i * 5000000).toString(),
-                    "CATATAN JIKA ADA": "",
-                    "DOKUEMEN PENDUKUNG (PDF)": i % 3 === 0 ? `https://drive.google.com/open?id=doc${i}` : "",
-                    "ACTION": i % 4 === 0 ? "DISETUJUI" : (i % 4 === 1 ? "DITOLAK" : ""),
-                    "KETERANGAN": "",
-                    NILAI_NUM: 20000000 + i * 5000000
+            const sample = [];
+            const desaList = ['HINUA', 'BONEHAU', 'TAPALANG', 'SIMBORO', 'MAMUJU', 'RANGAS', 'SALUBANDA', 'TOBADAK', 'BINANGA', 'TUBO'];
+            const jenis = ['LS ADD', 'BLT', 'DD', 'ADD', 'BHP'];
+            for (let i = 0; i < 35; i++) {
+                const statusRand = i % 4 === 0 ? 'DISETUJUI' : (i % 4 === 1 ? 'DITOLAK' : '');
+                sample.push({
+                    Timestamp: `2/${(i%28)+1}/2026 ${10+(i%12)}:${i%60}:00`,
+                    'NAMA DESA': `DESA ${desaList[i % desaList.length]}`,
+                    'JENIS PENCAIRAN': jenis[i % jenis.length],
+                    'TAHAP PENCAIRAN': (i % 3 + 1).toString(),
+                    'NILAI PENCAIRAN': (20000000 + i * 2500000).toString(),
+                    'CATATAN JIKA ADA': '',
+                    'DOKUEMEN PENDUKUNG (PDF)': '',
+                    'ACTION': statusRand,
+                    'KETERANGAN': '',
+                    NILAI_NUM: 20000000 + i * 2500000
                 });
             }
-            
-            processTransactions(sampleTransactions);
+            processTransactions(sample);
         }
 
-        // Format currency
-        function formatCurrency(amount) {
-            if (isNaN(amount)) amount = 0;
-            return new Intl.NumberFormat('id-ID', {
-                minimumFractionDigits: 0,
-                maximumFractionDigits: 0
-            }).format(amount);
+        function showNotif(msg, type) {
+            const alertDiv = document.getElementById('dataAlert');
+            alertDiv.style.display = 'block';
+            alertDiv.innerHTML = `<div style="background:${type==='success'?'#e3f7ec':'#fff9e5'}; color:${type==='success'?'#0b5e42':'#946800'}; padding:15px; border-radius:16px;">${msg}</div>`;
+            setTimeout(() => alertDiv.style.display = 'none', 3000);
         }
 
-        // Display recent transactions (hanya yang sedang proses: ACTION kosong)
+        // ================== FILTER + PAGINATION ==================
+        function applyFilters() {
+            const search = document.getElementById('searchInput').value.toLowerCase();
+            const desa = document.getElementById('desaFilter').value;
+            const action = document.getElementById('actionFilter').value;
+            filteredTransactions = allTransactions.filter(t => {
+                const matchSearch = !search || (t['NAMA DESA'] && t['NAMA DESA'].toLowerCase().includes(search)) || (t['JENIS PENCAIRAN'] && t['JENIS PENCAIRAN'].toLowerCase().includes(search));
+                const matchDesa = !desa || t['NAMA DESA'] === desa;
+                let matchAction = true;
+                if (action === 'DISETUJUI') matchAction = (t.ACTION === 'DISETUJUI');
+                else if (action === 'DITOLAK') matchAction = (t.ACTION === 'DITOLAK');
+                else if (action === 'PROSES') matchAction = (!t.ACTION || t.ACTION.trim() === '');
+                return matchSearch && matchDesa && matchAction;
+            });
+            currentPage = 1;
+            displayAllTransactions();
+        }
+
+        function resetFilters() {
+            document.getElementById('searchInput').value = '';
+            document.getElementById('desaFilter').value = '';
+            document.getElementById('actionFilter').value = '';
+            filteredTransactions = [...allTransactions];
+            currentPage = 1;
+            displayAllTransactions();
+        }
+
+        function populateDesaFilter() {
+            const desaSet = [...new Set(allTransactions.map(t => t['NAMA DESA']).filter(d => d))].sort();
+            const sel = document.getElementById('desaFilter');
+            while (sel.options.length > 1) sel.remove(1);
+            desaSet.forEach(d => {
+                const opt = document.createElement('option');
+                opt.value = d;
+                opt.textContent = d;
+                sel.appendChild(opt);
+            });
+        }
+
+        // ================== DISPLAY TABLES ==================
         function displayRecentTransactions() {
-            const inProcess = allTransactions.filter(t => !t.ACTION || t.ACTION.trim() === '').slice(0, 10);
-            
-            if (inProcess.length === 0) {
-                document.getElementById('recentTransactions').innerHTML = 
-                    '<div class="loading"><p>Tidak ada pengajuan yang sedang diproses</p></div>';
-                return;
-            }
-            
-            let html = '<table>';
-            html += '<thead><tr><th>No</th><th>Desa</th><th>Jenis</th><th>Tahap</th><th>Nilai</th><th>Status</th><th>Aksi</th></tr></thead><tbody>';
-            
-            inProcess.forEach((transaction, index) => {
-                html += `
-                    <tr>
-                        <td>${index + 1}</td>
-                        <td>${transaction['NAMA DESA'] || '-'}</td>
-                        <td>${transaction['JENIS PENCAIRAN'] || '-'}</td>
-                        <td>${transaction['TAHAP PENCAIRAN'] || '-'}</td>
-                        <td>${formatCurrency(transaction.NILAI_NUM)}</td>
-                        <td><span class="badge badge-warning">Sedang Diproses</span></td>
-                        <td><button class="view-detail-btn" onclick="showDetail(${allTransactions.indexOf(transaction)})">Detail</button></td>
-                    </tr>
-                `;
+            const proses = allTransactions.filter(t => !t.ACTION || t.ACTION.trim() === '').slice(0, 10);
+            let html = '<table><thead><tr><th>No</th><th>Desa</th><th>Jenis</th><th>Tahap</th><th>Nilai</th><th>Status</th><th>Aksi</th></tr></thead><tbody>';
+            proses.forEach((t,i) => {
+                html += `<tr>
+                    <td>${i+1}</td>
+                    <td>${t['NAMA DESA'] || '-'}</td>
+                    <td>${t['JENIS PENCAIRAN'] || '-'}</td>
+                    <td>${t['TAHAP PENCAIRAN'] || '-'}</td>
+                    <td>${formatCurrency(t.NILAI_NUM)}</td>
+                    <td><span class="badge badge-warning">Diproses</span></td>
+                    <td><button class="view-detail-btn" onclick="showDetail(${allTransactions.indexOf(t)})"><i class="bi bi-info-circle"></i> Detail</button></td>
+                </tr>`;
             });
-            
             html += '</tbody></table>';
-            document.getElementById('recentTransactions').innerHTML = html;
+            document.getElementById('recentTransactions').innerHTML = html || '<p style="padding:20px;">Tidak ada pengajuan diproses</p>';
         }
 
-        // Display all transactions (semua data)
         function displayAllTransactions() {
-            const startIndex = (currentPage - 1) * itemsPerPage;
-            const endIndex = startIndex + itemsPerPage;
-            const pageTransactions = filteredTransactions.slice(startIndex, endIndex);
-            
-            if (pageTransactions.length === 0) {
-                document.getElementById('allTransactions').innerHTML = 
-                    '<div class="loading"><p>Tidak ada data pengajuan yang sesuai dengan filter</p></div>';
-                document.getElementById('pagination').innerHTML = '';
-                return;
-            }
-            
-            let html = '<table>';
-            html += '<thead><tr><th>No</th><th>Timestamp</th><th>Desa</th><th>Jenis</th><th>Tahap</th><th>Nilai</th><th>Status</th><th>Aksi</th></tr></thead><tbody>';
-            
-            pageTransactions.forEach((transaction, index) => {
-                const globalIndex = allTransactions.indexOf(transaction);
-                const status = transaction.ACTION || 'Sedang Diproses';
-                let statusClass = 'badge-warning';
-                if (transaction.ACTION === 'DISETUJUI') statusClass = 'badge-success';
-                else if (transaction.ACTION === 'DITOLAK') statusClass = 'badge-danger';
-                
-                html += `
-                    <tr>
-                        <td>${startIndex + index + 1}</td>
-                        <td>${transaction.Timestamp || '-'}</td>
-                        <td>${transaction['NAMA DESA'] || '-'}</td>
-                        <td>${transaction['JENIS PENCAIRAN'] || '-'}</td>
-                        <td>${transaction['TAHAP PENCAIRAN'] || '-'}</td>
-                        <td>${formatCurrency(transaction.NILAI_NUM)}</td>
-                        <td><span class="badge ${statusClass}">${status}</span></td>
-                        <td><button class="view-detail-btn" onclick="showDetail(${globalIndex})">Detail</button></td>
-                    </tr>
-                `;
+            const start = (currentPage - 1) * itemsPerPage;
+            const pageData = filteredTransactions.slice(start, start + itemsPerPage);
+            let html = '<table><thead><tr><th>No</th><th>Timestamp</th><th>Desa</th><th>Jenis</th><th>Tahap</th><th>Nilai</th><th>Status</th><th>Aksi</th></tr></thead><tbody>';
+            pageData.forEach((t,i) => {
+                const status = t.ACTION || 'Diproses';
+                let badge = 'badge-warning';
+                if (t.ACTION === 'DISETUJUI') badge = 'badge-success';
+                else if (t.ACTION === 'DITOLAK') badge = 'badge-danger';
+                html += `<tr>
+                    <td>${start + i + 1}</td>
+                    <td>${t.Timestamp || '-'}</td>
+                    <td>${t['NAMA DESA'] || '-'}</td>
+                    <td>${t['JENIS PENCAIRAN'] || '-'}</td>
+                    <td>${t['TAHAP PENCAIRAN'] || '-'}</td>
+                    <td>${formatCurrency(t.NILAI_NUM)}</td>
+                    <td><span class="badge ${badge}">${status}</span></td>
+                    <td><button class="view-detail-btn" onclick="showDetail(${allTransactions.indexOf(t)})"><i class="bi bi-info-circle"></i> Detail</button></td>
+                </tr>`;
             });
-            
             html += '</tbody></table>';
             document.getElementById('allTransactions').innerHTML = html;
-            
             generatePagination();
         }
 
-        // Generate pagination controls
         function generatePagination() {
             const totalPages = Math.ceil(filteredTransactions.length / itemsPerPage);
-            let html = '';
-            
-            if (totalPages > 1) {
-                html += '<button class="page-btn" onclick="changePage(1)" ' + (currentPage === 1 ? 'disabled' : '') + '>«</button>';
-                html += '<button class="page-btn" onclick="changePage(' + (currentPage - 1) + ')" ' + (currentPage === 1 ? 'disabled' : '') + '>‹</button>';
-                
-                for (let i = 1; i <= totalPages; i++) {
-                    if (i === 1 || i === totalPages || (i >= currentPage - 2 && i <= currentPage + 2)) {
-                        html += `<button class="page-btn ${i === currentPage ? 'active' : ''}" onclick="changePage(${i})">${i}</button>`;
-                    }
-                }
-                
-                html += '<button class="page-btn" onclick="changePage(' + (currentPage + 1) + ')" ' + (currentPage === totalPages ? 'disabled' : '') + '>›</button>';
-                html += '<button class="page-btn" onclick="changePage(' + totalPages + ')" ' + (currentPage === totalPages ? 'disabled' : '') + '>»</button>';
+            let btns = '';
+            for (let i = 1; i <= totalPages; i++) {
+                btns += `<button class="page-btn ${i === currentPage ? 'active' : ''}" onclick="changePage(${i})">${i}</button>`;
             }
-            
-            document.getElementById('pagination').innerHTML = html;
+            document.getElementById('pagination').innerHTML = btns;
         }
 
-        // Change page
         function changePage(page) {
             currentPage = page;
             displayAllTransactions();
         }
 
-        // Apply filters
-        function applyFilters() {
-            const searchTerm = document.getElementById('searchInput').value.toLowerCase();
-            const desaFilter = document.getElementById('desaFilter').value;
-            
-            filteredTransactions = allTransactions.filter(transaction => {
-                const matchesSearch = !searchTerm || 
-                    (transaction['NAMA DESA'] && transaction['NAMA DESA'].toLowerCase().includes(searchTerm)) ||
-                    (transaction['JENIS PENCAIRAN'] && transaction['JENIS PENCAIRAN'].toLowerCase().includes(searchTerm));
-                
-                const matchesDesa = !desaFilter || 
-                    (transaction['NAMA DESA'] && transaction['NAMA DESA'] === desaFilter);
-                
-                return matchesSearch && matchesDesa;
-            });
-            
-            currentPage = 1;
-            displayAllTransactions();
-        }
-
-        // Reset filters
-        function resetFilters() {
-            document.getElementById('searchInput').value = '';
-            document.getElementById('desaFilter').value = '';
-            filteredTransactions = [...allTransactions];
-            currentPage = 1;
-            displayAllTransactions();
-        }
-
-        // Populate desa filter dropdown
-        function populateDesaFilter() {
-            const desaFilter = document.getElementById('desaFilter');
-            const desas = [...new Set(allTransactions.map(t => t['NAMA DESA']).filter(d => d))].sort();
-            
-            while (desaFilter.options.length > 1) {
-                desaFilter.remove(1);
-            }
-            
-            desas.forEach(desa => {
-                const option = document.createElement('option');
-                option.value = desa;
-                option.textContent = desa;
-                desaFilter.appendChild(option);
-            });
-        }
-
-        // MODERN SHOW TRANSACTION DETAIL
-        function showDetail(index) {
-            const transaction = allTransactions[index];
-            
-            let html = `
-                <div class="modal-grid">
-                    <div class="modal-section">
-                        <div class="modal-section-header">
-                            <i class="bi bi-building"></i>
-                            <h4>Informasi Desa</h4>
-                        </div>
-                        <div class="modal-section-content">
-                            <div class="detail-group">
-                                <div class="detail-label">Nama Desa</div>
-                                <div class="detail-value">${transaction['NAMA DESA'] || '-'}</div>
-                            </div>
-                            <div class="detail-group">
-                                <div class="detail-label">Jenis Pencairan</div>
-                                <div class="detail-value">${transaction['JENIS PENCAIRAN'] || '-'}</div>
-                            </div>
-                            <div class="detail-group">
-                                <div class="detail-label">Tahap Pencairan</div>
-                                <div class="detail-value">${transaction['TAHAP PENCAIRAN'] || '-'}</div>
-                            </div>
-                        </div>
-                    </div>
-                    
-                    <div class="modal-section">
-                        <div class="modal-section-header">
-                            <i class="bi bi-cash-stack"></i>
-                            <h4>Informasi Keuangan</h4>
-                        </div>
-                        <div class="modal-section-content">
-                            <div class="detail-group">
-                                <div class="detail-label">Nilai Pencairan</div>
-                                <div class="detail-value amount">${formatCurrency(transaction.NILAI_NUM)}</div>
-                            </div>
-                            <div class="detail-group">
-                                <div class="detail-label">Status</div>
-                                <div class="detail-value ${transaction.ACTION === 'DISETUJUI' ? 'status-success' : (transaction.ACTION === 'DITOLAK' ? 'status-danger' : 'status-warning')}">${transaction.ACTION || 'Sedang Diproses'}</div>
-                            </div>
-                        </div>
-                    </div>
-                    
-                    <div class="modal-section" style="grid-column: span 2;">
-                        <div class="modal-section-header">
-                            <i class="bi bi-chat-dots"></i>
-                            <h4>Catatan & Keterangan</h4>
-                        </div>
-                        <div class="modal-section-content">
-                            <div class="detail-group">
-                                <div class="detail-label">Catatan</div>
-                                <div class="detail-value">${transaction['CATATAN JIKA ADA'] || '-'}</div>
-                            </div>
-                            <div class="detail-group">
-                                <div class="detail-label">Keterangan Tambahan</div>
-                                <div class="detail-value">${transaction.KETERANGAN || '-'}</div>
-                            </div>
-                        </div>
-                    </div>
-                    
-                    <div class="modal-section" style="grid-column: span 2;">
-                        <div class="modal-section-header">
-                            <i class="bi bi-file-earmark-pdf"></i>
-                            <h4>Dokumen Pendukung</h4>
-                        </div>
-                        <div class="modal-section-content">
-                            <div class="detail-group">
-                                <div class="detail-label">Link Dokumen</div>
-                                <div class="detail-value">
-                                    ${transaction['DOKUEMEN PENDUKUNG (PDF)'] ? 
-                                        `<a href="${transaction['DOKUEMEN PENDUKUNG (PDF)']}" target="_blank" class="btn btn-primary" style="display: inline-block; padding: 10px 20px; text-decoration: none;">Lihat Dokumen</a>` : 
-                                        'Tidak ada dokumen pendukung'}
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            `;
-            
-            document.getElementById('modalBody').innerHTML = html;
-            document.getElementById('transactionId').textContent = `ID Pengajuan: ${transaction.Timestamp || 'N/A'}`;
-            document.getElementById('detailModal').style.display = 'flex';
-        }
-
-        // Close modal
-        function closeModal() {
-            document.getElementById('detailModal').style.display = 'none';
-        }
-
-        // Update dashboard statistics
+        // ================== STATISTIK ==================
         function updateDashboardStats() {
-            const stats = calculateStatistics();
-            let html = '';
-            
-            html += `
-                <div class="stat-card">
-                    <div class="stat-icon">⏳</div>
-                    <div class="stat-title">Sedang Diproses</div>
-                    <div class="stat-value">${stats.diproses}</div>
-                    <div class="stat-subvalue">Nilai: ${formatCurrency(stats.nilaiDiproses)}</div>
-                </div>
-                <div class="stat-card">
-                    <div class="stat-icon">✅</div>
-                    <div class="stat-title">Disetujui</div>
-                    <div class="stat-value">${stats.disetujui}</div>
-                    <div class="stat-subvalue">Nilai: ${formatCurrency(stats.nilaiDisetujui)}</div>
-                </div>
-                <div class="stat-card">
-                    <div class="stat-icon">❌</div>
-                    <div class="stat-title">Ditolak</div>
-                    <div class="stat-value">${stats.ditolak}</div>
-                    <div class="stat-subvalue">Nilai: ${formatCurrency(stats.nilaiDitolak)}</div>
-                </div>
-                <div class="stat-card">
-                    <div class="stat-icon">🏆</div>
-                    <div class="stat-title">Desa Teraktif</div>
-                    <div class="stat-value">${stats.desaTeraktif}</div>
-                    <div class="stat-subvalue">${stats.jumlahPengajuanTerbanyak} pengajuan</div>
-                </div>
-            `;
-            
-            document.getElementById('statsGrid').innerHTML = html;
-        }
-
-        // Calculate statistics
-        function calculateStatistics() {
             let diproses = 0, disetujui = 0, ditolak = 0;
             let nilaiDiproses = 0, nilaiDisetujui = 0, nilaiDitolak = 0;
-            const desaCount = {};
-            
+            let desaCount = {};
             allTransactions.forEach(t => {
-                const desa = t['NAMA DESA'] || 'Unknown';
-                desaCount[desa] = (desaCount[desa] || 0) + 1;
-                
-                if (t.ACTION === 'DISETUJUI') {
-                    disetujui++;
-                    nilaiDisetujui += t.NILAI_NUM;
-                } else if (t.ACTION === 'DITOLAK') {
-                    ditolak++;
-                    nilaiDitolak += t.NILAI_NUM;
-                } else {
-                    diproses++;
-                    nilaiDiproses += t.NILAI_NUM;
-                }
+                const d = t['NAMA DESA'] || 'Unknown';
+                desaCount[d] = (desaCount[d] || 0) + 1;
+                if (t.ACTION === 'DISETUJUI') { disetujui++; nilaiDisetujui += t.NILAI_NUM; }
+                else if (t.ACTION === 'DITOLAK') { ditolak++; nilaiDitolak += t.NILAI_NUM; }
+                else { diproses++; nilaiDiproses += t.NILAI_NUM; }
             });
-            
-            let desaTeraktif = '-';
-            let maxCount = 0;
-            for (const [desa, count] of Object.entries(desaCount)) {
-                if (count > maxCount) {
-                    maxCount = count;
-                    desaTeraktif = desa;
-                }
-            }
-            
-            return {
-                diproses, disetujui, ditolak,
-                nilaiDiproses, nilaiDisetujui, nilaiDitolak,
-                desaTeraktif,
-                jumlahPengajuanTerbanyak: maxCount
-            };
+            const teraktif = Object.entries(desaCount).sort((a,b) => b[1] - a[1])[0] || ['-',0];
+            const statsHtml = `
+                <div class="stat-card"><div class="stat-icon">⏳</div><div class="stat-title">Diproses</div><div class="stat-value">${diproses}</div><div class="stat-subvalue">${formatCurrency(nilaiDiproses)}</div></div>
+                <div class="stat-card"><div class="stat-icon">✅</div><div class="stat-title">Disetujui</div><div class="stat-value">${disetujui}</div><div class="stat-subvalue">${formatCurrency(nilaiDisetujui)}</div></div>
+                <div class="stat-card"><div class="stat-icon">❌</div><div class="stat-title">Ditolak</div><div class="stat-value">${ditolak}</div><div class="stat-subvalue">${formatCurrency(nilaiDitolak)}</div></div>
+                <div class="stat-card"><div class="stat-icon">🏆</div><div class="stat-title">Desa Teraktif</div><div class="stat-value">${teraktif[0]}</div><div class="stat-subvalue">${teraktif[1]} pengajuan</div></div>
+            `;
+            document.getElementById('statsGrid').innerHTML = statsHtml;
         }
 
-        // Display rekap data (hanya yang disetujui) per desa dan jenis
+        function formatCurrency(amt) {
+            return new Intl.NumberFormat('id-ID').format(amt || 0);
+        }
+
+        // ================== REKAP ==================
         function displayRekap() {
-            const rekap = calculateRekap();
-            
-            let rekapHtml = '<table><thead><tr><th>No</th><th>Desa</th><th>Jenis Pencairan</th><th>Jumlah Disetujui</th><th>Total Nilai</th></tr></thead><tbody>';
-            
-            rekap.forEach((item, index) => {
-                rekapHtml += `
-                    <tr>
-                        <td>${index + 1}</td>
-                        <td>${item.desa}</td>
-                        <td>${item.jenis}</td>
-                        <td>${item.count}</td>
-                        <td>${formatCurrency(item.total)}</td>
-                    </tr>
-                `;
-            });
-            
-            rekapHtml += '</tbody></table>';
-            document.getElementById('rekapTable').innerHTML = rekapHtml;
-        }
-
-        // Calculate rekap per desa dan jenis (hanya disetujui)
-        function calculateRekap() {
             const map = {};
-            
             allTransactions.forEach(t => {
                 if (t.ACTION === 'DISETUJUI') {
-                    const desa = t['NAMA DESA'] || 'Unknown';
-                    const jenis = t['JENIS PENCAIRAN'] || 'Unknown';
-                    const key = desa + '|' + jenis;
-                    if (!map[key]) {
-                        map[key] = { desa, jenis, count: 0, total: 0 };
-                    }
+                    const key = (t['NAMA DESA'] || 'Unknown') + '|' + (t['JENIS PENCAIRAN'] || 'Unknown');
+                    if (!map[key]) map[key] = { desa: t['NAMA DESA'] || 'Unknown', jenis: t['JENIS PENCAIRAN'] || 'Unknown', count: 0, total: 0 };
                     map[key].count++;
                     map[key].total += t.NILAI_NUM;
                 }
             });
-            
-            return Object.values(map).sort((a, b) => a.desa.localeCompare(b.desa) || a.jenis.localeCompare(b.jenis));
+            const rekap = Object.values(map);
+            let html = '<table><thead><tr><th>No</th><th>Desa</th><th>Jenis</th><th>Jumlah</th><th>Total</th></tr></thead><tbody>';
+            rekap.forEach((r,i) => {
+                html += `<tr><td>${i+1}</td><td>${r.desa}</td><td>${r.jenis}</td><td>${r.count}</td><td>${formatCurrency(r.total)}</td></tr>`;
+            });
+            html += '</tbody></table>';
+            document.getElementById('rekapTable').innerHTML = html || '<p>Tidak ada data disetujui</p>';
         }
 
-        // Display charts
+        // ================== GRAFIK (modern) ==================
         function displayCharts() {
-            const rekap = calculateRekap();
-            
-            // Chart 1: Top 10 Desa by total nilai (disetujui)
-            const top10 = Object.values(
-                allTransactions.filter(t => t.ACTION === 'DISETUJUI').reduce((acc, t) => {
+            if (chartTop10) chartTop10.destroy();
+            if (chartStatus) chartStatus.destroy();
+            if (chartTrend) chartTrend.destroy();
+
+            // Top 10 desa
+            const desaTotal = {};
+            allTransactions.forEach(t => {
+                if (t.ACTION === 'DISETUJUI') {
                     const desa = t['NAMA DESA'] || 'Unknown';
-                    if (!acc[desa]) acc[desa] = 0;
-                    acc[desa] += t.NILAI_NUM;
-                    return acc;
-                }, {})
-            ).map((total, i, arr) => ({ desa: Object.keys(allTransactions.filter(t => t.ACTION === 'DISETUJUI').reduce((acc, t) => { acc[t['NAMA DESA']] = true; return acc; }, {}))[i], total }))
-            .sort((a, b) => b.total - a.total)
-            .slice(0, 10);
-            
-            const ctx1 = document.getElementById('chartTop10');
-            if (window.top10Chart) window.top10Chart.destroy();
-            
-            if (top10.length > 0) {
-                window.top10Chart = new Chart(ctx1, {
-                    type: 'bar',
-                    data: {
-                        labels: top10.map(item => item.desa.substring(0, 15) + (item.desa.length > 15 ? '...' : '')),
-                        datasets: [{
-                            label: 'Total Pencairan',
-                            data: top10.map(item => item.total),
-                            backgroundColor: 'rgba(30, 74, 45, 0.7)',
-                            borderColor: 'rgba(30, 74, 45, 1)',
-                            borderWidth: 1
-                        }]
-                    },
-                    options: {
-                        responsive: true,
-                        scales: {
-                            y: {
-                                beginAtZero: true,
-                                ticks: {
-                                    callback: function(value) {
-                                        if (value >= 1000000) return (value / 1000000).toFixed(1) + 'M';
-                                        if (value >= 1000) return (value / 1000).toFixed(0) + 'K';
-                                        return value;
-                                    }
-                                }
-                            }
-                        },
-                        plugins: {
-                            tooltip: {
-                                callbacks: {
-                                    label: function(context) {
-                                        return formatCurrency(context.raw);
-                                    }
-                                }
-                            }
-                        }
-                    }
-                });
-            } else {
-                ctx1.parentElement.innerHTML = '<p>Tidak ada data untuk ditampilkan</p>';
-            }
-            
-            // Chart 2: Status Pie
-            const stats = calculateStatistics();
-            const ctx2 = document.getElementById('chartStatus');
-            if (window.statusChart) window.statusChart.destroy();
-            
-            window.statusChart = new Chart(ctx2, {
-                type: 'pie',
+                    desaTotal[desa] = (desaTotal[desa] || 0) + t.NILAI_NUM;
+                }
+            });
+            const sorted = Object.entries(desaTotal).sort((a,b) => b[1] - a[1]).slice(0,10);
+            const ctx1 = document.getElementById('chartTop10').getContext('2d');
+            chartTop10 = new Chart(ctx1, {
+                type: 'bar',
                 data: {
-                    labels: ['Disetujui', 'Ditolak', 'Diproses'],
+                    labels: sorted.map(item => item[0].substring(0,15)),
                     datasets: [{
-                        data: [stats.disetujui, stats.ditolak, stats.diproses],
-                        backgroundColor: [
-                            'rgba(40, 167, 69, 0.7)',
-                            'rgba(220, 53, 69, 0.7)',
-                            'rgba(255, 193, 7, 0.7)'
-                        ]
+                        label: 'Total Pencairan (Rp)',
+                        data: sorted.map(item => item[1]),
+                        backgroundColor: 'rgba(30, 58, 95, 0.7)',
+                        borderRadius: 8,
+                        barPercentage: 0.6
                     }]
                 },
                 options: {
                     responsive: true,
                     plugins: {
-                        tooltip: {
-                            callbacks: {
-                                label: function(context) {
-                                    return `${context.label}: ${context.raw}`;
-                                }
-                            }
-                        }
-                    }
-                }
-            });
-            
-            // Chart 3: Monthly Trend (hanya disetujui)
-            const monthlyData = {};
-            allTransactions.forEach(t => {
-                if (t.ACTION === 'DISETUJUI') {
-                    const date = parseSimpleDate(t.Timestamp);
-                    if (!isNaN(date.getTime())) {
-                        const monthKey = `${date.getFullYear()}-${(date.getMonth()+1).toString().padStart(2,'0')}`;
-                        const monthName = date.toLocaleDateString('id-ID', { month: 'short', year: 'numeric' });
-                        if (!monthlyData[monthKey]) {
-                            monthlyData[monthKey] = { month: monthName, total: 0 };
-                        }
-                        monthlyData[monthKey].total += t.NILAI_NUM;
-                    }
-                }
-            });
-            const monthlyArray = Object.values(monthlyData).sort((a,b) => {
-                const [aM, aY] = a.month.split(' ');
-                const [bM, bY] = b.month.split(' ');
-                return new Date(aY, getMonthNumber(aM)) - new Date(bY, getMonthNumber(bM));
-            });
-            
-            const ctx3 = document.getElementById('chartTrend');
-            if (window.trendChart) window.trendChart.destroy();
-            
-            if (monthlyArray.length > 0) {
-                window.trendChart = new Chart(ctx3, {
-                    type: 'line',
-                    data: {
-                        labels: monthlyArray.map(item => item.month),
-                        datasets: [{
-                            label: 'Total Pencairan Disetujui',
-                            data: monthlyArray.map(item => item.total),
-                            borderColor: 'rgba(30, 74, 45, 1)',
-                            backgroundColor: 'rgba(30, 74, 45, 0.1)',
-                            fill: true,
-                            tension: 0.4
-                        }]
+                        legend: { display: false }
                     },
-                    options: {
-                        responsive: true,
-                        scales: {
-                            y: {
-                                beginAtZero: true,
-                                ticks: {
-                                    callback: function(value) {
-                                        if (value >= 1000000) return (value / 1000000).toFixed(1) + 'M';
-                                        if (value >= 1000) return (value / 1000).toFixed(0) + 'K';
-                                        return value;
-                                    }
-                                }
-                            }
-                        },
-                        plugins: {
-                            tooltip: {
-                                callbacks: {
-                                    label: function(context) {
-                                        return formatCurrency(context.raw);
-                                    }
-                                }
-                            }
+                    scales: {
+                        y: {
+                            ticks: { callback: v => formatCurrency(v) },
+                            grid: { color: '#eef2f6' }
                         }
                     }
-                });
-            } else {
-                ctx3.parentElement.innerHTML = '<p>Tidak ada data trend bulanan</p>';
-            }
-        }
-
-        function getMonthNumber(monthName) {
-            const months = {
-                'Jan':0,'Feb':1,'Mar':2,'Apr':3,'Mei':4,'Jun':5,
-                'Jul':6,'Agu':7,'Sep':8,'Okt':9,'Nov':10,'Des':11
-            };
-            return months[monthName] || 0;
-        }
-
-        // Export data to Excel (semua data)
-        function exportDataToExcel() {
-            if (filteredTransactions.length === 0) {
-                alert('Tidak ada data untuk diexport');
-                return;
-            }
-            
-            const exportData = filteredTransactions.map((transaction, index) => {
-                return {
-                    'No': index + 1,
-                    'Timestamp': transaction.Timestamp || '',
-                    'Desa': transaction['NAMA DESA'] || '',
-                    'Jenis Pencairan': transaction['JENIS PENCAIRAN'] || '',
-                    'Tahap': transaction['TAHAP PENCAIRAN'] || '',
-                    'Nilai': transaction.NILAI_NUM || 0,
-                    'Catatan': transaction['CATATAN JIKA ADA'] || '',
-                    'Dokumen': transaction['DOKUEMEN PENDUKUNG (PDF)'] || '',
-                    'Action': transaction.ACTION || '',
-                    'Keterangan': transaction.KETERANGAN || ''
-                };
+                }
             });
-            
-            const ws = XLSX.utils.json_to_sheet(exportData);
+
+            // Status pie
+            const stats = [0,0,0];
+            allTransactions.forEach(t => {
+                if (t.ACTION === 'DISETUJUI') stats[0]++;
+                else if (t.ACTION === 'DITOLAK') stats[1]++;
+                else stats[2]++;
+            });
+            const ctx2 = document.getElementById('chartStatus').getContext('2d');
+            chartStatus = new Chart(ctx2, {
+                type: 'doughnut',
+                data: {
+                    labels: ['Disetujui', 'Ditolak', 'Diproses'],
+                    datasets: [{
+                        data: stats,
+                        backgroundColor: ['#0b5e42', '#b34033', '#946800'],
+                        borderWidth: 0
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    plugins: {
+                        legend: { position: 'bottom' }
+                    },
+                    cutout: '70%'
+                }
+            });
+
+            // Tren bulanan
+            const bulanMap = {};
+            allTransactions.forEach(t => {
+                if (t.ACTION === 'DISETUJUI' && t.Timestamp) {
+                    const parts = t.Timestamp.split(/[\/\s:]/);
+                    if (parts.length >= 3) {
+                        const bulan = parts[0] + '/' + parts[2];
+                        bulanMap[bulan] = (bulanMap[bulan] || 0) + t.NILAI_NUM;
+                    }
+                }
+            });
+            const sortedBulan = Object.entries(bulanMap).sort((a,b) => a[0].localeCompare(b[0]));
+            const ctx3 = document.getElementById('chartTrend').getContext('2d');
+            chartTrend = new Chart(ctx3, {
+                type: 'line',
+                data: {
+                    labels: sortedBulan.map(b => b[0]),
+                    datasets: [{
+                        label: 'Total Disetujui',
+                        data: sortedBulan.map(b => b[1]),
+                        borderColor: '#1e3a5f',
+                        backgroundColor: 'rgba(30, 58, 95, 0.05)',
+                        tension: 0.3,
+                        fill: true,
+                        pointBackgroundColor: '#1e3a5f'
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    scales: {
+                        y: {
+                            ticks: { callback: v => formatCurrency(v) },
+                            grid: { color: '#eef2f6' }
+                        }
+                    }
+                }
+            });
+        }
+
+        // ================== DETAIL MODAL dengan tombol PDF modern ==================
+        function showDetail(index) {
+            const t = allTransactions[index];
+            const pdfLink = t['DOKUEMEN PENDUKUNG (PDF)'] ? 
+                `<a href="${t['DOKUEMEN PENDUKUNG (PDF)']}" target="_blank" class="btn-pdf"><i class="bi bi-file-earmark-pdf"></i> Lihat PDF</a>` : 
+                '<span class="detail-value">-</span>';
+            const html = `
+                <div class="detail-grid">
+                    <div class="detail-item"><div class="detail-label">Desa</div><div class="detail-value">${t['NAMA DESA'] || '-'}</div></div>
+                    <div class="detail-item"><div class="detail-label">Jenis</div><div class="detail-value">${t['JENIS PENCAIRAN'] || '-'}</div></div>
+                    <div class="detail-item"><div class="detail-label">Tahap</div><div class="detail-value">${t['TAHAP PENCAIRAN'] || '-'}</div></div>
+                    <div class="detail-item"><div class="detail-label">Nilai</div><div class="detail-value">${formatCurrency(t.NILAI_NUM)}</div></div>
+                    <div class="detail-item"><div class="detail-label">Status</div><div class="detail-value">${t.ACTION || 'Diproses'}</div></div>
+                    <div class="detail-item"><div class="detail-label">Catatan</div><div class="detail-value">${t['CATATAN JIKA ADA'] || '-'}</div></div>
+                    <div class="detail-item" style="grid-column:span 2"><div class="detail-label">Dokumen</div><div class="detail-value">${pdfLink}</div></div>
+                </div>
+            `;
+            document.getElementById('modalBody').innerHTML = html;
+            document.getElementById('transactionId').innerText = `ID: ${t.Timestamp || '-'}`;
+            document.getElementById('detailModal').style.display = 'flex';
+        }
+
+        function closeModal() {
+            document.getElementById('detailModal').style.display = 'none';
+        }
+
+        // ================== EXPORT EXCEL ==================
+        function exportDataToExcel() {
+            const data = filteredTransactions.map((t,i) => ({
+                No: i+1,
+                Timestamp: t.Timestamp,
+                Desa: t['NAMA DESA'],
+                Jenis: t['JENIS PENCAIRAN'],
+                Tahap: t['TAHAP PENCAIRAN'],
+                Nilai: t.NILAI_NUM,
+                Status: t.ACTION || 'Diproses',
+                Catatan: t['CATATAN JIKA ADA']
+            }));
+            const ws = XLSX.utils.json_to_sheet(data);
             const wb = XLSX.utils.book_new();
             XLSX.utils.book_append_sheet(wb, ws, 'Data Pengajuan');
-            
-            const fileName = `Data_Pengajuan_Desa_${new Date().toISOString().slice(0, 10)}.xlsx`;
-            XLSX.writeFile(wb, fileName);
+            XLSX.writeFile(wb, `Data_Pencairan_${new Date().toISOString().slice(0,10)}.xlsx`);
         }
 
-        // Export rekap to Excel
         function exportRekapToExcel() {
-            const rekap = calculateRekap();
-            
-            const wsData = [
-                ['REKAP PENCAIRAN PER DESA DAN JENIS (DISETUJUI)'],
-                ['No', 'Desa', 'Jenis Pencairan', 'Jumlah Disetujui', 'Total Nilai']
-            ];
-            
-            rekap.forEach((item, index) => {
-                wsData.push([index + 1, item.desa, item.jenis, item.count, item.total]);
+            const map = {};
+            allTransactions.forEach(t => {
+                if (t.ACTION === 'DISETUJUI') {
+                    const key = (t['NAMA DESA'] || 'Unknown') + '|' + (t['JENIS PENCAIRAN'] || 'Unknown');
+                    if (!map[key]) map[key] = { desa: t['NAMA DESA'] || 'Unknown', jenis: t['JENIS PENCAIRAN'] || 'Unknown', count: 0, total: 0 };
+                    map[key].count++;
+                    map[key].total += t.NILAI_NUM;
+                }
             });
-            
-            const ws = XLSX.utils.aoa_to_sheet(wsData);
+            const rekap = Object.values(map).map((r,i) => ({ No: i+1, Desa: r.desa, Jenis: r.jenis, Jumlah: r.count, Total: r.total }));
+            const ws = XLSX.utils.json_to_sheet(rekap);
             const wb = XLSX.utils.book_new();
-            XLSX.utils.book_append_sheet(wb, ws, 'Rekap Desa');
-            
-            const fileName = `Rekap_Pencairan_Desa_${new Date().toISOString().slice(0, 10)}.xlsx`;
-            XLSX.writeFile(wb, fileName);
+            XLSX.utils.book_append_sheet(wb, ws, 'Rekap');
+            XLSX.writeFile(wb, `Rekap_Desa_${new Date().toISOString().slice(0,10)}.xlsx`);
         }
 
-        // Function untuk modal request
-        function showRequestForm() {
-            document.getElementById('requestModal').style.display = 'flex';
-            document.getElementById('requestForm').reset();
-        }
-
-        function closeRequestModal() {
-            document.getElementById('requestModal').style.display = 'none';
-        }
-
-        function sendWhatsAppRequest(event) {
-            event.preventDefault();
-            
-            const nama = document.getElementById('requestNama').value.trim();
-            const desa = document.getElementById('requestDesa').value.trim();
-            const jabatan = document.getElementById('requestJabatan').value.trim();
-            const hp = document.getElementById('requestHP').value.trim();
-            
-            if (!nama || !jabatan) {
-                alert('Mohon lengkapi nama dan jabatan!');
-                return;
-            }
-            
-            let pesan = `Assalamualaikum wr wb\n\n`;
-            pesan += `Saya *${nama}*\n`;
-            if (desa) pesan += `Desa: *${desa}*\n`;
-            pesan += `Jabatan: *${jabatan}*\n`;
-            if (hp) pesan += `No. HP: *${hp}*\n`;
-            pesan += `\nMohon untuk diberikan kode akses Sistem Pencairan Desa.`;
-            
-            const pesanEncoded = encodeURIComponent(pesan);
-            const nomorWA = '085756047187';
-            const waURL = `https://wa.me/${nomorWA}?text=${pesanEncoded}`;
-            
-            window.open(waURL, '_blank');
-            
-            alert('WhatsApp akan terbuka. Silakan tekan SEND untuk mengirim permintaan Anda.\n\nAdmin akan membalas kode akses via WhatsApp.');
-            closeRequestModal();
-        }
-
-        // Tab navigation
-        function showTab(tabName) {
-            document.querySelectorAll('.nav-btn').forEach(btn => {
-                btn.classList.remove('active');
-            });
+        // ================== TAB ==================
+        function showTab(tab) {
+            document.querySelectorAll('.nav-btn').forEach(b => b.classList.remove('active'));
             event.target.classList.add('active');
-            
-            document.querySelectorAll('.tab-content').forEach(tab => {
-                tab.classList.remove('active');
-            });
-            document.getElementById(tabName + 'Tab').classList.add('active');
-            
-            if (tabName === 'rekap') {
-                displayRekap();
-            } else if (tabName === 'grafik') {
-                displayCharts();
-            }
+            document.querySelectorAll('.tab-content').forEach(t => t.classList.remove('active'));
+            document.getElementById(tab + 'Tab').classList.add('active');
+            if (tab === 'rekap') displayRekap();
+            if (tab === 'grafik') displayCharts();
         }
 
-        // Logout function
+        // ================== LOGOUT ==================
         function logout() {
             localStorage.removeItem('pencairanDesaUser');
             localStorage.removeItem('pencairanDesaLoginTime');
             document.getElementById('dashboardScreen').style.display = 'none';
             document.getElementById('loginScreen').style.display = 'block';
-            
-            document.getElementById('loginForm').reset();
-            document.getElementById('errorMessage').style.display = 'none';
         }
 
-        // Close modal when clicking outside
-        window.onclick = function(event) {
-            const modal = document.getElementById('detailModal');
-            const requestModal = document.getElementById('requestModal');
-            
-            if (event.target === modal) {
-                closeModal();
+        // ================== INIT jika sudah login ==================
+        (function() {
+            const savedUser = localStorage.getItem('pencairanDesaUser');
+            if (savedUser) {
+                const user = JSON.parse(savedUser);
+                showDashboard(user);
+                document.getElementById('lastAccessDisplay').innerText = localStorage.getItem('pencairanDesaLoginTime') || '-';
+                loadDataFromGoogleSheets();
             }
-            if (event.target === requestModal) {
-                closeRequestModal();
-            }
+        })();
+
+        window.onclick = function(e) {
+            if (e.target.classList.contains('modal')) closeModal();
         };
     </script>
 </body>
