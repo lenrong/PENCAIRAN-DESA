@@ -1,0 +1,2445 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SISTEM PENCAIRAN DESA - Kabupaten Mamuju</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.0/font/bootstrap-icons.css">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js"></script>
+    <style>
+        /* MODERN DESIGN - TEMA HIJAU ELEGAN */
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+        
+        body {
+            font-family: 'Inter', 'Segoe UI', system-ui, -apple-system, sans-serif;
+            background: linear-gradient(135deg, #e8f5e9 0%, #c8e6c9 100%);
+            color: #1e3a2f;
+            line-height: 1.6;
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+        }
+        
+        .login-container {
+            max-width: 500px;
+            width: 100%;
+            background-color: white;
+            border-radius: 20px;
+            box-shadow: 0 15px 40px rgba(21, 87, 36, 0.15);
+            overflow: hidden;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            backdrop-filter: blur(10px);
+        }
+        
+        .header {
+            background: linear-gradient(135deg, #1e4a2d 0%, #2e7d5e 100%);
+            color: white;
+            padding: 35px 30px;
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .header::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 100%;
+            background: radial-gradient(circle at 30% 20%, rgba(255,255,255,0.1) 0%, transparent 50%);
+        }
+        
+        .header h1 {
+            font-size: 36px;
+            margin-bottom: 12px;
+            font-weight: 700;
+            letter-spacing: -0.5px;
+            position: relative;
+        }
+        
+        .header p {
+            opacity: 0.95;
+            font-size: 16px;
+            font-weight: 300;
+        }
+        
+        .content {
+            padding: 40px;
+        }
+        
+        .system-icon {
+            font-size: 70px;
+            text-align: center;
+            margin-bottom: 25px;
+            color: #1e4a2d;
+            filter: drop-shadow(0 5px 15px rgba(30, 74, 45, 0.1));
+        }
+        
+        .form-group {
+            margin-bottom: 28px;
+            position: relative;
+        }
+        
+        .form-group label {
+            display: block;
+            margin-bottom: 10px;
+            font-weight: 600;
+            color: #2c5e3a;
+            font-size: 15px;
+        }
+        
+        .form-control {
+            width: 100%;
+            padding: 16px 18px;
+            border: 2px solid #c8e6c9;
+            border-radius: 12px;
+            font-size: 16px;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            background: #f1f8f1;
+        }
+        
+        .form-control:focus {
+            border-color: #1e4a2d;
+            outline: none;
+            box-shadow: 0 0 0 4px rgba(30, 74, 45, 0.1);
+            background: white;
+            transform: translateY(-2px);
+        }
+        
+        .btn {
+            width: 100%;
+            padding: 17px;
+            border: none;
+            border-radius: 12px;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            margin-top: 10px;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .btn::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.2), transparent);
+            transition: 0.5s;
+        }
+        
+        .btn:hover::after {
+            left: 100%;
+        }
+        
+        .btn-primary {
+            background: linear-gradient(135deg, #1e4a2d 0%, #2e7d5e 100%);
+            color: white;
+        }
+        
+        .btn-primary:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 15px 25px rgba(30, 74, 45, 0.25);
+        }
+        
+        .btn-secondary {
+            background: linear-gradient(135deg, #4b7b5c 0%, #6b9c7a 100%);
+            color: white;
+            margin-top: 15px;
+        }
+        
+        .btn-secondary:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 10px 20px rgba(75, 123, 92, 0.2);
+        }
+        
+        .btn-whatsapp {
+            background: linear-gradient(135deg, #25D366 0%, #128C7E 100%);
+            color: white;
+            width: auto;
+            padding: 15px 28px;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 12px;
+            border-radius: 12px;
+        }
+        
+        .btn-whatsapp:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 15px 25px rgba(37, 211, 102, 0.25);
+        }
+        
+        .error-message {
+            color: #ef4444;
+            font-size: 14px;
+            margin-top: 8px;
+            display: none;
+            background: #fef2f2;
+            padding: 12px;
+            border-radius: 8px;
+            border-left: 4px solid #ef4444;
+        }
+        
+        .login-info {
+            text-align: center;
+            margin-top: 25px;
+            color: #2c5e3a;
+            font-size: 14px;
+            padding: 15px;
+            background: #e8f5e9;
+            border-radius: 10px;
+        }
+        
+        .request-access {
+            text-align: center;
+            margin: 35px 0 20px 0;
+            padding-top: 25px;
+            border-top: 2px dashed #c8e6c9;
+        }
+        
+        .request-access p {
+            color: #2c5e3a;
+            margin-bottom: 18px;
+            font-size: 15px;
+            font-weight: 500;
+        }
+        
+        .footer {
+            text-align: center;
+            padding: 22px;
+            background: #e8f5e9;
+            color: #2c5e3a;
+            font-size: 14px;
+            border-top: 1px solid #c8e6c9;
+        }
+        
+        /* MODERN DASHBOARD STYLES */
+        .dashboard-container {
+            max-width: 1400px;
+            width: 100%;
+            background-color: white;
+            border-radius: 20px;
+            box-shadow: 0 20px 50px rgba(30, 74, 45, 0.15);
+            overflow: hidden;
+            min-height: 90vh;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+        }
+        
+        .dashboard-header {
+            background: linear-gradient(135deg, #1e4a2d 0%, #2e7d5e 100%);
+            color: white;
+            padding: 25px 35px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .dashboard-header::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 100%;
+            background: radial-gradient(circle at 80% 20%, rgba(255,255,255,0.1) 0%, transparent 50%);
+        }
+        
+        .dashboard-header h1 {
+            font-size: 28px;
+            font-weight: 700;
+            letter-spacing: -0.5px;
+            position: relative;
+        }
+        
+        .dashboard-header p {
+            font-size: 15px;
+            opacity: 0.95;
+            margin-top: 5px;
+        }
+        
+        .user-info {
+            text-align: right;
+            position: relative;
+            background: rgba(255, 255, 255, 0.1);
+            padding: 15px 20px;
+            border-radius: 12px;
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+        }
+        
+        .user-info h3 {
+            font-size: 18px;
+            margin-bottom: 5px;
+            font-weight: 600;
+        }
+        
+        .user-info p {
+            font-size: 14px;
+            opacity: 0.9;
+        }
+        
+        .logout-btn {
+            background: rgba(255, 255, 255, 0.2);
+            color: white;
+            border: 1px solid rgba(255, 255, 255, 0.3);
+            padding: 10px 22px;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 14px;
+            margin-top: 10px;
+            transition: all 0.3s;
+            font-weight: 500;
+        }
+        
+        .logout-btn:hover {
+            background: rgba(255, 255, 255, 0.3);
+            transform: translateY(-2px);
+        }
+        
+        .dashboard-nav {
+            background: #e8f5e9;
+            padding: 18px 35px;
+            border-bottom: 1px solid #c8e6c9;
+            display: flex;
+            gap: 12px;
+            flex-wrap: wrap;
+            backdrop-filter: blur(10px);
+        }
+        
+        .nav-btn {
+            padding: 12px 24px;
+            background: white;
+            border: 2px solid #c8e6c9;
+            border-radius: 10px;
+            color: #1e4a2d;
+            cursor: pointer;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            font-weight: 600;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            font-size: 15px;
+        }
+        
+        .nav-btn:hover {
+            background: #f1f8f1;
+            border-color: #1e4a2d;
+            transform: translateY(-3px);
+            box-shadow: 0 8px 20px rgba(30, 74, 45, 0.1);
+        }
+        
+        .nav-btn.active {
+            background: linear-gradient(135deg, #1e4a2d 0%, #2e7d5e 100%);
+            color: white;
+            border-color: #1e4a2d;
+            box-shadow: 0 8px 20px rgba(30, 74, 45, 0.2);
+        }
+        
+        .dashboard-content {
+            padding: 35px;
+            min-height: 500px;
+        }
+        
+        .tab-content {
+            display: none;
+            animation: fadeIn 0.5s ease;
+        }
+        
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        
+        .tab-content.active {
+            display: block;
+        }
+        
+        /* MODERN HOME TAB */
+        .welcome-message {
+            background: linear-gradient(135deg, #e8f5e9 0%, #c8e6c9 100%);
+            padding: 30px;
+            border-radius: 16px;
+            margin-bottom: 35px;
+            border-left: 6px solid #1e4a2d;
+            box-shadow: 0 10px 25px rgba(30, 74, 45, 0.08);
+        }
+        
+        .welcome-message h2 {
+            color: #1e4a2d;
+            margin-bottom: 12px;
+            font-size: 28px;
+            font-weight: 700;
+        }
+        
+        .welcome-message p {
+            color: #2c5e3a;
+            font-size: 17px;
+        }
+        
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 25px;
+            margin-bottom: 35px;
+        }
+        
+        .stat-card {
+            background: white;
+            border-radius: 16px;
+            padding: 25px;
+            border: 1px solid #c8e6c9;
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.05);
+            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .stat-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 4px;
+            background: linear-gradient(90deg, #1e4a2d, #2e7d5e);
+        }
+        
+        .stat-card:hover {
+            transform: translateY(-8px);
+            box-shadow: 0 15px 35px rgba(30, 74, 45, 0.15);
+        }
+        
+        .stat-icon {
+            font-size: 36px;
+            color: #1e4a2d;
+            margin-bottom: 20px;
+            text-align: center;
+        }
+        
+        .stat-title {
+            font-size: 15px;
+            color: #2c5e3a;
+            margin-bottom: 12px;
+            font-weight: 500;
+        }
+        
+        .stat-value {
+            font-size: 28px;
+            font-weight: 700;
+            color: #1e4a2d;
+        }
+        
+        .stat-subvalue {
+            font-size: 14px;
+            color: #2c5e3a;
+            margin-top: 5px;
+        }
+        
+        .table-container {
+            background: white;
+            border-radius: 16px;
+            padding: 25px;
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.05);
+            overflow-x: auto;
+            border: 1px solid #c8e6c9;
+        }
+        
+        table {
+            width: 100%;
+            border-collapse: separate;
+            border-spacing: 0;
+            margin-top: 20px;
+        }
+        
+        th, td {
+            padding: 16px 20px;
+            text-align: left;
+            border-bottom: 1px solid #c8e6c9;
+        }
+        
+        th {
+            background: #e8f5e9;
+            font-weight: 600;
+            color: #1e4a2d;
+            position: sticky;
+            top: 0;
+            font-size: 15px;
+            border-top: 1px solid #c8e6c9;
+            border-bottom: 2px solid #1e4a2d;
+        }
+        
+        tr:hover {
+            background: #f1f8f1;
+        }
+        
+        .badge {
+            padding: 6px 16px;
+            border-radius: 20px;
+            font-size: 13px;
+            font-weight: 600;
+            display: inline-block;
+        }
+        
+        .badge-success {
+            background: #d4edda;
+            color: #155724;
+            border: 1px solid #c3e6cb;
+        }
+        
+        .badge-warning {
+            background: #fff3cd;
+            color: #856404;
+            border: 1px solid #ffeeba;
+        }
+        
+        .badge-info {
+            background: #d1ecf1;
+            color: #0c5460;
+            border: 1px solid #bee5eb;
+        }
+        
+        .badge-danger {
+            background: #f8d7da;
+            color: #721c24;
+            border: 1px solid #f5c6cb;
+        }
+        
+        .view-detail-btn {
+            padding: 8px 18px;
+            background: linear-gradient(135deg, #e8f5e9 0%, #c8e6c9 100%);
+            border: 2px solid #a5d6a7;
+            border-radius: 8px;
+            color: #1e4a2d;
+            cursor: pointer;
+            transition: all 0.3s;
+            font-size: 14px;
+            font-weight: 600;
+        }
+        
+        .view-detail-btn:hover {
+            background: linear-gradient(135deg, #1e4a2d 0%, #2e7d5e 100%);
+            color: white;
+            border-color: #1e4a2d;
+            transform: translateY(-2px);
+        }
+        
+        /* MODERN MODAL STYLES */
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(15, 23, 42, 0.7);
+            backdrop-filter: blur(8px);
+            z-index: 1000;
+            align-items: center;
+            justify-content: center;
+            animation: modalFadeIn 0.3s ease;
+        }
+        
+        @keyframes modalFadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+        
+        .modal-content {
+            background: white;
+            border-radius: 20px;
+            width: 90%;
+            max-width: 800px;
+            max-height: 85vh;
+            overflow-y: auto;
+            position: relative;
+            box-shadow: 0 25px 50px rgba(0, 0, 0, 0.25);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            animation: modalSlideIn 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+        
+        @keyframes modalSlideIn {
+            from { transform: translateY(30px) scale(0.95); opacity: 0; }
+            to { transform: translateY(0) scale(1); opacity: 1; }
+        }
+        
+        .modal-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 0;
+            padding: 30px 35px 20px;
+            border-bottom: 1px solid #c8e6c9;
+            background: linear-gradient(135deg, #e8f5e9 0%, #d0ebd0 100%);
+            border-radius: 20px 20px 0 0;
+        }
+        
+        .modal-title {
+            font-size: 24px;
+            color: #1e4a2d;
+            font-weight: 700;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+        
+        .modal-title i {
+            font-size: 26px;
+        }
+        
+        .close-modal {
+            background: none;
+            border: none;
+            font-size: 28px;
+            cursor: pointer;
+            color: #2c5e3a;
+            transition: all 0.3s;
+            width: 40px;
+            height: 40px;
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        
+        .close-modal:hover {
+            background: #e8f5e9;
+            color: #1e4a2d;
+            transform: rotate(90deg);
+        }
+        
+        /* MODERN MODAL BODY */
+        .modal-body {
+            padding: 30px 35px;
+        }
+        
+        .modal-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 25px;
+            margin-bottom: 30px;
+        }
+        
+        .modal-section {
+            background: white;
+            border-radius: 16px;
+            padding: 0;
+            border: 1px solid #c8e6c9;
+            overflow: hidden;
+            box-shadow: 0 5px 20px rgba(0, 0, 0, 0.03);
+            transition: transform 0.3s ease;
+        }
+        
+        .modal-section:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.08);
+        }
+        
+        .modal-section-header {
+            background: linear-gradient(135deg, #e8f5e9 0%, #d0ebd0 100%);
+            padding: 20px;
+            border-bottom: 2px solid #c8e6c9;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+        
+        .modal-section-header i {
+            font-size: 22px;
+            color: #1e4a2d;
+        }
+        
+        .modal-section-header h4 {
+            color: #1e4a2d;
+            margin: 0;
+            font-size: 18px;
+            font-weight: 700;
+        }
+        
+        .modal-section-content {
+            padding: 20px;
+        }
+        
+        .detail-group {
+            margin-bottom: 20px;
+        }
+        
+        .detail-group:last-child {
+            margin-bottom: 0;
+        }
+        
+        .detail-label {
+            display: block;
+            font-size: 13px;
+            color: #2c5e3a;
+            margin-bottom: 6px;
+            font-weight: 500;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+        
+        .detail-value {
+            font-size: 16px;
+            color: #1e3a2f;
+            font-weight: 600;
+            padding: 12px 16px;
+            background: #e8f5e9;
+            border-radius: 10px;
+            border: 1px solid #c8e6c9;
+            word-break: break-word;
+        }
+        
+        .detail-value.amount {
+            color: #1e4a2d;
+            font-size: 18px;
+            background: linear-gradient(135deg, #e8f5e9 0%, #c8e6c9 100%);
+            border-color: #a5d6a7;
+        }
+        
+        .detail-value.status-success {
+            background: #d4edda;
+            color: #155724;
+            border-color: #c3e6cb;
+        }
+        
+        .detail-value.status-warning {
+            background: #fff3cd;
+            color: #856404;
+            border-color: #ffeeba;
+        }
+        
+        .detail-value.status-info {
+            background: #d1ecf1;
+            color: #0c5460;
+            border-color: #bee5eb;
+        }
+        
+        .detail-value.status-danger {
+            background: #f8d7da;
+            color: #721c24;
+            border-color: #f5c6cb;
+        }
+        
+        .modal-footer {
+            padding: 20px 35px;
+            border-top: 1px solid #c8e6c9;
+            background: #e8f5e9;
+            border-radius: 0 0 20px 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .transaction-id {
+            color: #2c5e3a;
+            font-size: 14px;
+            font-weight: 500;
+        }
+        
+        .modal-actions {
+            display: flex;
+            gap: 12px;
+        }
+        
+        .modal-btn {
+            padding: 10px 22px;
+            border-radius: 10px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s;
+            border: 2px solid;
+            font-size: 14px;
+        }
+        
+        .modal-btn-print {
+            background: white;
+            color: #1e4a2d;
+            border-color: #a5d6a7;
+        }
+        
+        .modal-btn-print:hover {
+            background: #e8f5e9;
+            border-color: #1e4a2d;
+        }
+        
+        .modal-btn-close {
+            background: linear-gradient(135deg, #1e4a2d 0%, #2e7d5e 100%);
+            color: white;
+            border: none;
+        }
+        
+        .modal-btn-close:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 20px rgba(30, 74, 45, 0.2);
+        }
+        
+        /* Request Modal Styles */
+        .request-modal .modal-content {
+            max-width: 550px;
+        }
+        
+        .request-instruction {
+            background: linear-gradient(135deg, #e8f5e9 0%, #c8e6c9 100%);
+            border-left: 4px solid #1e4a2d;
+            padding: 20px;
+            border-radius: 12px;
+            margin-bottom: 25px;
+        }
+        
+        .request-instruction ol {
+            margin-left: 20px;
+            margin-top: 12px;
+        }
+        
+        .request-instruction li {
+            margin-bottom: 8px;
+            color: #2c5e3a;
+            line-height: 1.6;
+        }
+        
+        /* Chart Styles */
+        .chart-container {
+            background: white;
+            border-radius: 16px;
+            padding: 25px;
+            margin-bottom: 30px;
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.05);
+            border: 1px solid #c8e6c9;
+        }
+        
+        .chart-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(500px, 1fr));
+            gap: 30px;
+            margin-top: 20px;
+        }
+        
+        /* Filter Styles */
+        .filter-section {
+            background: white;
+            border-radius: 16px;
+            padding: 25px;
+            margin-bottom: 25px;
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.05);
+            border: 1px solid #c8e6c9;
+        }
+        
+        .filter-group {
+            display: flex;
+            gap: 15px;
+            flex-wrap: wrap;
+            align-items: center;
+        }
+        
+        .filter-input {
+            padding: 12px 18px;
+            border: 2px solid #c8e6c9;
+            border-radius: 12px;
+            min-width: 220px;
+            font-size: 15px;
+            transition: all 0.3s;
+            background: #e8f5e9;
+        }
+        
+        .filter-input:focus {
+            border-color: #1e4a2d;
+            outline: none;
+            box-shadow: 0 0 0 3px rgba(30, 74, 45, 0.1);
+            background: white;
+        }
+        
+        .filter-btn {
+            padding: 12px 24px;
+            background: linear-gradient(135deg, #1e4a2d 0%, #2e7d5e 100%);
+            color: white;
+            border: none;
+            border-radius: 12px;
+            cursor: pointer;
+            font-weight: 600;
+            transition: all 0.3s;
+        }
+        
+        .filter-btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 10px 25px rgba(30, 74, 45, 0.2);
+        }
+        
+        .pagination {
+            display: flex;
+            justify-content: center;
+            gap: 10px;
+            margin-top: 25px;
+        }
+        
+        .page-btn {
+            padding: 10px 18px;
+            border: 2px solid #c8e6c9;
+            background: white;
+            border-radius: 10px;
+            cursor: pointer;
+            transition: all 0.3s;
+            font-weight: 500;
+        }
+        
+        .page-btn:hover:not(.active):not(:disabled) {
+            border-color: #1e4a2d;
+            transform: translateY(-2px);
+        }
+        
+        .page-btn.active {
+            background: linear-gradient(135deg, #1e4a2d 0%, #2e7d5e 100%);
+            color: white;
+            border-color: #1e4a2d;
+        }
+        
+        .loading {
+            text-align: center;
+            padding: 50px;
+            color: #2c5e3a;
+        }
+        
+        .loading-spinner {
+            display: inline-block;
+            width: 60px;
+            height: 60px;
+            border: 3px solid #c8e6c9;
+            border-top: 3px solid #1e4a2d;
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+            margin-bottom: 20px;
+        }
+        
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+        
+        .access-info {
+            background: linear-gradient(135deg, #e8f5e9 0%, #c8e6c9 100%);
+            border: 1px solid #a5d6a7;
+            padding: 18px;
+            border-radius: 12px;
+            margin-bottom: 25px;
+            font-size: 15px;
+            color: #1e4a2d;
+            border-left: 4px solid #2e7d5e;
+        }
+        
+        .card-btn {
+            width: 100%;
+            padding: 15px;
+            background: linear-gradient(135deg, #e8f5e9 0%, #d0ebd0 100%);
+            border: 2px solid #a5d6a7;
+            border-radius: 12px;
+            color: #1e4a2d;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+            font-size: 15px;
+        }
+        
+        .card-btn:hover {
+            background: linear-gradient(135deg, #1e4a2d 0%, #2e7d5e 100%);
+            color: white;
+            border-color: #1e4a2d;
+            transform: translateY(-3px);
+        }
+        
+        .warning-alert {
+            background: linear-gradient(135deg, #fff3cd 0%, #ffeeba 100%);
+            border: 1px solid #ffeeba;
+            padding: 18px;
+            border-radius: 12px;
+            margin-bottom: 25px;
+            font-size: 15px;
+            display: flex;
+            align-items: flex-start;
+            gap: 15px;
+            color: #856404;
+        }
+        
+        .warning-alert i {
+            font-size: 22px;
+            color: #f39c12;
+        }
+        
+        .success-alert {
+            background: linear-gradient(135deg, #d4edda 0%, #c3e6cb 100%);
+            border: 1px solid #c3e6cb;
+            padding: 18px;
+            border-radius: 12px;
+            margin-bottom: 25px;
+            font-size: 15px;
+            display: flex;
+            align-items: flex-start;
+            gap: 15px;
+            color: #155724;
+        }
+        
+        .success-alert i {
+            font-size: 22px;
+            color: #28a745;
+        }
+        
+        .export-buttons {
+            display: flex;
+            gap: 12px;
+            margin-bottom: 25px;
+            flex-wrap: wrap;
+        }
+        
+        .export-btn {
+            padding: 12px 24px;
+            background: linear-gradient(135deg, #28a745 0%, #218838 100%);
+            color: white;
+            border: none;
+            border-radius: 12px;
+            cursor: pointer;
+            font-weight: 600;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            transition: all 0.3s;
+        }
+        
+        .export-btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 10px 25px rgba(40, 167, 69, 0.25);
+        }
+        
+        .export-btn.export-excel {
+            background: linear-gradient(135deg, #1e7e34 0%, #145523 100%);
+        }
+        
+        .export-btn.export-excel:hover {
+            box-shadow: 0 10px 25px rgba(30, 126, 52, 0.25);
+        }
+        
+        /* Credit footer */
+        .credit {
+            text-align: center;
+            padding: 10px;
+            font-size: 13px;
+            color: #2c5e3a;
+            background: #d4edda;
+            border-top: 1px solid #a5d6a7;
+        }
+        
+        /* Responsive Design */
+        @media (max-width: 1200px) {
+            .chart-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .modal-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+        
+        @media (max-width: 768px) {
+            .dashboard-header {
+                flex-direction: column;
+                text-align: center;
+                gap: 20px;
+                padding: 25px 20px;
+            }
+            
+            .user-info {
+                text-align: center;
+                width: 100%;
+            }
+            
+            .dashboard-nav {
+                padding: 15px 20px;
+                justify-content: center;
+            }
+            
+            .nav-btn {
+                font-size: 14px;
+                padding: 10px 18px;
+            }
+            
+            .dashboard-content {
+                padding: 25px 20px;
+            }
+            
+            .chart-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .modal-body {
+                padding: 25px 20px;
+            }
+            
+            .modal-header {
+                padding: 25px 20px 20px;
+            }
+            
+            .modal-footer {
+                padding: 20px;
+                flex-direction: column;
+                gap: 15px;
+                align-items: stretch;
+            }
+            
+            .modal-actions {
+                flex-direction: column;
+            }
+            
+            .modal-btn {
+                width: 100%;
+            }
+            
+            .filter-group {
+                flex-direction: column;
+                align-items: stretch;
+            }
+            
+            .filter-input {
+                width: 100%;
+            }
+            
+            .btn-whatsapp {
+                width: 100%;
+            }
+            
+            .export-buttons {
+                flex-direction: column;
+            }
+        }
+        
+        @media (max-width: 480px) {
+            .content {
+                padding: 30px 20px;
+            }
+            
+            .header h1 {
+                font-size: 28px;
+            }
+            
+            .modal-title {
+                font-size: 20px;
+            }
+            
+            .stat-card {
+                padding: 20px;
+            }
+            
+            .stat-value {
+                font-size: 24px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Login Screen (default) -->
+    <div class="login-container" id="loginScreen">
+        <div class="header">
+            <h1>SISTEM PENCAIRAN DESA</h1>
+            <p>Kabupaten Mamuju</p>
+        </div>
+        
+        <div class="content">
+            <div class="system-icon">🏡</div>
+            
+            <form id="loginForm">
+                <div class="form-group">
+                    <label for="nama">Nama Pengguna</label>
+                    <input type="text" id="nama" class="form-control" placeholder="Masukkan nama Anda" required>
+                </div>
+                
+                <div class="form-group">
+                    <label for="kodeAkses">Kode Akses</label>
+                    <input type="password" id="kodeAkses" class="form-control" placeholder="Masukkan kode akses" required>
+                </div>
+                
+                <div class="error-message" id="errorMessage">
+                    Kode akses salah. Silakan coba lagi.
+                </div>
+                
+                <button type="submit" class="btn btn-primary">Masuk ke Sistem</button>
+            </form>
+            
+            <div class="request-access">
+                <p>Belum punya kode akses?</p>
+                <button class="btn btn-whatsapp" onclick="showRequestForm()">
+                    <i class="bi bi-whatsapp"></i> Request Kode Akses via WhatsApp
+                </button>
+            </div>
+            
+            <button class="btn btn-secondary" onclick="window.location.href='index.html'">
+                ← Kembali ke Portal Utama
+            </button>
+            
+            <div class="login-info">
+                <p>Gunakan kode akses yang telah diberikan untuk mengakses sistem.</p>
+            </div>
+        </div>
+        
+        <div class="footer">
+            <div>© 2026 Bidang Perbendaharaan - BPKAD Kabupaten Mamuju</div>
+        </div>
+    </div>
+    
+    <!-- Request Modal -->
+    <div class="modal request-modal" id="requestModal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3 class="modal-title"><i class="bi bi-key"></i> Request Kode Akses</h3>
+                <button class="close-modal" onclick="closeRequestModal()">×</button>
+            </div>
+            <div class="modal-body">
+                <div class="request-instruction">
+                    <p><strong>Proses setelah request:</strong></p>
+                    <ol>
+                        <li>Form akan membuka WhatsApp ke admin</li>
+                        <li>Anda perlu menekan <strong>SEND</strong> manual di WhatsApp</li>
+                        <li>Admin akan membalas via WhatsApp dengan kode akses</li>
+                        <li>Gunakan kode tersebut untuk login ke sistem</li>
+                    </ol>
+                </div>
+                
+                <form id="requestForm" onsubmit="sendWhatsAppRequest(event)">
+                    <div class="form-group">
+                        <label for="requestNama">Nama Lengkap *</label>
+                        <input type="text" id="requestNama" class="form-control" placeholder="Masukkan nama lengkap" required>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="requestDesa">Desa (jika ada)</label>
+                        <input type="text" id="requestDesa" class="form-control" placeholder="Contoh: Desa Hinua">
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="requestJabatan">Jabatan *</label>
+                        <input type="text" id="requestJabatan" class="form-control" placeholder="Contoh: Kepala Desa, Staff, Operator" required>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="requestHP">Nomor WhatsApp (Opsional)</label>
+                        <input type="tel" id="requestHP" class="form-control" placeholder="08xxx" pattern="[0-9]{10,13}">
+                        <small style="color: #666;">Untuk konfirmasi lebih cepat</small>
+                    </div>
+                    
+                    <button type="submit" class="btn btn-whatsapp">
+                        <i class="bi bi-whatsapp"></i> Buka WhatsApp untuk Kirim Request
+                    </button>
+                    <button type="button" class="btn btn-secondary" onclick="closeRequestModal()" style="margin-top: 10px;">
+                        Batal
+                    </button>
+                </form>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Dashboard Screen (hidden by default) -->
+    <div class="dashboard-container" id="dashboardScreen" style="display: none;">
+        <div class="dashboard-header">
+            <div>
+                <h1>SISTEM PENCAIRAN DESA</h1>
+                <p>Kabupaten Mamuju</p>
+            </div>
+            <div class="user-info">
+                <h3 id="displayNama">-</h3>
+                <p id="displayRole">-</p>
+                <button class="logout-btn" onclick="logout()">Logout</button>
+            </div>
+        </div>
+        
+        <div class="dashboard-nav">
+            <button class="nav-btn active" onclick="showTab('home')">
+                <i class="bi bi-house-door"></i> Beranda
+            </button>
+            <button class="nav-btn" onclick="showTab('data')" id="dataTabBtn">
+                <i class="bi bi-table"></i> Data Pengajuan
+            </button>
+            <button class="nav-btn" onclick="showTab('rekap')">
+                <i class="bi bi-bar-chart"></i> Rekap Pencairan
+            </button>
+            <button class="nav-btn" onclick="showTab('grafik')">
+                <i class="bi bi-graph-up"></i> Grafik
+            </button>
+            <!-- Tombol Input untuk semua role -->
+            <button class="nav-btn" id="inputBtn" onclick="window.open('https://forms.gle/3LbNrxm1akvLSeHi7', '_blank')">
+                <i class="bi bi-cloud-upload"></i> Input Data Baru
+            </button>
+            <!-- Tombol Verifikasi hanya untuk super admin dan verifikator -->
+            <button class="nav-btn" id="verifikasiBtn" style="display: none;" onclick="window.open('https://docs.google.com/spreadsheets/d/1C4xZ-tVY0F7vVETb2a7wMOuH7Dd1HwYqu_Y-5_ecu2E/edit?usp=sharing', '_blank')">
+                <i class="bi bi-check-circle"></i> Verifikasi Data
+            </button>
+            <button class="nav-btn" onclick="loadDataFromGoogleSheets(true)">
+                <i class="bi bi-arrow-clockwise"></i> Refresh Data
+            </button>
+        </div>
+        
+        <div class="dashboard-content">
+            <!-- Home Tab (hanya menampilkan yang sedang proses) -->
+            <div id="homeTab" class="tab-content active">
+                <div class="welcome-message">
+                    <h2>Selamat datang, <span id="welcomeNama">-</span></h2>
+                    <p>Anda login sebagai <strong id="welcomeRole">-</strong></p>
+                </div>
+                
+                <div class="access-info" id="accessInfo">
+                    <strong>Hak Akses:</strong> <span id="hakAkses">-</span>
+                </div>
+                
+                <div id="dataAlert" style="display: none;"></div>
+                
+                <div class="stats-grid" id="statsGrid">
+                    <!-- Stats will be loaded here -->
+                </div>
+                
+                <h3 style="margin: 30px 0 20px 0; color: #1e4a2d;">Pengajuan Sedang Diproses</h3>
+                <div class="table-container">
+                    <div id="recentTransactions">
+                        <!-- Only in-process transactions will be loaded here -->
+                    </div>
+                    <button class="card-btn" onclick="showTab('data')" style="margin-top: 20px;">
+                        <i class="bi bi-eye"></i> Lihat Semua Pengajuan
+                    </button>
+                </div>
+            </div>
+            
+            <!-- Data Tab (semua data) -->
+            <div id="dataTab" class="tab-content">
+                <h2 style="margin-bottom: 20px; color: #1e4a2d;">Semua Data Pengajuan Pencairan Dana Desa</h2>
+                
+                <div class="export-buttons">
+                    <button class="export-btn export-excel" onclick="exportDataToExcel()">
+                        <i class="bi bi-file-earmark-excel"></i> Export ke Excel
+                    </button>
+                </div>
+                
+                <div class="filter-section">
+                    <div class="filter-group">
+                        <input type="text" id="searchInput" class="filter-input" placeholder="Cari Desa atau Jenis Pencairan...">
+                        <select id="desaFilter" class="filter-input">
+                            <option value="">Semua Desa</option>
+                        </select>
+                        <button class="filter-btn" onclick="applyFilters()">
+                            <i class="bi bi-funnel"></i> Filter
+                        </button>
+                        <button class="card-btn" onclick="resetFilters()" style="width: auto;">
+                            <i class="bi bi-arrow-clockwise"></i> Reset
+                        </button>
+                    </div>
+                </div>
+                
+                <div class="table-container">
+                    <div id="allTransactions">
+                        <!-- All transactions will be loaded here -->
+                    </div>
+                    <div class="pagination" id="pagination">
+                        <!-- Pagination will be generated here -->
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Rekap Tab (dengan jenis pencairan) -->
+            <div id="rekapTab" class="tab-content">
+                <h2 style="margin-bottom: 20px; color: #1e4a2d;">Rekap Pencairan per Desa dan Jenis (Disetujui)</h2>
+                
+                <div class="export-buttons">
+                    <button class="export-btn export-excel" onclick="exportRekapToExcel()">
+                        <i class="bi bi-file-earmark-excel"></i> Export Rekap ke Excel
+                    </button>
+                </div>
+                
+                <div class="table-container">
+                    <table id="rekapTable">
+                        <!-- Rekap table will be loaded here -->
+                    </table>
+                </div>
+            </div>
+            
+            <!-- Grafik Tab -->
+            <div id="grafikTab" class="tab-content">
+                <h2 style="margin-bottom: 20px; color: #1e4a2d;">Visualisasi Data Pengajuan</h2>
+                
+                <div class="chart-grid">
+                    <div class="chart-container">
+                        <h3>Total Pencairan per Desa (Top 10)</h3>
+                        <canvas id="chartTop10"></canvas>
+                    </div>
+                    
+                    <div class="chart-container">
+                        <h3>Status Pengajuan</h3>
+                        <canvas id="chartStatus"></canvas>
+                    </div>
+                    
+                    <div class="chart-container">
+                        <h3>Trend Bulanan Pencairan (Disetujui)</h3>
+                        <canvas id="chartTrend"></canvas>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <div class="footer">
+            <div>Sistem Pencairan Desa - Versi 2.0 | Terakhir diakses: <span id="lastAccess">-</span></div>
+            <div class="credit">Dikembangkan oleh Bidang Perbendaharaan - BPKAD Kabupaten Mamuju</div>
+        </div>
+    </div>
+    
+    <!-- MODERN DETAIL MODAL -->
+    <div class="modal" id="detailModal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3 class="modal-title"><i class="bi bi-file-text"></i> Detail Pengajuan</h3>
+                <button class="close-modal" onclick="closeModal()">×</button>
+            </div>
+            <div class="modal-body" id="modalBody">
+                <!-- Modern detail content will be loaded here -->
+            </div>
+            <div class="modal-footer">
+                <div class="transaction-id" id="transactionId"></div>
+                <div class="modal-actions">
+                    <button class="modal-btn modal-btn-print" onclick="window.print()">
+                        <i class="bi bi-printer"></i> Cetak
+                    </button>
+                    <button class="modal-btn modal-btn-close" onclick="closeModal()">
+                        <i class="bi bi-x-lg"></i> Tutup
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Data kode akses dan role
+        const userData = [
+            { kode: "lenrongji", role: "super admin", hakAkses: "semua" },
+            { kode: "bpkad_desa2026", role: "verifikator", hakAkses: "semua" },
+            { kode: "dpmd_desa2026", role: "input", hakAkses: "semua" }
+        ];
+
+        // Global variables
+        let currentUser = null;
+        let allTransactions = [];
+        let filteredTransactions = [];
+        let currentPage = 1;
+        const itemsPerPage = 10;
+        
+        // URL Google Sheets
+        const GOOGLE_SHEETS_URL = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vRt64hJQkgxCyemAe_sEEDcoxzfr_CSDvfo17Yaq3jX094HfXlWcT0mNPaNDh8Jqv-5ssUUZzshG56T/pub?output=csv';
+
+        // Check if user is already logged in
+        document.addEventListener('DOMContentLoaded', function() {
+            const savedUser = localStorage.getItem('pencairanDesaUser');
+            const savedLoginTime = localStorage.getItem('pencairanDesaLoginTime');
+            
+            if (savedUser) {
+                const user = JSON.parse(savedUser);
+                showDashboard(user);
+                if (savedLoginTime) {
+                    document.getElementById('lastAccess').textContent = savedLoginTime;
+                }
+                loadDataFromGoogleSheets();
+            }
+        });
+
+        // Login form handler
+        document.getElementById('loginForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            
+            const nama = document.getElementById('nama').value.trim();
+            const kodeAkses = document.getElementById('kodeAkses').value.trim();
+            const errorMessage = document.getElementById('errorMessage');
+            
+            const matchedUser = userData.find(item => item.kode === kodeAkses);
+            
+            if (matchedUser && nama) {
+                errorMessage.style.display = 'none';
+                
+                const user = {
+                    nama: nama,
+                    role: matchedUser.role,
+                    hakAkses: matchedUser.hakAkses
+                };
+                
+                localStorage.setItem('pencairanDesaUser', JSON.stringify(user));
+                
+                const now = new Date();
+                const loginTime = now.toLocaleDateString('id-ID', { 
+                    weekday: 'long',
+                    year: 'numeric', 
+                    month: 'long', 
+                    day: 'numeric',
+                    hour: '2-digit',
+                    minute: '2-digit'
+                });
+                localStorage.setItem('pencairanDesaLoginTime', loginTime);
+                
+                showDashboard(user);
+                document.getElementById('lastAccess').textContent = loginTime;
+                
+                loadDataFromGoogleSheets();
+            } else {
+                errorMessage.style.display = 'block';
+            }
+        });
+
+        // Function to show dashboard
+        function showDashboard(user) {
+            currentUser = user;
+            document.getElementById('loginScreen').style.display = 'none';
+            document.getElementById('dashboardScreen').style.display = 'block';
+            
+            document.getElementById('displayNama').textContent = user.nama;
+            document.getElementById('displayRole').textContent = user.role;
+            document.getElementById('welcomeNama').textContent = user.nama;
+            document.getElementById('welcomeRole').textContent = user.role;
+            document.getElementById('hakAkses').textContent = user.role;
+            
+            // Tampilkan tombol verifikasi hanya untuk super admin dan verifikator
+            if (user.role === 'super admin' || user.role === 'verifikator') {
+                document.getElementById('verifikasiBtn').style.display = 'block';
+            } else {
+                document.getElementById('verifikasiBtn').style.display = 'none';
+            }
+        }
+
+        // Function to load data from Google Sheets
+        async function loadDataFromGoogleSheets(showAlert = false) {
+            const loadingHTML = '<div class="loading"><div class="loading-spinner"></div><p>Memuat data dari Google Sheets...</p></div>';
+            document.getElementById('recentTransactions').innerHTML = loadingHTML;
+            document.getElementById('allTransactions').innerHTML = loadingHTML;
+            document.getElementById('statsGrid').innerHTML = loadingHTML;
+            document.getElementById('rekapTable').innerHTML = loadingHTML;
+            
+            if (showAlert) {
+                document.getElementById('dataAlert').innerHTML = `
+                    <div class="warning-alert">
+                        <i class="bi bi-arrow-clockwise"></i>
+                        <div>Memperbarui data dari Google Sheets...</div>
+                    </div>
+                `;
+                document.getElementById('dataAlert').style.display = 'block';
+            }
+            
+            try {
+                console.log('Mengambil data dari:', GOOGLE_SHEETS_URL);
+                
+                const controller = new AbortController();
+                const timeoutId = setTimeout(() => controller.abort(), 10000);
+                
+                const response = await fetch(GOOGLE_SHEETS_URL, {
+                    method: 'GET',
+                    mode: 'cors',
+                    signal: controller.signal,
+                    headers: {
+                        'Cache-Control': 'no-cache'
+                    }
+                });
+                
+                clearTimeout(timeoutId);
+                
+                if (!response.ok) {
+                    throw new Error(`HTTP error! status: ${response.status}`);
+                }
+                
+                const csvText = await response.text();
+                console.log('Data berhasil diambil, panjang:', csvText.length, 'karakter');
+                
+                if (csvText.length < 100) {
+                    throw new Error('Data terlalu pendek atau kosong');
+                }
+                
+                const parsedData = parseSimpleCSV(csvText);
+                
+                if (parsedData.length === 0) {
+                    throw new Error('Tidak ada data yang berhasil diparsing');
+                }
+                
+                console.log('Data berhasil diparsing:', parsedData.length, 'baris');
+                
+                processTransactions(parsedData);
+                
+                if (showAlert) {
+                    document.getElementById('dataAlert').innerHTML = `
+                        <div class="success-alert">
+                            <i class="bi bi-check-circle"></i>
+                            <div>Data berhasil diperbarui! ${parsedData.length} pengajuan ditemukan.</div>
+                        </div>
+                    `;
+                    
+                    setTimeout(() => {
+                        document.getElementById('dataAlert').style.display = 'none';
+                    }, 5000);
+                }
+                
+            } catch (error) {
+                console.error('Error loading data:', error);
+                
+                document.getElementById('dataAlert').innerHTML = `
+                    <div class="warning-alert">
+                        <i class="bi bi-exclamation-triangle"></i>
+                        <div>
+                            <strong>Gagal mengambil data dari Google Sheets:</strong><br>
+                            ${error.message}<br>
+                            <small>Menggunakan data contoh untuk demonstrasi.</small>
+                        </div>
+                    </div>
+                `;
+                document.getElementById('dataAlert').style.display = 'block';
+                
+                useSampleData();
+            }
+        }
+
+        // Fungsi parsing CSV
+        function parseSimpleCSV(csvText) {
+            const lines = csvText.split('\n').filter(line => line.trim() !== '');
+            if (lines.length < 2) return [];
+            
+            const headers = lines[0].split(',').map(h => h.trim());
+            
+            const data = [];
+            
+            for (let i = 1; i < lines.length; i++) {
+                const line = lines[i];
+                if (line.trim() === '') continue;
+                
+                const values = [];
+                let currentValue = '';
+                let inQuotes = false;
+                
+                for (let j = 0; j < line.length; j++) {
+                    const char = line[j];
+                    
+                    if (char === '"' && !inQuotes) {
+                        inQuotes = true;
+                    } else if (char === '"' && inQuotes) {
+                        inQuotes = false;
+                    } else if (char === ',' && !inQuotes) {
+                        values.push(currentValue.trim());
+                        currentValue = '';
+                    } else {
+                        currentValue += char;
+                    }
+                }
+                values.push(currentValue.trim());
+                
+                while (values.length < headers.length) {
+                    values.push('');
+                }
+                
+                const transaction = {};
+                headers.forEach((header, index) => {
+                    transaction[header] = values[index] || '';
+                });
+                
+                const nilaiStr = transaction['NILAI PENCAIRAN'] || '0';
+                transaction.NILAI_NUM = parseFloat(nilaiStr.replace(/[^0-9.-]+/g, "")) || 0;
+                
+                data.push(transaction);
+            }
+            
+            return data;
+        }
+
+        // Fungsi untuk memproses data transaksi
+        function processTransactions(transactions) {
+            allTransactions = transactions;
+            
+            allTransactions.sort((a, b) => {
+                const dateA = parseSimpleDate(a.Timestamp || '');
+                const dateB = parseSimpleDate(b.Timestamp || '');
+                return dateB - dateA;
+            });
+            
+            filteredTransactions = [...allTransactions];
+            
+            displayRecentTransactions();   // Hanya yang sedang proses
+            displayAllTransactions();      // Semua data
+            populateDesaFilter();
+            updateDashboardStats();        // Statistik umum
+            displayRekap();                // Rekap dengan jenis
+            displayCharts();
+        }
+
+        // Fungsi parsing tanggal
+        function parseSimpleDate(dateString) {
+            if (!dateString || dateString.trim() === '') return new Date(0);
+            
+            const parts = dateString.split(/[\/\s:]/);
+            if (parts.length >= 3) {
+                const month = parseInt(parts[0]) - 1;
+                const day = parseInt(parts[1]);
+                const year = parseInt(parts[2]);
+                if (!isNaN(day) && !isNaN(month) && !isNaN(year)) {
+                    return new Date(year, month, day);
+                }
+            }
+            return new Date();
+        }
+
+        // Fungsi untuk menggunakan data contoh
+        function useSampleData() {
+            const sampleTransactions = [
+                {
+                    Timestamp: "2/16/2026 1:02:29",
+                    "JENIS PENCAIRAN": "LS ADD",
+                    "NAMA DESA": "DESA HINUA",
+                    "TAHAP PENCAIRAN": "I",
+                    "NILAI PENCAIRAN": "",
+                    "CATATAN JIKA ADA": "",
+                    "DOKUEMEN PENDUKUNG (PDF)": "https://drive.google.com/open?id=1FycW0EtB9EWMXpjvtKp0VCb8G6TTng29",
+                    "ACTION": "DITOLAK",
+                    "KETERANGAN": "",
+                    NILAI_NUM: 0
+                },
+                {
+                    Timestamp: "2/16/2026 1:09:29",
+                    "JENIS PENCAIRAN": "LS ADD",
+                    "NAMA DESA": "DESA BONEHAU",
+                    "TAHAP PENCAIRAN": "II",
+                    "NILAI PENCAIRAN": "76000000",
+                    "CATATAN JIKA ADA": "",
+                    "DOKUEMEN PENDUKUNG (PDF)": "https://drive.google.com/open?id=1tWlHjZOj_tUUPlJFn0nDhEpp3tt95-KD",
+                    "ACTION": "DISETUJUI",
+                    "KETERANGAN": "",
+                    NILAI_NUM: 76000000
+                },
+                {
+                    Timestamp: "2/15/2026 10:30:00",
+                    "JENIS PENCAIRAN": "BLT",
+                    "NAMA DESA": "DESA TAPALANG",
+                    "TAHAP PENCAIRAN": "I",
+                    "NILAI PENCAIRAN": "50000000",
+                    "CATATAN JIKA ADA": "Proses verifikasi",
+                    "DOKUEMEN PENDUKUNG (PDF)": "",
+                    "ACTION": "",
+                    "KETERANGAN": "",
+                    NILAI_NUM: 50000000
+                },
+                {
+                    Timestamp: "2/14/2026 14:15:00",
+                    "JENIS PENCAIRAN": "DD",
+                    "NAMA DESA": "DESA SIMBORO",
+                    "TAHAP PENCAIRAN": "II",
+                    "NILAI PENCAIRAN": "120000000",
+                    "CATATAN JIKA ADA": "",
+                    "DOKUEMEN PENDUKUNG (PDF)": "https://drive.google.com/open?id=xyz",
+                    "ACTION": "DISETUJUI",
+                    "KETERANGAN": "",
+                    NILAI_NUM: 120000000
+                },
+                {
+                    Timestamp: "2/13/2026 9:45:00",
+                    "JENIS PENCAIRAN": "LS ADD",
+                    "NAMA DESA": "DESA MAMUJU",
+                    "TAHAP PENCAIRAN": "I",
+                    "NILAI PENCAIRAN": "30000000",
+                    "CATATAN JIKA ADA": "Berkas kurang",
+                    "DOKUEMEN PENDUKUNG (PDF)": "",
+                    "ACTION": "",
+                    "KETERANGAN": "",
+                    NILAI_NUM: 30000000
+                }
+            ];
+            
+            for (let i = 0; i < 10; i++) {
+                sampleTransactions.push({
+                    Timestamp: `2/${10 + i}/2026 8:00:00`,
+                    "JENIS PENCAIRAN": i % 2 === 0 ? "LS ADD" : "BLT",
+                    "NAMA DESA": `DESA ${i}`,
+                    "TAHAP PENCAIRAN": "I",
+                    "NILAI PENCAIRAN": (20000000 + i * 5000000).toString(),
+                    "CATATAN JIKA ADA": "",
+                    "DOKUEMEN PENDUKUNG (PDF)": i % 3 === 0 ? `https://drive.google.com/open?id=doc${i}` : "",
+                    "ACTION": i % 4 === 0 ? "DISETUJUI" : (i % 4 === 1 ? "DITOLAK" : ""),
+                    "KETERANGAN": "",
+                    NILAI_NUM: 20000000 + i * 5000000
+                });
+            }
+            
+            processTransactions(sampleTransactions);
+        }
+
+        // Format currency
+        function formatCurrency(amount) {
+            if (isNaN(amount)) amount = 0;
+            return new Intl.NumberFormat('id-ID', {
+                minimumFractionDigits: 0,
+                maximumFractionDigits: 0
+            }).format(amount);
+        }
+
+        // Display recent transactions (hanya yang sedang proses: ACTION kosong)
+        function displayRecentTransactions() {
+            const inProcess = allTransactions.filter(t => !t.ACTION || t.ACTION.trim() === '').slice(0, 10);
+            
+            if (inProcess.length === 0) {
+                document.getElementById('recentTransactions').innerHTML = 
+                    '<div class="loading"><p>Tidak ada pengajuan yang sedang diproses</p></div>';
+                return;
+            }
+            
+            let html = '<table>';
+            html += '<thead><tr><th>No</th><th>Desa</th><th>Jenis</th><th>Tahap</th><th>Nilai</th><th>Status</th><th>Aksi</th></tr></thead><tbody>';
+            
+            inProcess.forEach((transaction, index) => {
+                html += `
+                    <tr>
+                        <td>${index + 1}</td>
+                        <td>${transaction['NAMA DESA'] || '-'}</td>
+                        <td>${transaction['JENIS PENCAIRAN'] || '-'}</td>
+                        <td>${transaction['TAHAP PENCAIRAN'] || '-'}</td>
+                        <td>${formatCurrency(transaction.NILAI_NUM)}</td>
+                        <td><span class="badge badge-warning">Sedang Diproses</span></td>
+                        <td><button class="view-detail-btn" onclick="showDetail(${allTransactions.indexOf(transaction)})">Detail</button></td>
+                    </tr>
+                `;
+            });
+            
+            html += '</tbody></table>';
+            document.getElementById('recentTransactions').innerHTML = html;
+        }
+
+        // Display all transactions (semua data)
+        function displayAllTransactions() {
+            const startIndex = (currentPage - 1) * itemsPerPage;
+            const endIndex = startIndex + itemsPerPage;
+            const pageTransactions = filteredTransactions.slice(startIndex, endIndex);
+            
+            if (pageTransactions.length === 0) {
+                document.getElementById('allTransactions').innerHTML = 
+                    '<div class="loading"><p>Tidak ada data pengajuan yang sesuai dengan filter</p></div>';
+                document.getElementById('pagination').innerHTML = '';
+                return;
+            }
+            
+            let html = '<table>';
+            html += '<thead><tr><th>No</th><th>Timestamp</th><th>Desa</th><th>Jenis</th><th>Tahap</th><th>Nilai</th><th>Status</th><th>Aksi</th></tr></thead><tbody>';
+            
+            pageTransactions.forEach((transaction, index) => {
+                const globalIndex = allTransactions.indexOf(transaction);
+                const status = transaction.ACTION || 'Sedang Diproses';
+                let statusClass = 'badge-warning';
+                if (transaction.ACTION === 'DISETUJUI') statusClass = 'badge-success';
+                else if (transaction.ACTION === 'DITOLAK') statusClass = 'badge-danger';
+                
+                html += `
+                    <tr>
+                        <td>${startIndex + index + 1}</td>
+                        <td>${transaction.Timestamp || '-'}</td>
+                        <td>${transaction['NAMA DESA'] || '-'}</td>
+                        <td>${transaction['JENIS PENCAIRAN'] || '-'}</td>
+                        <td>${transaction['TAHAP PENCAIRAN'] || '-'}</td>
+                        <td>${formatCurrency(transaction.NILAI_NUM)}</td>
+                        <td><span class="badge ${statusClass}">${status}</span></td>
+                        <td><button class="view-detail-btn" onclick="showDetail(${globalIndex})">Detail</button></td>
+                    </tr>
+                `;
+            });
+            
+            html += '</tbody></table>';
+            document.getElementById('allTransactions').innerHTML = html;
+            
+            generatePagination();
+        }
+
+        // Generate pagination controls
+        function generatePagination() {
+            const totalPages = Math.ceil(filteredTransactions.length / itemsPerPage);
+            let html = '';
+            
+            if (totalPages > 1) {
+                html += '<button class="page-btn" onclick="changePage(1)" ' + (currentPage === 1 ? 'disabled' : '') + '>«</button>';
+                html += '<button class="page-btn" onclick="changePage(' + (currentPage - 1) + ')" ' + (currentPage === 1 ? 'disabled' : '') + '>‹</button>';
+                
+                for (let i = 1; i <= totalPages; i++) {
+                    if (i === 1 || i === totalPages || (i >= currentPage - 2 && i <= currentPage + 2)) {
+                        html += `<button class="page-btn ${i === currentPage ? 'active' : ''}" onclick="changePage(${i})">${i}</button>`;
+                    }
+                }
+                
+                html += '<button class="page-btn" onclick="changePage(' + (currentPage + 1) + ')" ' + (currentPage === totalPages ? 'disabled' : '') + '>›</button>';
+                html += '<button class="page-btn" onclick="changePage(' + totalPages + ')" ' + (currentPage === totalPages ? 'disabled' : '') + '>»</button>';
+            }
+            
+            document.getElementById('pagination').innerHTML = html;
+        }
+
+        // Change page
+        function changePage(page) {
+            currentPage = page;
+            displayAllTransactions();
+        }
+
+        // Apply filters
+        function applyFilters() {
+            const searchTerm = document.getElementById('searchInput').value.toLowerCase();
+            const desaFilter = document.getElementById('desaFilter').value;
+            
+            filteredTransactions = allTransactions.filter(transaction => {
+                const matchesSearch = !searchTerm || 
+                    (transaction['NAMA DESA'] && transaction['NAMA DESA'].toLowerCase().includes(searchTerm)) ||
+                    (transaction['JENIS PENCAIRAN'] && transaction['JENIS PENCAIRAN'].toLowerCase().includes(searchTerm));
+                
+                const matchesDesa = !desaFilter || 
+                    (transaction['NAMA DESA'] && transaction['NAMA DESA'] === desaFilter);
+                
+                return matchesSearch && matchesDesa;
+            });
+            
+            currentPage = 1;
+            displayAllTransactions();
+        }
+
+        // Reset filters
+        function resetFilters() {
+            document.getElementById('searchInput').value = '';
+            document.getElementById('desaFilter').value = '';
+            filteredTransactions = [...allTransactions];
+            currentPage = 1;
+            displayAllTransactions();
+        }
+
+        // Populate desa filter dropdown
+        function populateDesaFilter() {
+            const desaFilter = document.getElementById('desaFilter');
+            const desas = [...new Set(allTransactions.map(t => t['NAMA DESA']).filter(d => d))].sort();
+            
+            while (desaFilter.options.length > 1) {
+                desaFilter.remove(1);
+            }
+            
+            desas.forEach(desa => {
+                const option = document.createElement('option');
+                option.value = desa;
+                option.textContent = desa;
+                desaFilter.appendChild(option);
+            });
+        }
+
+        // MODERN SHOW TRANSACTION DETAIL
+        function showDetail(index) {
+            const transaction = allTransactions[index];
+            
+            let html = `
+                <div class="modal-grid">
+                    <div class="modal-section">
+                        <div class="modal-section-header">
+                            <i class="bi bi-building"></i>
+                            <h4>Informasi Desa</h4>
+                        </div>
+                        <div class="modal-section-content">
+                            <div class="detail-group">
+                                <div class="detail-label">Nama Desa</div>
+                                <div class="detail-value">${transaction['NAMA DESA'] || '-'}</div>
+                            </div>
+                            <div class="detail-group">
+                                <div class="detail-label">Jenis Pencairan</div>
+                                <div class="detail-value">${transaction['JENIS PENCAIRAN'] || '-'}</div>
+                            </div>
+                            <div class="detail-group">
+                                <div class="detail-label">Tahap Pencairan</div>
+                                <div class="detail-value">${transaction['TAHAP PENCAIRAN'] || '-'}</div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="modal-section">
+                        <div class="modal-section-header">
+                            <i class="bi bi-cash-stack"></i>
+                            <h4>Informasi Keuangan</h4>
+                        </div>
+                        <div class="modal-section-content">
+                            <div class="detail-group">
+                                <div class="detail-label">Nilai Pencairan</div>
+                                <div class="detail-value amount">${formatCurrency(transaction.NILAI_NUM)}</div>
+                            </div>
+                            <div class="detail-group">
+                                <div class="detail-label">Status</div>
+                                <div class="detail-value ${transaction.ACTION === 'DISETUJUI' ? 'status-success' : (transaction.ACTION === 'DITOLAK' ? 'status-danger' : 'status-warning')}">${transaction.ACTION || 'Sedang Diproses'}</div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="modal-section" style="grid-column: span 2;">
+                        <div class="modal-section-header">
+                            <i class="bi bi-chat-dots"></i>
+                            <h4>Catatan & Keterangan</h4>
+                        </div>
+                        <div class="modal-section-content">
+                            <div class="detail-group">
+                                <div class="detail-label">Catatan</div>
+                                <div class="detail-value">${transaction['CATATAN JIKA ADA'] || '-'}</div>
+                            </div>
+                            <div class="detail-group">
+                                <div class="detail-label">Keterangan Tambahan</div>
+                                <div class="detail-value">${transaction.KETERANGAN || '-'}</div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="modal-section" style="grid-column: span 2;">
+                        <div class="modal-section-header">
+                            <i class="bi bi-file-earmark-pdf"></i>
+                            <h4>Dokumen Pendukung</h4>
+                        </div>
+                        <div class="modal-section-content">
+                            <div class="detail-group">
+                                <div class="detail-label">Link Dokumen</div>
+                                <div class="detail-value">
+                                    ${transaction['DOKUEMEN PENDUKUNG (PDF)'] ? 
+                                        `<a href="${transaction['DOKUEMEN PENDUKUNG (PDF)']}" target="_blank" class="btn btn-primary" style="display: inline-block; padding: 10px 20px; text-decoration: none;">Lihat Dokumen</a>` : 
+                                        'Tidak ada dokumen pendukung'}
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            `;
+            
+            document.getElementById('modalBody').innerHTML = html;
+            document.getElementById('transactionId').textContent = `ID Pengajuan: ${transaction.Timestamp || 'N/A'}`;
+            document.getElementById('detailModal').style.display = 'flex';
+        }
+
+        // Close modal
+        function closeModal() {
+            document.getElementById('detailModal').style.display = 'none';
+        }
+
+        // Update dashboard statistics
+        function updateDashboardStats() {
+            const stats = calculateStatistics();
+            let html = '';
+            
+            html += `
+                <div class="stat-card">
+                    <div class="stat-icon">⏳</div>
+                    <div class="stat-title">Sedang Diproses</div>
+                    <div class="stat-value">${stats.diproses}</div>
+                    <div class="stat-subvalue">Nilai: ${formatCurrency(stats.nilaiDiproses)}</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-icon">✅</div>
+                    <div class="stat-title">Disetujui</div>
+                    <div class="stat-value">${stats.disetujui}</div>
+                    <div class="stat-subvalue">Nilai: ${formatCurrency(stats.nilaiDisetujui)}</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-icon">❌</div>
+                    <div class="stat-title">Ditolak</div>
+                    <div class="stat-value">${stats.ditolak}</div>
+                    <div class="stat-subvalue">Nilai: ${formatCurrency(stats.nilaiDitolak)}</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-icon">🏆</div>
+                    <div class="stat-title">Desa Teraktif</div>
+                    <div class="stat-value">${stats.desaTeraktif}</div>
+                    <div class="stat-subvalue">${stats.jumlahPengajuanTerbanyak} pengajuan</div>
+                </div>
+            `;
+            
+            document.getElementById('statsGrid').innerHTML = html;
+        }
+
+        // Calculate statistics
+        function calculateStatistics() {
+            let diproses = 0, disetujui = 0, ditolak = 0;
+            let nilaiDiproses = 0, nilaiDisetujui = 0, nilaiDitolak = 0;
+            const desaCount = {};
+            
+            allTransactions.forEach(t => {
+                const desa = t['NAMA DESA'] || 'Unknown';
+                desaCount[desa] = (desaCount[desa] || 0) + 1;
+                
+                if (t.ACTION === 'DISETUJUI') {
+                    disetujui++;
+                    nilaiDisetujui += t.NILAI_NUM;
+                } else if (t.ACTION === 'DITOLAK') {
+                    ditolak++;
+                    nilaiDitolak += t.NILAI_NUM;
+                } else {
+                    diproses++;
+                    nilaiDiproses += t.NILAI_NUM;
+                }
+            });
+            
+            let desaTeraktif = '-';
+            let maxCount = 0;
+            for (const [desa, count] of Object.entries(desaCount)) {
+                if (count > maxCount) {
+                    maxCount = count;
+                    desaTeraktif = desa;
+                }
+            }
+            
+            return {
+                diproses, disetujui, ditolak,
+                nilaiDiproses, nilaiDisetujui, nilaiDitolak,
+                desaTeraktif,
+                jumlahPengajuanTerbanyak: maxCount
+            };
+        }
+
+        // Display rekap data (hanya yang disetujui) per desa dan jenis
+        function displayRekap() {
+            const rekap = calculateRekap();
+            
+            let rekapHtml = '<table><thead><tr><th>No</th><th>Desa</th><th>Jenis Pencairan</th><th>Jumlah Disetujui</th><th>Total Nilai</th></tr></thead><tbody>';
+            
+            rekap.forEach((item, index) => {
+                rekapHtml += `
+                    <tr>
+                        <td>${index + 1}</td>
+                        <td>${item.desa}</td>
+                        <td>${item.jenis}</td>
+                        <td>${item.count}</td>
+                        <td>${formatCurrency(item.total)}</td>
+                    </tr>
+                `;
+            });
+            
+            rekapHtml += '</tbody></table>';
+            document.getElementById('rekapTable').innerHTML = rekapHtml;
+        }
+
+        // Calculate rekap per desa dan jenis (hanya disetujui)
+        function calculateRekap() {
+            const map = {};
+            
+            allTransactions.forEach(t => {
+                if (t.ACTION === 'DISETUJUI') {
+                    const desa = t['NAMA DESA'] || 'Unknown';
+                    const jenis = t['JENIS PENCAIRAN'] || 'Unknown';
+                    const key = desa + '|' + jenis;
+                    if (!map[key]) {
+                        map[key] = { desa, jenis, count: 0, total: 0 };
+                    }
+                    map[key].count++;
+                    map[key].total += t.NILAI_NUM;
+                }
+            });
+            
+            return Object.values(map).sort((a, b) => a.desa.localeCompare(b.desa) || a.jenis.localeCompare(b.jenis));
+        }
+
+        // Display charts
+        function displayCharts() {
+            const rekap = calculateRekap();
+            
+            // Chart 1: Top 10 Desa by total nilai (disetujui)
+            const top10 = Object.values(
+                allTransactions.filter(t => t.ACTION === 'DISETUJUI').reduce((acc, t) => {
+                    const desa = t['NAMA DESA'] || 'Unknown';
+                    if (!acc[desa]) acc[desa] = 0;
+                    acc[desa] += t.NILAI_NUM;
+                    return acc;
+                }, {})
+            ).map((total, i, arr) => ({ desa: Object.keys(allTransactions.filter(t => t.ACTION === 'DISETUJUI').reduce((acc, t) => { acc[t['NAMA DESA']] = true; return acc; }, {}))[i], total }))
+            .sort((a, b) => b.total - a.total)
+            .slice(0, 10);
+            
+            const ctx1 = document.getElementById('chartTop10');
+            if (window.top10Chart) window.top10Chart.destroy();
+            
+            if (top10.length > 0) {
+                window.top10Chart = new Chart(ctx1, {
+                    type: 'bar',
+                    data: {
+                        labels: top10.map(item => item.desa.substring(0, 15) + (item.desa.length > 15 ? '...' : '')),
+                        datasets: [{
+                            label: 'Total Pencairan',
+                            data: top10.map(item => item.total),
+                            backgroundColor: 'rgba(30, 74, 45, 0.7)',
+                            borderColor: 'rgba(30, 74, 45, 1)',
+                            borderWidth: 1
+                        }]
+                    },
+                    options: {
+                        responsive: true,
+                        scales: {
+                            y: {
+                                beginAtZero: true,
+                                ticks: {
+                                    callback: function(value) {
+                                        if (value >= 1000000) return (value / 1000000).toFixed(1) + 'M';
+                                        if (value >= 1000) return (value / 1000).toFixed(0) + 'K';
+                                        return value;
+                                    }
+                                }
+                            }
+                        },
+                        plugins: {
+                            tooltip: {
+                                callbacks: {
+                                    label: function(context) {
+                                        return formatCurrency(context.raw);
+                                    }
+                                }
+                            }
+                        }
+                    }
+                });
+            } else {
+                ctx1.parentElement.innerHTML = '<p>Tidak ada data untuk ditampilkan</p>';
+            }
+            
+            // Chart 2: Status Pie
+            const stats = calculateStatistics();
+            const ctx2 = document.getElementById('chartStatus');
+            if (window.statusChart) window.statusChart.destroy();
+            
+            window.statusChart = new Chart(ctx2, {
+                type: 'pie',
+                data: {
+                    labels: ['Disetujui', 'Ditolak', 'Diproses'],
+                    datasets: [{
+                        data: [stats.disetujui, stats.ditolak, stats.diproses],
+                        backgroundColor: [
+                            'rgba(40, 167, 69, 0.7)',
+                            'rgba(220, 53, 69, 0.7)',
+                            'rgba(255, 193, 7, 0.7)'
+                        ]
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    plugins: {
+                        tooltip: {
+                            callbacks: {
+                                label: function(context) {
+                                    return `${context.label}: ${context.raw}`;
+                                }
+                            }
+                        }
+                    }
+                }
+            });
+            
+            // Chart 3: Monthly Trend (hanya disetujui)
+            const monthlyData = {};
+            allTransactions.forEach(t => {
+                if (t.ACTION === 'DISETUJUI') {
+                    const date = parseSimpleDate(t.Timestamp);
+                    if (!isNaN(date.getTime())) {
+                        const monthKey = `${date.getFullYear()}-${(date.getMonth()+1).toString().padStart(2,'0')}`;
+                        const monthName = date.toLocaleDateString('id-ID', { month: 'short', year: 'numeric' });
+                        if (!monthlyData[monthKey]) {
+                            monthlyData[monthKey] = { month: monthName, total: 0 };
+                        }
+                        monthlyData[monthKey].total += t.NILAI_NUM;
+                    }
+                }
+            });
+            const monthlyArray = Object.values(monthlyData).sort((a,b) => {
+                const [aM, aY] = a.month.split(' ');
+                const [bM, bY] = b.month.split(' ');
+                return new Date(aY, getMonthNumber(aM)) - new Date(bY, getMonthNumber(bM));
+            });
+            
+            const ctx3 = document.getElementById('chartTrend');
+            if (window.trendChart) window.trendChart.destroy();
+            
+            if (monthlyArray.length > 0) {
+                window.trendChart = new Chart(ctx3, {
+                    type: 'line',
+                    data: {
+                        labels: monthlyArray.map(item => item.month),
+                        datasets: [{
+                            label: 'Total Pencairan Disetujui',
+                            data: monthlyArray.map(item => item.total),
+                            borderColor: 'rgba(30, 74, 45, 1)',
+                            backgroundColor: 'rgba(30, 74, 45, 0.1)',
+                            fill: true,
+                            tension: 0.4
+                        }]
+                    },
+                    options: {
+                        responsive: true,
+                        scales: {
+                            y: {
+                                beginAtZero: true,
+                                ticks: {
+                                    callback: function(value) {
+                                        if (value >= 1000000) return (value / 1000000).toFixed(1) + 'M';
+                                        if (value >= 1000) return (value / 1000).toFixed(0) + 'K';
+                                        return value;
+                                    }
+                                }
+                            }
+                        },
+                        plugins: {
+                            tooltip: {
+                                callbacks: {
+                                    label: function(context) {
+                                        return formatCurrency(context.raw);
+                                    }
+                                }
+                            }
+                        }
+                    }
+                });
+            } else {
+                ctx3.parentElement.innerHTML = '<p>Tidak ada data trend bulanan</p>';
+            }
+        }
+
+        function getMonthNumber(monthName) {
+            const months = {
+                'Jan':0,'Feb':1,'Mar':2,'Apr':3,'Mei':4,'Jun':5,
+                'Jul':6,'Agu':7,'Sep':8,'Okt':9,'Nov':10,'Des':11
+            };
+            return months[monthName] || 0;
+        }
+
+        // Export data to Excel (semua data)
+        function exportDataToExcel() {
+            if (filteredTransactions.length === 0) {
+                alert('Tidak ada data untuk diexport');
+                return;
+            }
+            
+            const exportData = filteredTransactions.map((transaction, index) => {
+                return {
+                    'No': index + 1,
+                    'Timestamp': transaction.Timestamp || '',
+                    'Desa': transaction['NAMA DESA'] || '',
+                    'Jenis Pencairan': transaction['JENIS PENCAIRAN'] || '',
+                    'Tahap': transaction['TAHAP PENCAIRAN'] || '',
+                    'Nilai': transaction.NILAI_NUM || 0,
+                    'Catatan': transaction['CATATAN JIKA ADA'] || '',
+                    'Dokumen': transaction['DOKUEMEN PENDUKUNG (PDF)'] || '',
+                    'Action': transaction.ACTION || '',
+                    'Keterangan': transaction.KETERANGAN || ''
+                };
+            });
+            
+            const ws = XLSX.utils.json_to_sheet(exportData);
+            const wb = XLSX.utils.book_new();
+            XLSX.utils.book_append_sheet(wb, ws, 'Data Pengajuan');
+            
+            const fileName = `Data_Pengajuan_Desa_${new Date().toISOString().slice(0, 10)}.xlsx`;
+            XLSX.writeFile(wb, fileName);
+        }
+
+        // Export rekap to Excel
+        function exportRekapToExcel() {
+            const rekap = calculateRekap();
+            
+            const wsData = [
+                ['REKAP PENCAIRAN PER DESA DAN JENIS (DISETUJUI)'],
+                ['No', 'Desa', 'Jenis Pencairan', 'Jumlah Disetujui', 'Total Nilai']
+            ];
+            
+            rekap.forEach((item, index) => {
+                wsData.push([index + 1, item.desa, item.jenis, item.count, item.total]);
+            });
+            
+            const ws = XLSX.utils.aoa_to_sheet(wsData);
+            const wb = XLSX.utils.book_new();
+            XLSX.utils.book_append_sheet(wb, ws, 'Rekap Desa');
+            
+            const fileName = `Rekap_Pencairan_Desa_${new Date().toISOString().slice(0, 10)}.xlsx`;
+            XLSX.writeFile(wb, fileName);
+        }
+
+        // Function untuk modal request
+        function showRequestForm() {
+            document.getElementById('requestModal').style.display = 'flex';
+            document.getElementById('requestForm').reset();
+        }
+
+        function closeRequestModal() {
+            document.getElementById('requestModal').style.display = 'none';
+        }
+
+        function sendWhatsAppRequest(event) {
+            event.preventDefault();
+            
+            const nama = document.getElementById('requestNama').value.trim();
+            const desa = document.getElementById('requestDesa').value.trim();
+            const jabatan = document.getElementById('requestJabatan').value.trim();
+            const hp = document.getElementById('requestHP').value.trim();
+            
+            if (!nama || !jabatan) {
+                alert('Mohon lengkapi nama dan jabatan!');
+                return;
+            }
+            
+            let pesan = `Assalamualaikum wr wb\n\n`;
+            pesan += `Saya *${nama}*\n`;
+            if (desa) pesan += `Desa: *${desa}*\n`;
+            pesan += `Jabatan: *${jabatan}*\n`;
+            if (hp) pesan += `No. HP: *${hp}*\n`;
+            pesan += `\nMohon untuk diberikan kode akses Sistem Pencairan Desa.`;
+            
+            const pesanEncoded = encodeURIComponent(pesan);
+            const nomorWA = '085756047187';
+            const waURL = `https://wa.me/${nomorWA}?text=${pesanEncoded}`;
+            
+            window.open(waURL, '_blank');
+            
+            alert('WhatsApp akan terbuka. Silakan tekan SEND untuk mengirim permintaan Anda.\n\nAdmin akan membalas kode akses via WhatsApp.');
+            closeRequestModal();
+        }
+
+        // Tab navigation
+        function showTab(tabName) {
+            document.querySelectorAll('.nav-btn').forEach(btn => {
+                btn.classList.remove('active');
+            });
+            event.target.classList.add('active');
+            
+            document.querySelectorAll('.tab-content').forEach(tab => {
+                tab.classList.remove('active');
+            });
+            document.getElementById(tabName + 'Tab').classList.add('active');
+            
+            if (tabName === 'rekap') {
+                displayRekap();
+            } else if (tabName === 'grafik') {
+                displayCharts();
+            }
+        }
+
+        // Logout function
+        function logout() {
+            localStorage.removeItem('pencairanDesaUser');
+            localStorage.removeItem('pencairanDesaLoginTime');
+            document.getElementById('dashboardScreen').style.display = 'none';
+            document.getElementById('loginScreen').style.display = 'block';
+            
+            document.getElementById('loginForm').reset();
+            document.getElementById('errorMessage').style.display = 'none';
+        }
+
+        // Close modal when clicking outside
+        window.onclick = function(event) {
+            const modal = document.getElementById('detailModal');
+            const requestModal = document.getElementById('requestModal');
+            
+            if (event.target === modal) {
+                closeModal();
+            }
+            if (event.target === requestModal) {
+                closeRequestModal();
+            }
+        };
+    </script>
+</body>
+</html>
