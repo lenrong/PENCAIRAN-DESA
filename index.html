@@ -9,6 +9,7 @@
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js"></script>
     <style>
+        /* CSS sama persis dengan yang Anda berikan, tidak ada perubahan */
         * {
             margin: 0;
             padding: 0;
@@ -688,7 +689,7 @@
     </style>
 </head>
 <body>
-    <!-- LOGIN SCREEN (tidak berubah struktur) -->
+    <!-- LOGIN SCREEN -->
     <div class="login-container" id="loginScreen">
         <div class="header">
             <h1>SISTEM PENCAIRAN DESA</h1>
@@ -713,7 +714,7 @@
         </div>
     </div>
 
-    <!-- DASHBOARD dengan SIDEBAR KIRI (struktur tetap) -->
+    <!-- DASHBOARD dengan SIDEBAR KIRI -->
     <div class="dashboard-container" id="dashboardScreen" style="display: none;">
         <aside class="dashboard-sidebar">
             <div class="sidebar-brand">
@@ -745,6 +746,19 @@
                 <h1>Dashboard Pencairan</h1>
                 <div class="last-access" id="lastAccessDisplay">-</div>
             </div>
+
+            <!-- NOTIFIKASI DUPLIKAT (DITAMBAHKAN) -->
+            <div id="duplicateNotification" style="margin-bottom:20px; display:none;">
+                <div style="background:#fee2e2; border-radius:16px; padding:16px; display:flex; align-items:center; gap:16px; border:1px solid #fecaca;">
+                    <i class="bi bi-exclamation-triangle-fill" style="color:#b34033; font-size:24px;"></i>
+                    <div style="flex:1;">
+                        <span style="font-weight:600; color:#b34033;">Ditemukan <span id="duplicateCount">0</span> data duplikat</span>
+                        <p style="color:#7f1d1d; margin-top:4px;">Berdasarkan kesamaan Nama Desa, Jenis, Tahap, dan Nilai.</p>
+                    </div>
+                    <button class="view-detail-btn" onclick="showDuplicateDetails()">Lihat Detail</button>
+                </div>
+            </div>
+
             <div id="dataAlert" style="display: none;"></div>
 
             <!-- HOME TAB -->
@@ -819,8 +833,21 @@
         </div>
     </div>
 
+    <!-- MODAL DUPLIKAT (DITAMBAHKAN) -->
+    <div class="modal" id="duplicateModal">
+        <div class="modal-content" style="max-width: 900px;">
+            <div class="modal-header">
+                <h3><i class="bi bi-exclamation-triangle"></i> Data Duplikat</h3>
+                <button class="close-modal" onclick="closeDuplicateModal()">×</button>
+            </div>
+            <div class="modal-body" id="duplicateModalBody">
+                <!-- akan diisi tabel -->
+            </div>
+        </div>
+    </div>
+
     <script>
-        // ================== DATA DAN KONFIGURASI (SAMA PERSIS) ==================
+        // ================== DATA DAN KONFIGURASI ==================
         const userData = [
             { kode: "lenrongji", role: "super admin", hakAkses: "semua" },
             { kode: "bpkad_desa2026", role: "verifikator", hakAkses: "semua" },
@@ -871,7 +898,7 @@
             }
         }
 
-        // ================== LOAD DATA (sama) ==================
+        // ================== LOAD DATA ==================
         async function loadDataFromGoogleSheets(showAlert = false) {
             const loading = '<div class="loading" style="padding:40px; text-align:center;"><i class="bi bi-arrow-repeat spinning"></i> Memuat data...</div>';
             document.getElementById('recentTransactions').innerHTML = loading;
@@ -925,6 +952,8 @@
             updateDashboardStats();
             displayRekap();
             displayCharts();
+            // ===== PANGGIL NOTIFIKASI DUPLIKAT =====
+            updateDuplicateNotification();
         }
 
         function useSampleData() {
@@ -954,6 +983,76 @@
             alertDiv.style.display = 'block';
             alertDiv.innerHTML = `<div style="background:${type==='success'?'#e3f7ec':'#fff9e5'}; color:${type==='success'?'#0b5e42':'#946800'}; padding:15px; border-radius:16px;">${msg}</div>`;
             setTimeout(() => alertDiv.style.display = 'none', 3000);
+        }
+
+        // ================== FUNGSI CEK DUPLIKAT (BARU) ==================
+        function findDuplicates() {
+            const map = new Map(); // key -> array of indices
+            allTransactions.forEach((item, idx) => {
+                // buat kunci: desa|jenis|tahap|nilai_num
+                const key = `${item['NAMA DESA']}|${item['JENIS PENCAIRAN']}|${item['TAHAP PENCAIRAN']}|${item.NILAI_NUM}`;
+                if (!map.has(key)) map.set(key, []);
+                map.get(key).push(idx);
+            });
+            // filter hanya yang punya lebih dari 1
+            const duplicates = new Map();
+            for (let [key, indices] of map.entries()) {
+                if (indices.length > 1) {
+                    duplicates.set(key, indices);
+                }
+            }
+            return duplicates;
+        }
+
+        function updateDuplicateNotification() {
+            const dupMap = findDuplicates();
+            const totalDuplicates = Array.from(dupMap.values()).reduce((acc, arr) => acc + arr.length, 0);
+            const groupCount = dupMap.size;
+            const notifDiv = document.getElementById('duplicateNotification');
+            if (groupCount > 0) {
+                notifDiv.style.display = 'block';
+                document.getElementById('duplicateCount').innerText = totalDuplicates;
+                // Simpan dupMap ke global untuk digunakan nanti
+                window.duplicateMap = dupMap;
+            } else {
+                notifDiv.style.display = 'none';
+                window.duplicateMap = null;
+            }
+        }
+
+        function showDuplicateDetails() {
+            if (!window.duplicateMap) return;
+            let html = '';
+            for (let [key, indices] of window.duplicateMap.entries()) {
+                const parts = key.split('|');
+                const desa = parts[0];
+                const jenis = parts[1];
+                const tahap = parts[2];
+                const nilai = parts[3];
+                html += `<h4 style="margin-top:20px; background:#f1f5f9; padding:10px; border-radius:12px;">${desa} - ${jenis} - Tahap ${tahap} - Rp ${formatCurrency(parseFloat(nilai))}</h4>`;
+                html += '<table style="width:100%; border-collapse:collapse; margin-bottom:20px;"><thead><tr><th>No</th><th>Timestamp</th><th>Status</th><th>Aksi</th></tr></thead><tbody>';
+                indices.forEach((idx, i) => {
+                    const t = allTransactions[idx];
+                    let badgeClass = 'badge-warning';
+                    if (t.ACTION === 'DISETUJUI') badgeClass = 'badge-success';
+                    else if (t.ACTION === 'DITOLAK') badgeClass = 'badge-danger';
+                    html += `<tr>
+                        <td style="padding:12px; border-bottom:1px solid #eef2f6;">${i+1}</td>
+                        <td style="padding:12px; border-bottom:1px solid #eef2f6;">${t.Timestamp || '-'}</td>
+                        <td style="padding:12px; border-bottom:1px solid #eef2f6;"><span class="badge ${badgeClass}">${t.ACTION || 'Diproses'}</span></td>
+                        <td style="padding:12px; border-bottom:1px solid #eef2f6;">
+                            <button class="view-detail-btn" onclick="showDetail(${idx}); closeDuplicateModal();">Detail</button>
+                        </td>
+                    </tr>`;
+                });
+                html += '</tbody></table>';
+            }
+            document.getElementById('duplicateModalBody').innerHTML = html;
+            document.getElementById('duplicateModal').style.display = 'flex';
+        }
+
+        function closeDuplicateModal() {
+            document.getElementById('duplicateModal').style.display = 'none';
         }
 
         // ================== FILTER + PAGINATION ==================
@@ -1079,9 +1178,8 @@
             return new Intl.NumberFormat('id-ID').format(amt || 0);
         }
 
-        // ================== REKAP (DIUBAH SESUAI PERMINTAAN) ==================
+        // ================== REKAP ==================
         function displayRekap() {
-            // Kelompokkan data per desa
             const grouped = {};
             allTransactions.forEach(t => {
                 if (t.ACTION === 'DISETUJUI') {
@@ -1094,14 +1192,11 @@
                 }
             });
 
-            // Buat tabel dengan rowspan agar nama desa hanya sekali
             let html = '<table><thead><tr><th>Desa</th><th>Jenis Pencairan</th><th>Jumlah Pengajuan</th><th>Total Nilai (Rp)</th></tr></thead><tbody>';
-            
             for (const desa in grouped) {
                 const jenisList = Object.keys(grouped[desa]);
                 const rowspan = jenisList.length;
                 let desaRendered = false;
-                
                 for (const jenis of jenisList) {
                     const data = grouped[desa][jenis];
                     html += '<tr>';
@@ -1115,12 +1210,11 @@
                     html += '</tr>';
                 }
             }
-            
             html += '</tbody></table>';
             document.getElementById('rekapTable').innerHTML = html || '<p>Tidak ada data disetujui</p>';
         }
 
-        // ================== GRAFIK (modern) ==================
+        // ================== GRAFIK ==================
         function displayCharts() {
             if (chartTop10) chartTop10.destroy();
             if (chartStatus) chartStatus.destroy();
@@ -1228,7 +1322,7 @@
             });
         }
 
-        // ================== DETAIL MODAL dengan tombol PDF modern ==================
+        // ================== DETAIL MODAL ==================
         function showDetail(index) {
             const t = allTransactions[index];
             const pdfLink = t['DOKUEMEN PENDUKUNG (PDF)'] ? 
@@ -1319,7 +1413,10 @@
         })();
 
         window.onclick = function(e) {
-            if (e.target.classList.contains('modal')) closeModal();
+            if (e.target.classList.contains('modal')) {
+                if (e.target.id === 'duplicateModal') closeDuplicateModal();
+                else closeModal();
+            }
         };
     </script>
 </body>
