@@ -9,7 +9,8 @@
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js"></script>
     <style>
-        /* CSS sama persis dengan yang Anda berikan, tidak ada perubahan */
+        /* ===== CSS ELEGAN TEMA PINK ===== */
+        /* Semua warna biru (#1e3a5f, #143048) diganti dengan pink elegan (#c48a8a, #a56b6b) */
         * {
             margin: 0;
             padding: 0;
@@ -17,14 +18,14 @@
         }
 
         body {
-            background: #f4f7fb;
+            background: #fef6f6; /* light pink background */
             font-family: 'Plus Jakarta Sans', system-ui, -apple-system, 'Inter', sans-serif;
             min-height: 100vh;
             display: flex;
             justify-content: center;
             align-items: center;
             padding: 16px;
-            color: #1e2b3c;
+            color: #4a2c2c; /* dark pinkish text */
         }
 
         h1, h2, h3, h4, .header h1, .sidebar-brand h2 {
@@ -39,13 +40,13 @@
             width: 100%;
             background: #ffffff;
             border-radius: 32px;
-            box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.15);
-            border: 1px solid rgba(0, 0, 0, 0.05);
+            box-shadow: 0 25px 50px -12px rgba(196, 138, 138, 0.2); /* pink shadow */
+            border: 1px solid #f0d9d9;
             overflow: hidden;
         }
 
         .login-container .header {
-            background: #1e3a5f;
+            background: #c48a8a; /* pink utama */
             color: white;
             padding: 40px 30px;
             text-align: center;
@@ -60,14 +61,14 @@
             font-size: 70px;
             text-align: center;
             margin-bottom: 20px;
-            color: #1e3a5f;
-            filter: drop-shadow(0 10px 15px rgba(30, 58, 95, 0.2));
+            color: #c48a8a;
+            filter: drop-shadow(0 10px 15px rgba(196, 138, 138, 0.2));
         }
 
         .form-control {
             width: 100%;
             padding: 16px 20px;
-            border: 2px solid #e9edf4;
+            border: 2px solid #f0d9d9;
             border-radius: 16px;
             background: white;
             font-size: 15px;
@@ -76,15 +77,15 @@
         }
 
         .form-control:focus {
-            border-color: #1e3a5f;
-            box-shadow: 0 8px 20px rgba(30, 58, 95, 0.1);
+            border-color: #c48a8a;
+            box-shadow: 0 8px 20px rgba(196, 138, 138, 0.15);
             outline: none;
         }
 
         .btn-primary {
             width: 100%;
             padding: 16px;
-            background: #1e3a5f;
+            background: #c48a8a;
             color: white;
             border: none;
             border-radius: 16px;
@@ -96,17 +97,17 @@
         }
 
         .btn-primary:hover {
-            background: #143048;
+            background: #a56b6b; /* lebih gelap */
             transform: translateY(-2px);
-            box-shadow: 0 15px 25px -8px rgba(30, 58, 95, 0.3);
+            box-shadow: 0 15px 25px -8px rgba(196, 138, 138, 0.4);
         }
 
         .btn-secondary {
             width: 100%;
             padding: 14px;
             background: white;
-            border: 2px solid #e9edf4;
-            color: #1e3a5f;
+            border: 2px solid #f0d9d9;
+            color: #c48a8a;
             border-radius: 16px;
             font-weight: 600;
             cursor: pointer;
@@ -115,8 +116,8 @@
         }
 
         .btn-secondary:hover {
-            background: #f8fafd;
-            border-color: #1e3a5f;
+            background: #fef6f6;
+            border-color: #c48a8a;
         }
 
         .error-message {
@@ -135,18 +136,18 @@
             max-width: 1600px;
             background: #ffffff;
             border-radius: 40px;
-            box-shadow: 0 30px 60px -30px rgba(0, 0, 0, 0.2);
+            box-shadow: 0 30px 60px -30px rgba(196, 138, 138, 0.25);
             display: flex;
             overflow: hidden;
             min-height: 85vh;
-            border: 1px solid rgba(0, 0, 0, 0.03);
+            border: 1px solid #f0d9d9;
         }
 
         /* SIDEBAR */
         .dashboard-sidebar {
             width: 280px;
-            background: #fafcff;
-            border-right: 1px solid #eef2f6;
+            background: #fff9f9; /* lebih soft */
+            border-right: 1px solid #f0d9d9;
             padding: 32px 20px;
             display: flex;
             flex-direction: column;
@@ -158,14 +159,14 @@
         }
 
         .sidebar-brand h2 {
-            color: #1e3a5f;
+            color: #c48a8a;
             font-weight: 700;
             font-size: 24px;
             margin: 8px 0 0;
         }
 
         .sidebar-brand p {
-            color: #64748b;
+            color: #a56b6b;
             font-size: 14px;
         }
 
@@ -174,24 +175,24 @@
             border-radius: 24px;
             padding: 20px 16px;
             text-align: center;
-            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.02);
-            border: 1px solid #eef2f6;
+            box-shadow: 0 4px 10px rgba(196, 138, 138, 0.05);
+            border: 1px solid #f0d9d9;
         }
 
         .sidebar-user .avatar {
             font-size: 48px;
-            color: #1e3a5f;
+            color: #c48a8a;
             margin-bottom: 8px;
         }
 
         .sidebar-user h4 {
-            color: #1e2b3c;
+            color: #4a2c2c;
             font-weight: 600;
         }
 
         .role-badge {
-            background: #e9eff7;
-            color: #1e3a5f;
+            background: #f2dede; /* pink muda */
+            color: #a56b6b;
             padding: 6px 14px;
             border-radius: 40px;
             font-weight: 500;
@@ -211,7 +212,7 @@
             border: none;
             border-radius: 14px;
             padding: 14px 18px;
-            color: #475569;
+            color: #a56b6b;
             font-weight: 500;
             font-size: 15px;
             display: flex;
@@ -226,16 +227,16 @@
         .nav-btn i {
             font-size: 22px;
             width: 32px;
-            color: #64748b;
+            color: #c48a8a;
         }
 
         .nav-btn:hover {
-            background: #eef2f6;
-            color: #1e3a5f;
+            background: #f2dede;
+            color: #a56b6b;
         }
 
         .nav-btn.active {
-            background: #1e3a5f;
+            background: #c48a8a;
             color: white;
         }
 
@@ -245,17 +246,17 @@
 
         .sidebar-footer {
             margin-top: auto;
-            border-top: 1px solid #eef2f6;
+            border-top: 1px solid #f0d9d9;
             padding-top: 20px;
         }
 
         .logout-btn-side {
             background: transparent;
-            border: 1px solid #eef2f6;
+            border: 1px solid #f0d9d9;
             border-radius: 14px;
             padding: 14px;
             width: 100%;
-            color: #475569;
+            color: #a56b6b;
             font-weight: 500;
             display: flex;
             align-items: center;
@@ -288,18 +289,18 @@
         }
 
         .top-bar h1 {
-            color: #1e3a5f;
+            color: #c48a8a;
             font-size: 28px;
             font-weight: 600;
         }
 
         .last-access {
-            background: #f8fafd;
+            background: #fff9f9;
             border-radius: 40px;
             padding: 10px 22px;
             font-size: 14px;
-            color: #475569;
-            border: 1px solid #eef2f6;
+            color: #a56b6b;
+            border: 1px solid #f0d9d9;
         }
 
         .tab-content {
@@ -327,24 +328,24 @@
             background: white;
             border-radius: 28px;
             padding: 28px 22px;
-            border: 1px solid #eef2f6;
-            box-shadow: 0 10px 25px -15px rgba(0,0,0,0.1);
+            border: 1px solid #f0d9d9;
+            box-shadow: 0 10px 25px -15px rgba(196, 138, 138, 0.15);
             transition: transform 0.2s, box-shadow 0.2s;
         }
 
         .stat-card:hover {
             transform: translateY(-6px);
-            box-shadow: 0 20px 30px -15px rgba(30, 58, 95, 0.15);
+            box-shadow: 0 20px 30px -15px rgba(196, 138, 138, 0.25);
         }
 
         .stat-icon {
             font-size: 40px;
             margin-bottom: 12px;
-            color: #1e3a5f;
+            color: #c48a8a;
         }
 
         .stat-title {
-            color: #64748b;
+            color: #a56b6b;
             font-weight: 500;
             font-size: 14px;
             text-transform: uppercase;
@@ -354,13 +355,13 @@
         .stat-value {
             font-size: 32px;
             font-weight: 700;
-            color: #1e2b3c;
+            color: #4a2c2c;
             line-height: 1.2;
         }
 
         .stat-subvalue {
             font-size: 14px;
-            color: #64748b;
+            color: #a56b6b;
             margin-top: 6px;
         }
 
@@ -368,9 +369,9 @@
             background: white;
             border-radius: 28px;
             padding: 20px;
-            border: 1px solid #eef2f6;
+            border: 1px solid #f0d9d9;
             overflow-x: auto;
-            box-shadow: 0 10px 25px -15px rgba(0,0,0,0.05);
+            box-shadow: 0 10px 25px -15px rgba(196, 138, 138, 0.1);
         }
 
         table {
@@ -381,17 +382,17 @@
         th {
             text-align: left;
             padding: 16px 18px;
-            background: #f8fafd;
-            color: #1e3a5f;
+            background: #fff9f9;
+            color: #c48a8a;
             font-weight: 600;
             font-size: 14px;
-            border-bottom: 2px solid #e2e8f0;
+            border-bottom: 2px solid #f0d9d9;
         }
 
         td {
             padding: 16px 18px;
-            border-bottom: 1px solid #eef2f6;
-            color: #334155;
+            border-bottom: 1px solid #f0d9d9;
+            color: #4a2c2c;
         }
 
         .badge {
@@ -417,10 +418,10 @@
 
         .view-detail-btn {
             background: white;
-            border: 1.5px solid #e2e8f0;
+            border: 1.5px solid #f0d9d9;
             border-radius: 40px;
             padding: 8px 18px;
-            color: #1e3a5f;
+            color: #c48a8a;
             font-weight: 600;
             font-size: 13px;
             cursor: pointer;
@@ -431,11 +432,11 @@
         }
 
         .view-detail-btn:hover {
-            background: #1e3a5f;
+            background: #c48a8a;
             color: white;
-            border-color: #1e3a5f;
+            border-color: #c48a8a;
             transform: translateY(-2px);
-            box-shadow: 0 8px 15px -6px #1e3a5f80;
+            box-shadow: 0 8px 15px -6px #c48a8a;
         }
 
         .filter-section {
@@ -452,7 +453,7 @@
         .filter-input, .filter-select {
             padding: 14px 22px;
             border-radius: 16px;
-            border: 2px solid #eef2f6;
+            border: 2px solid #f0d9d9;
             background: white;
             font-size: 15px;
             flex: 1 1 180px;
@@ -460,7 +461,7 @@
         }
 
         .filter-input:focus, .filter-select:focus {
-            border-color: #1e3a5f;
+            border-color: #c48a8a;
             outline: none;
         }
 
@@ -468,7 +469,7 @@
             padding: 14px 28px;
             border-radius: 16px;
             border: none;
-            background: #1e3a5f;
+            background: #c48a8a;
             color: white;
             font-weight: 600;
             cursor: pointer;
@@ -480,17 +481,17 @@
         }
 
         .filter-btn:hover, .export-btn:hover {
-            background: #143048;
+            background: #a56b6b;
             transform: translateY(-2px);
-            box-shadow: 0 10px 20px -8px #1e3a5f;
+            box-shadow: 0 10px 20px -8px #c48a8a;
         }
 
         .card-btn {
             padding: 14px 28px;
             background: white;
             border-radius: 16px;
-            border: 2px solid #eef2f6;
-            color: #1e3a5f;
+            border: 2px solid #f0d9d9;
+            color: #c48a8a;
             font-weight: 600;
             cursor: pointer;
             transition: all 0.2s;
@@ -500,8 +501,8 @@
         }
 
         .card-btn:hover {
-            border-color: #1e3a5f;
-            background: #f8fafd;
+            border-color: #c48a8a;
+            background: #fff9f9;
         }
 
         .pagination {
@@ -515,22 +516,22 @@
         .page-btn {
             padding: 10px 16px;
             border-radius: 12px;
-            border: 2px solid #eef2f6;
+            border: 2px solid #f0d9d9;
             background: white;
-            color: #475569;
+            color: #a56b6b;
             font-weight: 500;
             cursor: pointer;
             transition: 0.2s;
         }
 
         .page-btn.active {
-            background: #1e3a5f;
+            background: #c48a8a;
             color: white;
-            border-color: #1e3a5f;
+            border-color: #c48a8a;
         }
 
         .page-btn:hover {
-            border-color: #1e3a5f;
+            border-color: #c48a8a;
         }
 
         .chart-grid {
@@ -544,13 +545,13 @@
             background: white;
             border-radius: 28px;
             padding: 20px;
-            border: 1px solid #eef2f6;
-            box-shadow: 0 10px 25px -15px rgba(0,0,0,0.05);
+            border: 1px solid #f0d9d9;
+            box-shadow: 0 10px 25px -15px rgba(196, 138, 138, 0.1);
         }
 
         .chart-container h3 {
             font-size: 18px;
-            color: #1e3a5f;
+            color: #c48a8a;
             margin-bottom: 16px;
             font-weight: 600;
         }
@@ -558,9 +559,9 @@
         .footer {
             text-align: center;
             margin-top: 30px;
-            color: #94a3b8;
+            color: #c48a8a;
             font-size: 13px;
-            border-top: 1px solid #eef2f6;
+            border-top: 1px solid #f0d9d9;
             padding-top: 20px;
         }
 
@@ -569,7 +570,7 @@
             display: none;
             position: fixed;
             inset: 0;
-            background: rgba(0, 0, 0, 0.3);
+            background: rgba(196, 138, 138, 0.2); /* pink transparent */
             backdrop-filter: blur(8px);
             align-items: center;
             justify-content: center;
@@ -583,7 +584,7 @@
             width: 100%;
             max-height: 85vh;
             overflow-y: auto;
-            box-shadow: 0 40px 70px -20px rgba(0,0,0,0.25);
+            box-shadow: 0 40px 70px -20px rgba(196, 138, 138, 0.3);
         }
 
         .modal-header {
@@ -591,22 +592,22 @@
             justify-content: space-between;
             align-items: center;
             padding: 24px 30px;
-            border-bottom: 1px solid #eef2f6;
+            border-bottom: 1px solid #f0d9d9;
         }
 
         .modal-header h3 {
             font-size: 22px;
-            color: #1e3a5f;
+            color: #c48a8a;
         }
 
         .close-modal {
-            background: #f1f5f9;
+            background: #f2dede;
             border: none;
             font-size: 28px;
             width: 48px;
             height: 48px;
             border-radius: 50%;
-            color: #475569;
+            color: #a56b6b;
             cursor: pointer;
             display: flex;
             align-items: center;
@@ -615,7 +616,7 @@
         }
 
         .close-modal:hover {
-            background: #1e3a5f;
+            background: #c48a8a;
             color: white;
         }
 
@@ -635,23 +636,23 @@
 
         .detail-label {
             font-size: 12px;
-            color: #64748b;
+            color: #a56b6b;
             text-transform: uppercase;
             letter-spacing: 0.3px;
             margin-bottom: 4px;
         }
 
         .detail-value {
-            background: #f8fafd;
+            background: #fff9f9;
             padding: 14px 18px;
             border-radius: 16px;
-            border: 1px solid #eef2f6;
+            border: 1px solid #f0d9d9;
             margin-top: 4px;
             font-weight: 500;
         }
 
         .btn-pdf {
-            background: #1e3a5f;
+            background: #c48a8a;
             color: white;
             border: none;
             border-radius: 12px;
@@ -667,9 +668,9 @@
         }
 
         .btn-pdf:hover {
-            background: #143048;
+            background: #a56b6b;
             transform: translateY(-2px);
-            box-shadow: 0 10px 15px -8px #1e3a5f;
+            box-shadow: 0 10px 15px -8px #c48a8a;
         }
 
         .btn-pdf i {
@@ -683,7 +684,7 @@
             .dashboard-sidebar {
                 width: 100%;
                 border-right: none;
-                border-bottom: 1px solid #eef2f6;
+                border-bottom: 1px solid #f0d9d9;
             }
         }
     </style>
@@ -710,7 +711,7 @@
                 <button type="submit" class="btn-primary">Masuk ke Sistem</button>
             </form>
             <button class="btn-secondary" onclick="window.location.href='index.html'" style="margin-top: 20px;">← Kembali ke Portal</button>
-            <div style="text-align: center; margin-top: 25px; color: #64748b;">© Bidang Perbendaharaan - BPKAD Mamuju</div>
+            <div style="text-align: center; margin-top: 25px; color: #a56b6b;">© Bidang Perbendaharaan - BPKAD Mamuju</div>
         </div>
     </div>
 
@@ -718,7 +719,7 @@
     <div class="dashboard-container" id="dashboardScreen" style="display: none;">
         <aside class="dashboard-sidebar">
             <div class="sidebar-brand">
-                <i class="bi bi-building" style="font-size: 48px; color:#1e3a5f;"></i>
+                <i class="bi bi-building" style="font-size: 48px; color:#c48a8a;"></i>
                 <h2>SISTEM DESA</h2>
                 <p>Kab. Mamuju</p>
             </div>
@@ -763,19 +764,19 @@
 
             <!-- HOME TAB -->
             <div id="homeTab" class="tab-content active">
-                <div style="background:#f8fafd; border-radius:28px; padding:25px; margin-bottom:30px;">
+                <div style="background:#fff9f9; border-radius:28px; padding:25px; margin-bottom:30px;">
                     <h2>Selamat datang, <span id="welcomeNama">-</span></h2>
                     <p>Anda login sebagai <strong id="welcomeRole">-</strong> · <span id="hakAkses">-</span></p>
                 </div>
                 <div class="stats-grid" id="statsGrid"></div>
-                <h3 style="color:#1e3a5f; margin:30px 0 20px;">⏳ Pengajuan Sedang Diproses</h3>
+                <h3 style="color:#c48a8a; margin:30px 0 20px;">⏳ Pengajuan Sedang Diproses</h3>
                 <div class="table-container" id="recentTransactions"></div>
                 <button class="card-btn" onclick="showTab('data')" style="margin-top:20px;"><i class="bi bi-eye"></i> Lihat Semua</button>
             </div>
 
             <!-- DATA TAB -->
             <div id="dataTab" class="tab-content">
-                <h2 style="color:#1e3a5f;">📋 Semua Data Pengajuan</h2>
+                <h2 style="color:#c48a8a;">📋 Semua Data Pengajuan</h2>
                 <div style="display:flex; gap:16px; flex-wrap:wrap; margin:20px 0;">
                     <button class="export-btn" onclick="exportDataToExcel()"><i class="bi bi-file-excel"></i> Export Excel</button>
                 </div>
@@ -799,14 +800,14 @@
 
             <!-- REKAP TAB -->
             <div id="rekapTab" class="tab-content">
-                <h2 style="color:#1e3a5f;">📊 Rekap per Desa & Jenis (Disetujui)</h2>
+                <h2 style="color:#c48a8a;">📊 Rekap per Desa & Jenis (Disetujui)</h2>
                 <button class="export-btn" onclick="exportRekapToExcel()" style="margin:20px 0;"><i class="bi bi-file-excel"></i> Export Rekap</button>
                 <div class="table-container" id="rekapTable"></div>
             </div>
 
             <!-- GRAFIK TAB -->
             <div id="grafikTab" class="tab-content">
-                <h2 style="color:#1e3a5f;">📈 Visualisasi</h2>
+                <h2 style="color:#c48a8a;">📈 Visualisasi</h2>
                 <div class="chart-grid">
                     <div class="chart-container"><h3>Top 10 Desa (Nilai)</h3><canvas id="chartTop10"></canvas></div>
                     <div class="chart-container"><h3>Status Pengajuan</h3><canvas id="chartStatus"></canvas></div>
@@ -826,7 +827,7 @@
                 <button class="close-modal" onclick="closeModal()">×</button>
             </div>
             <div class="modal-body" id="modalBody"></div>
-            <div style="padding:20px; border-top:1px solid #eef2f6; display:flex; justify-content:space-between;">
+            <div style="padding:20px; border-top:1px solid #f0d9d9; display:flex; justify-content:space-between;">
                 <span id="transactionId"></span>
                 <button class="filter-btn" onclick="window.print()"><i class="bi bi-printer"></i> Cetak</button>
             </div>
@@ -1029,7 +1030,7 @@
                 const jenis = parts[1];
                 const tahap = parts[2];
                 const nilai = parts[3];
-                html += `<h4 style="margin-top:20px; background:#f1f5f9; padding:10px; border-radius:12px;">${desa} - ${jenis} - Tahap ${tahap} - Rp ${formatCurrency(parseFloat(nilai))}</h4>`;
+                html += `<h4 style="margin-top:20px; background:#f2dede; padding:10px; border-radius:12px; color:#a56b6b;">${desa} - ${jenis} - Tahap ${tahap} - Rp ${formatCurrency(parseFloat(nilai))}</h4>`;
                 html += '<table style="width:100%; border-collapse:collapse; margin-bottom:20px;"><thead><tr><th>No</th><th>Timestamp</th><th>Status</th><th>Aksi</th></tr></thead><tbody>';
                 indices.forEach((idx, i) => {
                     const t = allTransactions[idx];
@@ -1037,10 +1038,10 @@
                     if (t.ACTION === 'DISETUJUI') badgeClass = 'badge-success';
                     else if (t.ACTION === 'DITOLAK') badgeClass = 'badge-danger';
                     html += `<tr>
-                        <td style="padding:12px; border-bottom:1px solid #eef2f6;">${i+1}</td>
-                        <td style="padding:12px; border-bottom:1px solid #eef2f6;">${t.Timestamp || '-'}</td>
-                        <td style="padding:12px; border-bottom:1px solid #eef2f6;"><span class="badge ${badgeClass}">${t.ACTION || 'Diproses'}</span></td>
-                        <td style="padding:12px; border-bottom:1px solid #eef2f6;">
+                        <td style="padding:12px; border-bottom:1px solid #f0d9d9;">${i+1}</td>
+                        <td style="padding:12px; border-bottom:1px solid #f0d9d9;">${t.Timestamp || '-'}</td>
+                        <td style="padding:12px; border-bottom:1px solid #f0d9d9;"><span class="badge ${badgeClass}">${t.ACTION || 'Diproses'}</span></td>
+                        <td style="padding:12px; border-bottom:1px solid #f0d9d9;">
                             <button class="view-detail-btn" onclick="showDetail(${idx}); closeDuplicateModal();">Detail</button>
                         </td>
                     </tr>`;
@@ -1201,7 +1202,7 @@
                     const data = grouped[desa][jenis];
                     html += '<tr>';
                     if (!desaRendered) {
-                        html += `<td rowspan="${rowspan}" style="vertical-align:middle; font-weight:600; background:#f8fafd;">${desa}</td>`;
+                        html += `<td rowspan="${rowspan}" style="vertical-align:middle; font-weight:600; background:#fff9f9; color:#c48a8a;">${desa}</td>`;
                         desaRendered = true;
                     }
                     html += `<td>${jenis}</td>`;
@@ -1237,7 +1238,7 @@
                     datasets: [{
                         label: 'Total Pencairan (Rp)',
                         data: sorted.map(item => item[1]),
-                        backgroundColor: 'rgba(30, 58, 95, 0.7)',
+                        backgroundColor: '#c48a8a', /* pink */
                         borderRadius: 8,
                         barPercentage: 0.6
                     }]
@@ -1250,7 +1251,7 @@
                     scales: {
                         y: {
                             ticks: { callback: v => formatCurrency(v) },
-                            grid: { color: '#eef2f6' }
+                            grid: { color: '#f0d9d9' }
                         }
                     }
                 }
@@ -1303,11 +1304,11 @@
                     datasets: [{
                         label: 'Total Disetujui',
                         data: sortedBulan.map(b => b[1]),
-                        borderColor: '#1e3a5f',
-                        backgroundColor: 'rgba(30, 58, 95, 0.05)',
+                        borderColor: '#c48a8a',
+                        backgroundColor: 'rgba(196, 138, 138, 0.1)',
                         tension: 0.3,
                         fill: true,
-                        pointBackgroundColor: '#1e3a5f'
+                        pointBackgroundColor: '#c48a8a'
                     }]
                 },
                 options: {
@@ -1315,7 +1316,7 @@
                     scales: {
                         y: {
                             ticks: { callback: v => formatCurrency(v) },
-                            grid: { color: '#eef2f6' }
+                            grid: { color: '#f0d9d9' }
                         }
                     }
                 }
