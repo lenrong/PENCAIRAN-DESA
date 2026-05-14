@@ -10,7 +10,6 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js"></script>
     <style>
         /* ===== CSS ELEGAN TEMA PINK ===== */
-        /* Semua warna biru (#1e3a5f, #143048) diganti dengan pink elegan (#c48a8a, #a56b6b) */
         * {
             margin: 0;
             padding: 0;
@@ -18,14 +17,14 @@
         }
 
         body {
-            background: #fef6f6; /* light pink background */
+            background: #fef6f6;
             font-family: 'Plus Jakarta Sans', system-ui, -apple-system, 'Inter', sans-serif;
             min-height: 100vh;
             display: flex;
             justify-content: center;
             align-items: center;
             padding: 16px;
-            color: #4a2c2c; /* dark pinkish text */
+            color: #4a2c2c;
         }
 
         h1, h2, h3, h4, .header h1, .sidebar-brand h2 {
@@ -34,19 +33,18 @@
             letter-spacing: -0.02em;
         }
 
-        /* ========== LOGIN SCREEN ========== */
         .login-container {
             max-width: 480px;
             width: 100%;
             background: #ffffff;
             border-radius: 32px;
-            box-shadow: 0 25px 50px -12px rgba(196, 138, 138, 0.2); /* pink shadow */
+            box-shadow: 0 25px 50px -12px rgba(196, 138, 138, 0.2);
             border: 1px solid #f0d9d9;
             overflow: hidden;
         }
 
         .login-container .header {
-            background: #c48a8a; /* pink utama */
+            background: #c48a8a;
             color: white;
             padding: 40px 30px;
             text-align: center;
@@ -97,7 +95,7 @@
         }
 
         .btn-primary:hover {
-            background: #a56b6b; /* lebih gelap */
+            background: #a56b6b;
             transform: translateY(-2px);
             box-shadow: 0 15px 25px -8px rgba(196, 138, 138, 0.4);
         }
@@ -130,7 +128,6 @@
             text-align: center;
         }
 
-        /* ========== DASHBOARD ========== */
         .dashboard-container {
             width: 100%;
             max-width: 1600px;
@@ -143,10 +140,9 @@
             border: 1px solid #f0d9d9;
         }
 
-        /* SIDEBAR */
         .dashboard-sidebar {
             width: 280px;
-            background: #fff9f9; /* lebih soft */
+            background: #fff9f9;
             border-right: 1px solid #f0d9d9;
             padding: 32px 20px;
             display: flex;
@@ -191,7 +187,7 @@
         }
 
         .role-badge {
-            background: #f2dede; /* pink muda */
+            background: #f2dede;
             color: #a56b6b;
             padding: 6px 14px;
             border-radius: 40px;
@@ -272,7 +268,6 @@
             border-color: #fecaca;
         }
 
-        /* MAIN CONTENT */
         .dashboard-main {
             flex: 1;
             padding: 30px 36px;
@@ -565,12 +560,11 @@
             padding-top: 20px;
         }
 
-        /* MODAL */
         .modal {
             display: none;
             position: fixed;
             inset: 0;
-            background: rgba(196, 138, 138, 0.2); /* pink transparent */
+            background: rgba(196, 138, 138, 0.2);
             backdrop-filter: blur(8px);
             align-items: center;
             justify-content: center;
@@ -748,7 +742,7 @@
                 <div class="last-access" id="lastAccessDisplay">-</div>
             </div>
 
-            <!-- NOTIFIKASI DUPLIKAT (DITAMBAHKAN) -->
+            <!-- NOTIFIKASI DUPLIKAT -->
             <div id="duplicateNotification" style="margin-bottom:20px; display:none;">
                 <div style="background:#fee2e2; border-radius:16px; padding:16px; display:flex; align-items:center; gap:16px; border:1px solid #fecaca;">
                     <i class="bi bi-exclamation-triangle-fill" style="color:#b34033; font-size:24px;"></i>
@@ -834,16 +828,14 @@
         </div>
     </div>
 
-    <!-- MODAL DUPLIKAT (DITAMBAHKAN) -->
+    <!-- MODAL DUPLIKAT -->
     <div class="modal" id="duplicateModal">
         <div class="modal-content" style="max-width: 900px;">
             <div class="modal-header">
                 <h3><i class="bi bi-exclamation-triangle"></i> Data Duplikat</h3>
                 <button class="close-modal" onclick="closeDuplicateModal()">×</button>
             </div>
-            <div class="modal-body" id="duplicateModalBody">
-                <!-- akan diisi tabel -->
-            </div>
+            <div class="modal-body" id="duplicateModalBody"></div>
         </div>
     </div>
 
@@ -953,7 +945,6 @@
             updateDashboardStats();
             displayRekap();
             displayCharts();
-            // ===== PANGGIL NOTIFIKASI DUPLIKAT =====
             updateDuplicateNotification();
         }
 
@@ -963,6 +954,7 @@
             const jenis = ['LS ADD', 'BLT', 'DD', 'ADD', 'BHP'];
             for (let i = 0; i < 35; i++) {
                 const statusRand = i % 4 === 0 ? 'DISETUJUI' : (i % 4 === 1 ? 'DITOLAK' : '');
+                // Menambahkan properti KETERANGAN agar tidak undefined
                 sample.push({
                     Timestamp: `2/${(i%28)+1}/2026 ${10+(i%12)}:${i%60}:00`,
                     'NAMA DESA': `DESA ${desaList[i % desaList.length]}`,
@@ -972,7 +964,7 @@
                     'CATATAN JIKA ADA': '',
                     'DOKUEMEN PENDUKUNG (PDF)': '',
                     'ACTION': statusRand,
-                    'KETERANGAN': '',
+                    'KETERANGAN': '',  // ditambahkan agar kolom ada
                     NILAI_NUM: 20000000 + i * 2500000
                 });
             }
@@ -986,16 +978,14 @@
             setTimeout(() => alertDiv.style.display = 'none', 3000);
         }
 
-        // ================== FUNGSI CEK DUPLIKAT (BARU) ==================
+        // ================== FUNGSI CEK DUPLIKAT ==================
         function findDuplicates() {
-            const map = new Map(); // key -> array of indices
+            const map = new Map();
             allTransactions.forEach((item, idx) => {
-                // buat kunci: desa|jenis|tahap|nilai_num
                 const key = `${item['NAMA DESA']}|${item['JENIS PENCAIRAN']}|${item['TAHAP PENCAIRAN']}|${item.NILAI_NUM}`;
                 if (!map.has(key)) map.set(key, []);
                 map.get(key).push(idx);
             });
-            // filter hanya yang punya lebih dari 1
             const duplicates = new Map();
             for (let [key, indices] of map.entries()) {
                 if (indices.length > 1) {
@@ -1013,7 +1003,6 @@
             if (groupCount > 0) {
                 notifDiv.style.display = 'block';
                 document.getElementById('duplicateCount').innerText = totalDuplicates;
-                // Simpan dupMap ke global untuk digunakan nanti
                 window.duplicateMap = dupMap;
             } else {
                 notifDiv.style.display = 'none';
@@ -1238,7 +1227,7 @@
                     datasets: [{
                         label: 'Total Pencairan (Rp)',
                         data: sorted.map(item => item[1]),
-                        backgroundColor: '#c48a8a', /* pink */
+                        backgroundColor: '#c48a8a',
                         borderRadius: 8,
                         barPercentage: 0.6
                     }]
@@ -1323,11 +1312,21 @@
             });
         }
 
-        // ================== DETAIL MODAL ==================
+        // ================== DETAIL MODAL (dengan keterangan baru) ==================
         function showDetail(index) {
             const t = allTransactions[index];
-            const pdfLink = t['DOKUEMEN PENDUKUNG (PDF)'] ? 
-                `<a href="${t['DOKUEMEN PENDUKUNG (PDF)']}" target="_blank" class="btn-pdf"><i class="bi bi-file-earmark-pdf"></i> Lihat PDF</a>` : 
+            const action = t.ACTION || '';
+            let keterangan = '';
+            if (action === 'DISETUJUI') {
+                keterangan = 'Disetujui';
+            } else if (action === 'DITOLAK') {
+                keterangan = t['KETERANGAN'] || 'Alasan tidak tersedia';
+            } else {
+                keterangan = 'Sementara pengecekan';
+            }
+
+            const pdfLink = t['DOKUEMEN PENDUKUNG (PDF)'] ?
+                `<a href="${t['DOKUEMEN PENDUKUNG (PDF)']}" target="_blank" class="btn-pdf"><i class="bi bi-file-earmark-pdf"></i> Lihat PDF</a>` :
                 '<span class="detail-value">-</span>';
             const html = `
                 <div class="detail-grid">
@@ -1337,6 +1336,7 @@
                     <div class="detail-item"><div class="detail-label">Nilai</div><div class="detail-value">${formatCurrency(t.NILAI_NUM)}</div></div>
                     <div class="detail-item"><div class="detail-label">Status</div><div class="detail-value">${t.ACTION || 'Diproses'}</div></div>
                     <div class="detail-item"><div class="detail-label">Catatan</div><div class="detail-value">${t['CATATAN JIKA ADA'] || '-'}</div></div>
+                    <div class="detail-item" style="grid-column:span 2"><div class="detail-label">Keterangan</div><div class="detail-value">${keterangan}</div></div>
                     <div class="detail-item" style="grid-column:span 2"><div class="detail-label">Dokumen</div><div class="detail-value">${pdfLink}</div></div>
                 </div>
             `;
